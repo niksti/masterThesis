@@ -1,0 +1,136 @@
+\documentclass{cacthesis}
+
+%Define your additional packages here
+\usepackage{xcolor}
+
+\begin{document}
+
+	\frontmatter
+	
+	%%%%%%%%%%%%%
+	%% Title page
+	%%%%%%%%%%%%%
+	\title{Incoercible Sale}
+	\subtitle{Longer subtitle (if required)}	%Delete subtitle if not required
+	\author{Nikolaos Stivaktakis}
+	\date{September 26, 2019}
+	\subject{Master Thesis}
+	
+	\publishers{
+		\small
+		\begin{tabular}{r l}
+			Supervisors:  & Prof. Sebastian Faust, Ph.D. \\
+			& 2nd supervisor \\
+		\end{tabular}
+	}
+	\maketitle
+	
+	\section*{Abstract}
+	Write an abstract
+	
+	\newpage
+	
+	%TODO Delete this comment for the final submission:
+	\textcolor{red}{\textbf{!!! Prüfen Sie, dass der folgende Text aktuell ist (entsprechend der formalen Regeln des Studienbüros) !!! \\
+	!!! Check that this text is up to date (according to formal rules of the examination office) !!!}}
+	
+	\section*{Erklärung zur Abschlussarbeit gemäß § 22 Abs. 7 APB TU Darmstadt}
+	
+	Hiermit versichere ich, \textcolor{red}{\textbf{Nikolaos Stivaktakis}}, die vorliegende Master-Thesis / Bachelor-Thesis gemäß § 22 Abs. 7 APB der TU Darmstadt ohne Hilfe Dritter und nur mit den angegebenen Quellen und Hilfsmitteln angefertigt zu haben. Alle Stellen, die Quellen entnommen wurden, sind als solche kenntlich gemacht worden. Diese Arbeit hat in gleicher oder ähnlicher Form noch keiner Prüfungsbehörde vorgelegen. 
+	
+	Mir ist bekannt, dass im Falle eines Plagiats (§38 Abs.2 APB) ein Täuschungsversuch vorliegt, der dazu führt, dass die Arbeit mit 5,0 bewertet und damit ein Prüfungsversuch verbraucht wird. Abschlussarbeiten dürfen nur einmal wiederholt werden.
+	
+	Bei einer Thesis des Fachbereichs Architektur entspricht die eingereichte elektronische Fassung dem vorgestellten Modell und den vorgelegten Plänen.
+	
+	\vspace{10pt}
+	\hrule
+	
+	\section*{English translation for information purposes only:\\Thesis Statement pursuant to § 22 paragraph 7 of APB TU Darmstadt}
+	
+	I herewith formally declare that I, \textcolor{red}{\textbf{first name last name}}, have written the submitted thesis independently pursuant to § 22 paragraph 7 of APB TU Darmstadt. I did not use any outside support except for the quoted literature and other sources mentioned in the paper. I clearly marked and separately listed all of the literature and all of the other sources which I employed when producing this academic work, either literally or in content. This thesis has not been handed in or published before in the same or similar form.
+	
+	I am aware, that in case of an attempt at deception based on plagiarism (§38 Abs. 2 APB), the thesis would be graded with 5,0 and counted as one failed examination attempt. The thesis may only be repeated once.
+	
+	For a thesis of the Department of Architecture, the submitted electronic version corresponds to the presented model and the submitted architectural plans.
+	
+	\vspace{10pt}
+	\hrule
+	\vspace{70pt}
+	
+	\noindent\begin{tabular}{l@{\hskip 1in}l}
+		\makebox[1.8in]{\hrulefill} & \makebox[3.5in]{\hrulefill}\\
+		Datum / Date & Unterschrift / Signature
+	\end{tabular}
+	
+	\tableofcontents
+	
+	\mainmatter
+	
+	\chapter{Introduction}
+
+\chapter{Preliminaries}
+\section{Cryptography}
+\section{Game Theory}
+\section{Blockchains}
+\section{Smart Contracts}
+\section{Escrows}
+\chapter{Formalization}
+\section{Entities}
+
+\subsection{Seller}An entity that owns a specific physical good $G$. The seller has bigger utility in owning $P$ amount of coins in contrast to owning $G$. He therefore desires to exchange $G$ against coins of amount $P$.
+
+%Insert Utility function distribution
+%u_s(p coins & good) > u_s(p coins) > u_s(good) > u_s(Nothing)
+
+\subsection{Buyer}An entity that owns coins of at least amount of $P$. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins. He therefore desires to exchange coins of amount $P$ against $G$.
+
+%Insert Utility function distribution
+%u_b(p coins & good) > u_b(good) > u_b(p coins) > u_b(Nothing)
+
+\subsection{Escrow/Smart Contract} An entity that should ensure that the trade is successful. It acts as a fully trusted oracle.
+
+%TODO: Helper box protects the buyer from coercion by the seller
+\subsection{Helper Box} Fully trusted by Buyer.  //need to expand on that
+
+\section{The Game}
+
+\subsection{Start Point}
+A Seller and a buyer want to trade successfully: Both have funds in the given cryptocurrency. The seller is in possession of the physical good.
+
+\subsection{End Point}
+The buyer is in possession of the physical good and his funds have decreased by amount p. The funds of the seller have increased by p.
+
+\subsection{Assumptions}
+Both entities have access to the Escrow and know the addresses of each other. The seller also knows the physical address to which the buyer wants the good to be shipped. Other than this information they know nothing about each other.\newline Both parties can send funds in the given cryptocurrency to any address. The sender has the power to send/ship the physical good to any physical address he wants. The Escrow is a smart contract and both the seller and the buyer know the code of the Smart Contract.\newline
+We assume both entities to behave rational, meaning that they both want to maximise their expected payoff.\newline
+Transaction Fees and Fees for the escrows are not analysed.
+
+
+
+\subsection{Success of the trade}
+The trade is considered successful, if the situation transitions from the start point to the end point.
+
+\subsection{Goal}
+The goal is to design the Escrow in such a way, that it is the best strategy for both the buyer and the seller to perform a successful trade. That means that a successful trade should be the Nash Equilibrium.
+
+%\subsection{Implementation}
+%The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
+
+\chapter{Related work}
+\section{first escrowless protocol}
+Zimbeck mit Bithalo
+auch die analyse erwähnen
+\section{digital vs Physical}
+Hier unbedingt Asganokar sein paper erwähnen (sale of digital goods)
+\chapter{Proposed Possible Solutions}
+
+\chapter{Open Research/ Questions}
+
+\chapter{Conclusion}
+	
+	
+	%\bibliographystyle{}
+	%\bibliography{}
+	
+	\appendix
+\end{document}
