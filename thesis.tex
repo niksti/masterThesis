@@ -160,13 +160,31 @@ It is important to note that we assume that sending the good will decrease the s
 & H$_B$ & -H$_B$  \\
 \hline
 \hline
-H$_S$ & $G | P$ & $0 | P+G$ \\
+H$_S$ & $P | G$ & $0 | P+G$ \\
 \hline
--H$_S$ & $P + G | 0$ & $P | G$ \\ 
+-H$_S$ & $P + G | 0$ & $G | P$ \\ 
 \hline
 \end{tabular}
 \end{center}
 
+\subsection{One Side collateral}
+To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost, if the entity does not behave honestly.  
+\minisec{Seller Collateral}
+If B sends the coins, S has to make the following decision: Does he send the good or not? We have to take into account, that B decides what happens with the collateral. If S does not behave honestly (does not send the good), B can punish S by reporting 0 to the Smart contract. This means, that the collateral would not be given back to S. What was designed to be an incentive for S to behave honestly, ended up as leverage for B over S. B can report 0 (and burn the collateral) even if S behaves honestly. Therefore B can use this leverage to coerce S into giving him extra resources: “Give me C/2 coins or I will report 0 to the Smart Contract and burn your collateral.“
+Therefore it is best for S to not send the physical good.
+Since not Sending is the best strategy, It is best for B to not even send P. The Nash Equilibrium would be in nobody sending anything and the trade not happening.
+\minisec{Payout}
+\begin{center}
+\begin{tabular}{ c||c|c| }
+& H$_B$ & -H$_B$  \\
+\hline
+\hline
+H$_S$ & $P | G$ & $0 P- \frac{C}{2} | G + \frac{C}{2}$ \\
+\hline
+-H$_S$ & $P + G - c | 0$ & $G + P - \frac{C}{2} | \frac{C}{2}$ \\ 
+\hline
+\end{tabular}
+\end{center}
 \begin{equation}
     U_s(P) > U_s(nothing) 
 \end{equation}
