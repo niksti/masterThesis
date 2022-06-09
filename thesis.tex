@@ -74,6 +74,14 @@
 \section{Blockchains}
 \section{Smart Contracts}
 \section{Escrows}
+
+\chapter{Related work}
+\section{first escrowless protocol}
+Zimbeck mit Bithalo
+auch die analyse erwähnen
+\section{digital vs Physical}
+Hier unbedingt Asganokar sein paper erwähnen (sale of digital goods)
+
 \chapter{Formalization}
 \section{Entities}
 
@@ -116,14 +124,53 @@ The goal is to design the Escrow in such a way, that it is the best strategy for
 %\subsection{Implementation}
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
 
-\chapter{Related work}
-\section{first escrowless protocol}
-Zimbeck mit Bithalo
-auch die analyse erwähnen
-\section{digital vs Physical}
-Hier unbedingt Asganokar sein paper erwähnen (sale of digital goods)
 \chapter{Proposed Possible Solutions}
+\section{The naive approach}
+The simplest protocol is the following: The seller ships the physical good to the provided address $A$ and the buyer sends coins of amount $P$ to the seller.  
+%Here maybe a visualization
+\subsection{Payout}
+To analyze the payout for each party and each strategy I will use a table.\newline
 
+\minisec{Example table}
+\begin{center}
+\begin{tabular}{ c||c|c| }
+& H$_B$ & -H$_B$  \\
+\hline
+\hline
+H$_S$ & $P_S | P_B$ & $P_S | P_B$ \\
+\hline
+-H$_S$ & $P_S | P_B$ & $P_S | P_B$ \\ 
+\hline
+\end{tabular}
+\end{center}
+
+\minisec{Description} On the top are the possible strategies for the buyer: $H_B$ is the strategy where the buyer behaves honestly and -H$_B$ is the strategy where the Buyer behaves dishonestly.\newline
+On the left side are the strategies for the seller. Similar to the buyer, H$_S$ denotes the strategy where the seller behaves honestly and -H$_S$ denotes the strategy where the seller behaves dishonestly.\newline
+
+For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payoff of the seller and $P_B$ denotes the payoff of the buyer.
+\newline
+This protocol has an obvious downside: There is no incentive for the seller to ship the good as well as for the buyer to send the coins. \newline
+
+It is important to note that we assume that sending the good will decrease the sellers payoff regardless if the buyer sends the coins or not.
+
+
+\minisec{Payout for the naive approach}
+\begin{center}
+\begin{tabular}{ c||c|c| }
+& H$_B$ & -H$_B$  \\
+\hline
+\hline
+H$_S$ & $G | P$ & $0 | P+G$ \\
+\hline
+-H$_S$ & $P + G | 0$ & $P | G$ \\ 
+\hline
+\end{tabular}
+\end{center}
+
+\begin{equation}
+    U_s(P) > U_s(nothing) 
+\end{equation}
+\newline
 \chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
