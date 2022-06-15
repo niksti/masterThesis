@@ -173,13 +173,14 @@ Since we assume the players to be rational, they would both chose the dishonest 
 It is interesting to note that this table resembles the famous prisoner's dilemma.
 %TODO find literature to the prisoners dilemma
 The Nash Equilibrium is on both parties not sending anything, still it would be better for both parties if they just traded honestly. Nothe that utility of P and utility of G
+
 \section{One Side collateral}
 To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost, if the entity does not behave honestly. In this section I will look at protocols, where only one entity deposits a collateral.
 
 \subsection{Buyer Collateral}
 Following protocol is proposed:
 \begin{enumerate}
-    \item Buyer deposits collateral to the Smart Contract
+    \item Buyer deposits collateral $C > P$ to the Smart Contract
     \item Seller sends physical good $G$ to the seller 
     \item After receiving $G$, the Buyer sends funds of amount $P$ to the seller 
     \item The Smart Contract releases the collateral of the Buyer
@@ -202,16 +203,18 @@ H$_S$ & $P | G$ & $0 | G + P - C$  \\
 \hline
 -H$_S$ & $G | P - C$ & $G | P - C$  \\ 
 \hline
-C$_S$ & $ G | 0$ & $G + \frac{P}{2}  | \frac{P}{2}$  \\ 
+C$_S$ & $ G | P-C$ & $G + \frac{P}{2}  | \frac{P}{2}$  \\ 
 \hline
 \end{tabular}
 \end{center}
 
+The biggest possible payout for the Seller is if he can coerce the Buyer into sending him additional $\frac{P}{2}$ coins. This happens when the seller is choosing strategy C$_S$ and the buyer strategy -H$_B$.  It should be noted, that when the seller tries to coerce the buyer (C$_S$), it is actually his best option to comply (-H$_B$). This scenario is the Nash Equilibrium, because choosing a different strategy only results in a lower payoff for the player, if the other player is keeping his strategy.\newline
+The Nash Equilibrium would result in a payoff of $G + \frac{P}{2}$ for the Buyer and a payoff of $\frac{P}{2}$ for the seller. The rational buyer would never initiate the trade, because this trade will always result in a loss, if the seller behaves rational.
 
 \subsection{Seller Collateral}
 Following protocol is proposed:
 \begin{enumerate}
-    \item Seller deposits collateral to the Smart Contract
+    \item Seller deposits collateral $C > P$ to the Smart Contract
     \item Buyer sends funds of amount $P$ to the seller 
     \item Seller sends the physical good to the Buyer
     \item Buyer receives the physical good and confirms it to the Smart Contract
