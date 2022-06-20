@@ -133,6 +133,16 @@ The simplest protocol is the following: The seller ships the physical good $G$ t
 \minisec{Payout}
 To analyze the payout for each party and each strategy I will use a table.\newline
 
+\minisec{Example Tree}
+\begin{tikzpicture}[sibling distance=10em,level distance=6em,every node/.style={shape=circle,draw,align=center}]
+      \node{B}
+        child{node{S}
+                child{node[shape = square]{P|G}}
+                child{node[shape = square]{P+G|0}}}
+        child{node{S}
+            child{node[shape=square]{G|P}}
+            child{node[shape = square]{P+G|0}}};
+\end{tikzpicture}
 \minisec{Example table}
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -239,7 +249,7 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
                 child{node{.}}}
             child{node{B}
                 child{node{.}}}}
-        child{node{.}};
+        child{node[shape=square]{G|P}};
 \end{tikzpicture}
 
 \begin{center}
