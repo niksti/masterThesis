@@ -2,6 +2,7 @@
 
 %Define your additional packages here
 \usepackage{xcolor}
+\usepackage{tikz}
 
 \begin{document}
 
@@ -227,7 +228,20 @@ With this new protocol there are again new possible strategies. There is still t
 But there exist other strategies: The dishonest strategy is again not sending the resources. This strategy is still denoted as -H$_B$ (when the buyer does not send the coins) and -H$_S$ (when the seller does not send the physical good.\newline
 The Buyer has also a unique opportunity: Since he decides what happens to the collateral, he can coerce the Seller into sending him extra resources. This strategy will be denoted C$_B$.  After receiving the physical good he can tell the Seller: "Either you send me $\frac{C}{2}$ extra coins or I will tell the Smart Contract that you did not send me the physical good." In this case it is best for S to comply, because getting half his collateral back is better than losing it all. \newline
 
+
+
 \minisec{Payout}
+
+\begin{tikzpicture}[sibling distance=10em,level distance=6em,every node/.style={shape=circle,draw,align=center}]
+      \node{B}
+        child{node{S}
+            child{node{B}
+                child{node{.}}}
+            child{node{B}
+                child{node{.}}}}
+        child{node{.}};
+\end{tikzpicture}
+
 \begin{center}
 \begin{tabular}{ c||c|c|c| }
 & H$_B$ & -H$_B$ & C$_B$  \\
