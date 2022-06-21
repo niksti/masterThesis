@@ -220,7 +220,7 @@ The Seller has also a third possible strategy: Since he decides what happens to 
       \node[draw]{S}
         child{node[draw]{B}
                 child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{0$|$P+G-C}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{0$|$G+P-C}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
         child{node[draw]{B}
             child[sibling distance = 3cm]{node[shape=rectangle]{P+G$|$0}edge from parent node [left] {H$_B$}}
             child[sibling distance = 3cm]{node[shape = rectangle]{G$|$P-C}edge from parent node [right] {-H$_B$}}edge from parent node [right] {-H$_S$}};
@@ -263,14 +263,16 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
 
 \minisec{Payout}
 
-\begin{tikzpicture}[sibling distance=10em,level distance=6em,every node/.style={shape=circle,draw,align=center}]
-      \node{B}
-        child{node{S}
-            child{node{B}
-                child{node{.}}}
-            child{node{B}
-                child{node{.}}}}
-        child{node[shape=rectangle]{G|P}};
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{B}
+        child{node[draw]{S}
+                child[sibling distance = 7cm]{node[draw]{B}
+                		child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_B$}} 
+                		child[sibling distance = 3cm]{node[shape=rectangle]{0$|$G+P-C}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 7cm]{node[draw]{B}
+                child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_B$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{0$|$G+P-C}edge from parent node [right] {-H$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{G$|$P}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 
 \begin{center}
