@@ -131,17 +131,17 @@ To examine any possible solutions, we begin with the simplest possible protocol.
 The simplest protocol is the following: The seller ships the physical good $G$ to the provided address and the buyer sends coins of amount $P$ to the seller. There is no third party involved. 
 %Here maybe a visualization
 \minisec{Payout}
-To analyze the payout for each party and each strategy I will use a table.\newline
+To analyze the payout for each party and each strategy I will use a tree. The resukts of the tree can be seen at the table that follows.\newline
 
 \minisec{Example Tree}
-\begin{tikzpicture}[sibling distance=10em,level distance=6em,every node/.style={shape=circle,draw,align=center}]
-      \node{B}
-        child{node{S}
-                child{node[shape = square]{P|G}}
-                child{node[shape = square]{P+G|0}}}
-        child{node{S}
-            child{node[shape=square]{G|P}}
-            child{node[shape = square]{P+G|0}}};
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{B}
+        child{node[draw]{S}
+                child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+        child{node[draw]{S}
+            child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [left] {H$_S$}}
+            child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$}edge from parent node [right] {-H$_S$}}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 \minisec{Example table}
 \begin{center}
@@ -156,7 +156,7 @@ H$_S$ & $P_S | P_B$ & $P_S | P_B$ \\
 \end{tabular}
 \end{center}
 
-\minisec{Description} On the top are the possible strategies for the buyer: $H_B$ is the strategy where the buyer behaves honestly and -H$_B$ is the strategy where the Buyer behaves dishonestly.\newline
+\minisec{Description} On the top are the possible strategies for the buyer: H$_B$ is the strategy where the buyer behaves honestly and -H$_B$ is the strategy where the Buyer behaves dishonestly.\newline
 On the left side are the strategies for the seller. Similar to the buyer, H$_S$ denotes the strategy where the seller behaves honestly and -H$_S$ denotes the strategy where the seller behaves dishonestly.\newline
 
 For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payoff of the seller and $P_B$ denotes the payoff of the buyer.
@@ -167,6 +167,16 @@ This protocol has an obvious downside: There is no incentive for the seller to s
 
 
 \minisec{Payout for the naive approach}
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{B}
+        child{node[draw]{S}
+                child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{P+G$|$0}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+        child{node[draw]{S}
+            child[sibling distance = 3cm]{node[shape=rectangle]{G$|$P}edge from parent node [left] {H$_S$}}
+            child[sibling distance = 3cm]{node[shape = rectangle]{P+G$|$0}edge from parent node [right] {-H$_S$}}edge from parent node [right] {-H$_B$}};
+\end{tikzpicture}
+
 \begin{center}
 \begin{tabular}{ c||c|c| }
 & H$_B$ & -H$_B$  \\
@@ -249,7 +259,7 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
                 child{node{.}}}
             child{node{B}
                 child{node{.}}}}
-        child{node[shape=square]{G|P}};
+        child{node[shape=rectangle]{G|P}};
 \end{tikzpicture}
 
 \begin{center}
