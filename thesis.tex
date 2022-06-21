@@ -173,8 +173,8 @@ This protocol has an obvious downside: There is no incentive for the seller to s
                 child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_S$}} 
                 child[sibling distance = 3cm]{node[shape=rectangle]{P+G$|$0}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
         child{node[draw]{S}
-            child[sibling distance = 3cm]{node[shape=rectangle]{G$|$P}edge from parent node [left] {H$_S$}}
-            child[sibling distance = 3cm]{node[shape = rectangle]{P+G$|$0}edge from parent node [right] {-H$_S$}}edge from parent node [right] {-H$_B$}};
+            child[sibling distance = 3cm]{node[shape=rectangle]{P+G$|$0}edge from parent node [left] {H$_S$}}
+            child[sibling distance = 3cm]{node[shape = rectangle]{G$|$P}edge from parent node [right] {-H$_S$}}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 
 \begin{center}
@@ -212,9 +212,20 @@ Because the Smart Contract has access to the blockchain, it can automatically re
 \minisec{Possible Strategies}
 With this new protocol there are new possible strategies. Of course there is still the honest strategy for both players, where they behave according to the protocol description. With this strategy the trade unravels successfully.\newline
 But there exist other strategies: The dishonest strategy is again not sending the resources. This strategy is denoted as -H$_B$ (when the buyer does not send the coins) and -H$_S$ (when the seller does not send the physical good.\newline
-The Seller has also a third possible strategy: Since he decides what happens to the collateral, he can coerce the Buyer into sending him extra resources. This strategy will be denoted C$_S$.  When the seller uses strategy C$_S$, he does not send the physical good. He rather sends a message to the Buyer: "I will not send you the physical good. Since your collateral is locked and it will only be released if you pay me $P$, I propose the following deal: In spite of me not sending you $G$, you still send me P and you get back your collateral. In addition I will send you $\frac{P}{2}$ back."\newline
+The Seller has also a third possible strategy: Since he decides what happens to the collateral, he can coerce the Buyer into sending him extra resources. This strategy will be denoted C$_S$.  When the seller uses strategy C$_S$, he does not send the physical good. He rather sends a message to the Buyer: "I will not send you the physical good. Since your collateral is locked and it will only be released if you pay me $P$, I propose the following deal: In spite of me not sending you $G$, you still send me $P$ and you get back your collateral, as it "\newline
 
 \minisec{Payout}
+
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{S}
+        child{node[draw]{B}
+                child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_B$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{0$|$P+G-C}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
+        child{node[draw]{B}
+            child[sibling distance = 3cm]{node[shape=rectangle]{P+G$|$0}edge from parent node [left] {H$_B$}}
+            child[sibling distance = 3cm]{node[shape = rectangle]{G$|$P-C}edge from parent node [right] {-H$_B$}}edge from parent node [right] {-H$_S$}};
+\end{tikzpicture}
+
 \begin{center}
 \begin{tabular}{ c||c|c| }
 & H$_B$ & -H$_B$   \\
@@ -222,9 +233,9 @@ The Seller has also a third possible strategy: Since he decides what happens to 
 \hline
 H$_S$ & $P | G$ & $0 | G + P - C$  \\
 \hline
--H$_S$ & $G | P - C$ & $G | P - C$  \\ 
-\hline
-C$_S$ & $ G | P-C$ & $G + \frac{P}{2}  | \frac{P}{2}$  \\ 
+-H$_S$ & $G + P | 0$ & $G | P - C$  \\ 
+%\hline
+%C$_S$ & $ G | P-C$ & $G + \frac{P}{2}  | \frac{P}{2}$  \\ 
 \hline
 \end{tabular}
 \end{center}
