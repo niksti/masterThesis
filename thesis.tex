@@ -270,8 +270,8 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
                 		child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_B$}} 
                 		child[sibling distance = 3cm]{node[shape=rectangle]{0$|$ G+P}edge from parent node [right] {C$_B$}} edge from parent node [left] {H$_S$}} 
                 child[sibling distance = 7cm]{node[draw]{B}
-                child[sibling distance = 3cm]{node[shape = rectangle]{G+P-C$|$P} edge from parent node [left] {H$_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{G+P-C$|$0}edge from parent node [right] {C$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+                child[sibling distance = 3cm]{node[shape = rectangle]{G+P-C$|$0} edge from parent node [left] {H$_B$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{G$|$P}edge from parent node [right] {C$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
           child[sibling distance = 10cm]{node[shape = rectangle]{G$|$P}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 
@@ -281,9 +281,9 @@ Normally there is another layer under C$_B$: Does S comply and send P or not? As
 & H$_B$ & -H$_B$ & C$_B$  \\
 \hline
 \hline
-H$_S$ & $P | G$ & $G | P$ & $P- \frac{C}{2} | G + \frac{C}{2}$ \\
+H$_S$ & $P | G$ & $G | P$ & $0 | G + P$ \\
 \hline
--H$_S$ & $P + G - c | 0$ & $G | P$ & $G + P - \frac{C}{2} | \frac{C}{2}$ \\ 
+-H$_S$ & $P + G - C | 0$ & $G | P$ & $G | P$ \\ 
 \hline
 \end{tabular}
 \end{center}
@@ -296,8 +296,15 @@ Because not Sending (-H$_S$) is the best strategy for the seller, it is best for
 The Nash Equilibrium would be in nobody sending anything and the trade not happening.
 
 
-
-
+\section{Two Side Collateral}
+Following protocol is proposed:
+\begin{enumerate}
+    \item Buyer and seller deposit collateral $C > P$ to the Smart Contract
+    \item Buyer sends Funds of amount $P$ to the Seller
+    \item Seller sends physical good $G$ to the seller 
+    \item Buyer receives the physical good and confirms it to the Smart Contract
+    \item The Smart Contract releases the collateral of the Seller and the Buyer
+\end{enumerate}
 
 \begin{equation}
     U_s(P) > U_s(nothing) 
