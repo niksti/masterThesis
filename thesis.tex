@@ -323,17 +323,17 @@ Following protocol is proposed:
 
 
 \section{SC 5/6 innputs What is a nice Headline for this section??}
-\subsection{ideal Funcionality}
+\subsection{Ideal Funcionality}
 We can model the ideal funcionality of our Smart Contract as a Function with 6 inputs and 2 outputs:
 
 \minisec{Inputs}
 \begin{itemize}
-\item{Int: Buyer Collateral}
-\item{Int: Seller Collateral}
-\item{Bool: Was the Price $P$ payed by the Buyer MAYBE OBSOLETE, IF ROUTE THE PAYMENT OVER THE SMART CONTRACT}
-\item{Bool: Was the physical good $G$ shipped by the seller?}
+\item{Int: Buyer Collateral DO WE REALLY NEED THAT as input?}
+\item{Int: Seller Collateral DO WE REALLY NEED THAT as input?}
+\item{Int: the Price $P$}
 \item{Bool: Sellers report}
 \item{Bool: Buyers report}
+\item{Bool: Was the physical good $G$ shipped by the seller?}
 \end{itemize}
 
 \minisec{Inputs MAYBE EASIER}
@@ -349,13 +349,26 @@ Idea: the Smart Contract automatically collects  (instructs the entities to make
 \item{Int: Seller Payout}
 \end{itemize}
 
+\begin{equation}
+	SC_{ideal}:= ....	
+\end{equation}
 
-\begin{equation}
-	SC_{ideal}:= 	
-\end{equation}
-\begin{equation}
-    U_s(P) > U_s(nothing) 
-\end{equation}
+\minisec{Functionality}
+The function will always output the right amount to the two entities:
+\begin{itemize}
+    \item It cuts the collateral of all lying parties
+    \item It will give the amount of $P$ to the seller, if he actually ships the physical good $G$, otherwise give it back to the seller
+\end{itemize}
+
+Such a smart contract solves the problem completely as the Nash Equilibrium is both parties behaving honestly.%TODO Show it
+It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
+
+\subsection{Real World Functionality}
+In the real world, the smart contract does have the last input. The Smart Contract has no way of knowing, if the physical good was actually shipped or not. \newline
+This poses following problem: There are cases where the input to the ideal functionality differs only by the last input (if the seller actually sent the good), but the output to the two party differs vastly. These two cases are indistinguishable if the last input is missing. Therefore it is not possible for a function with only the five inputs to have the ideal outputs.
+%\begin{equation}
+ %   U_s(P) > U_s(nothing) 
+%\end{equation}
 
 \chapter{Open Research/ Questions}
 
