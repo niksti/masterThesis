@@ -321,7 +321,37 @@ Following protocol is proposed:
           child[sibling distance = 10cm]{node[shape = rectangle]{G$|$P -C}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 
+
+\section{SC 5/6 innputs What is a nice Headline for this section??}
+\subsection{ideal Funcionality}
+We can model the ideal funcionality of our Smart Contract as a Function with 6 inputs and 2 outputs:
+
+\minisec{Inputs}
+\begin{itemize}
+\item{Int: Buyer Collateral}
+\item{Int: Seller Collateral}
+\item{Bool: Was the Price $P$ payed by the Buyer MAYBE OBSOLETE, IF ROUTE THE PAYMENT OVER THE SMART CONTRACT}
+\item{Bool: Was the physical good $G$ shipped by the seller?}
+\item{Bool: Sellers report}
+\item{Bool: Buyers report}
+
+
+\minisec{Inputs MAYBE EASIER}
+\begin{itemize}
+\item{Int: agreed price $P$}
+\item{Bool: Was the physical good $G$ shipped by the seller?}
+\end{itemize}
+Idea: the Smart Contract automatically collects  (instructs the entities to make a deposit) of the right amount. If the physical good was shipped, he transfers P to the Seller, else he gives back the inital deposit to both parties
+
+\minisec{Outputs}
+\begin{itemize}
+\item{Int: Buyer Payout}
+\item{Int: Seller Payout}
+\end{itemize}
 \begin{equation}
+	SC_{ideal}:= \{ \}	
+\end{equation}
+\begin{equation
     U_s(P) > U_s(nothing) 
 \end{equation}
 \newline
