@@ -299,12 +299,27 @@ The Nash Equilibrium would be in nobody sending anything and the trade not happe
 \section{Two Side Collateral}
 Following protocol is proposed:
 \begin{enumerate}
-    \item Buyer and seller deposit collateral $C > P$ to the Smart Contract
+    \item Seller  deposits collateral $C_1 > P$ to the Smart Contract
+    \item Buyer  deposits collateral $C_2 > P$ to the Smart Contract
     \item Buyer sends Funds of amount $P$ to the Seller
     \item Seller sends physical good $G$ to the seller 
     \item Buyer receives the physical good and confirms it to the Smart Contract
     \item The Smart Contract releases the collateral of the Seller and the Buyer
 \end{enumerate}
+
+\minisec{Payout}
+
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{B}
+        child{node[draw]{S}
+                child[sibling distance = 7cm]{node[draw]{B}
+                		child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {1}} 
+                		child[sibling distance = 3cm]{node[shape=rectangle]{P-C$_1|$G-C$_2$}edge from parent node [right] {0}} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 7cm]{node[draw]{B}
+                child[sibling distance = 3cm]{node[shape = rectangle]{G+P$|$0} edge from parent node [left] {1}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{G+P-C$_1|$-C$_2$}edge from parent node [right] {0}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{G$|$P -C}edge from parent node [right] {-H$_B$}};
+\end{tikzpicture}
 
 \begin{equation}
     U_s(P) > U_s(nothing) 
