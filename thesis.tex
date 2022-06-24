@@ -126,13 +126,7 @@ The goal is to design the Escrow in such a way, that it is the best strategy for
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
 
 \chapter{Proposed Possible Solutions}
-\section{The naive approach}
-To examine any possible solutions, we begin with the simplest possible protocol.\newline
-The simplest protocol is the following: The seller ships the physical good $G$ to the provided address and the buyer sends coins of amount $P$ to the seller. There is no third party involved. 
-%Here maybe a visualization
-\minisec{Payout}
-To analyze the payout for each party and each strategy I will use a tree. The resukts of the tree can be seen at the table that follows.\newline
-
+To analyse turn based games I will use Game trees. 
 \minisec{Example Tree}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
@@ -143,6 +137,9 @@ To analyze the payout for each party and each strategy I will use a tree. The re
             child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [left] {H$_S$}}
             child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$}edge from parent node [right] {-H$_S$}}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
+\minisec{Description}
+
+To analyse Simultaneous games I will use a table.
 \minisec{Example table}
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -160,22 +157,46 @@ H$_S$ & $P_S | P_B$ & $P_S | P_B$ \\
 On the left side are the strategies for the seller. Similar to the buyer, H$_S$ denotes the strategy where the seller behaves honestly and -H$_S$ denotes the strategy where the seller behaves dishonestly.\newline
 
 For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payoff of the seller and $P_B$ denotes the payoff of the buyer.
-\newline
-This protocol has an obvious downside: There is no incentive for the seller to ship the good as well as for the buyer to send the coins. \newline
+\section{The naive approach}
+To examine any possible solutions, we begin with the simplest possible protocol.\newline
+The simplest protocol is without collateral and any third party. In this case there are 3 possibilities:
+\begin{itemize}
+	\item First the buyer sends coins of amount $P$ to the seller and then the seller ships the physical good $G$ to the provided address. 
+	\item First the seller ships the physical good $G$ to the provided address and then the buyer sends coins of amount $P$ to the seller. 
+	\item Both parties send the resources simoultaneously
+\end{itemize}
+ the following: The buyer sends coins of amount $P$ to the seller and then the seller ships the physical good $G$ to the provided address. There is no third party involved. 
+%Here maybe a visualization
+\minisec{Payout}
+To analyze the payout for each party and each strategy I will use a tree.\newline
 
-%It is important to note that we assume that sending the good will decrease the sellers payoff regardless if the buyer sends the coins or not.
 
-
-\minisec{Payout for the naive approach}
+\minisec{Payout: The Buyer sends first}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
-                child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_S$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{P+G$|$0}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-        child{node[draw]{S}
-            child[sibling distance = 3cm]{node[shape=rectangle]{P+G$|$0}edge from parent node [left] {H$_S$}}
-            child[sibling distance = 3cm]{node[shape = rectangle]{G$|$P}edge from parent node [right] {-H$_S$}}edge from parent node [right] {-H$_B$}};
-\end{tikzpicture}
+                child[sibling distance = 3cm]{node[shape = rectangle]{P-G$|$G-P} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{P$|$-P}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+        child{node{0$|$0} edge from parent node [right] {-H$_B$}};
+\end{tikzpicture}\newline
+To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option, which yields him the greatest payoff, he chooses -H$_S$ (P+G $>$ P).\newline
+Therefore the Buyers has to choose between a payoff of 0 (by choosing -H$_B$) and -P (by choosing H$_B$). Since 0 $>$ -P, he chooses -H$_B$.\newline
+The Nash Equilibrium of this game is \{-H$_B$\} and results in a Payoff of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
+
+\minisec{Payout: The Sender sends first}
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{S}
+        child{node[draw]{B}
+                child[sibling distance = 3cm]{node[shape = rectangle]{P-G$|$G-P} edge from parent node [left] {H$_B$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{-G$|$G}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
+        child{node{0$|$0} edge from parent node [right] {-H$_S$}};
+\end{tikzpicture}\newline
+The analysis is similar to the above case, but the roles are reversed. The Buyer would choose -H$_B$ as G $>$ G-P.\newline
+The sender would choose -H$_S$ as 0 $>$ -G.\newline
+The Nash Equilibrium of this game is \{-H$_S$\} and results in a Payoff of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
+
+\minisec{Payout: Both parties send simoultaneous}
+
 
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -193,7 +214,7 @@ If we look at the payoff table we can see that -H$_B$ dominates H$_B$ and -H$_S$
 Since we assume the players to be rational, they would both chose the dishonest strategy. Both players chosing the dishonest strategy is the Nash Equilibrium of the game.\newline
 It is interesting to note that this table resembles the famous prisoner's dilemma.
 %TODO find literature to the prisoners dilemma
-The Nash Equilibrium is on both parties not sending anything, still it would be better for both parties if they just traded honestly. Nothe that utility of P and utility of G
+The Nash Equilibrium is on both parties not sending anything, still it would be better for both parties if they just traded honestly. 
 
 \section{One Side collateral}
 To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost, if the entity does not behave honestly. In this section I will look at protocols, where only one entity deposits a collateral.
