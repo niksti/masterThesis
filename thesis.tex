@@ -192,7 +192,7 @@ The analysis is similar to the above case, but the roles are reversed. The Buyer
 The sender would choose -H$_S$ as 0 $>$ -G.\newline
 The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a Payoff of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
-\minisec{Payout: Both parties send simoultanous}
+\minisec{Payout: Both parties send simultaneous}
 
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -230,18 +230,22 @@ Because the Smart Contract has access to the blockchain, it can automatically re
 With this new protocol there are new possible strategies. Of course there is still the honest strategy for both players, where they behave according to the protocol description. With this strategy the trade unravels successfully.\newline
 But there exist other strategies: The dishonest strategy is again not sending the resources. This strategy is denoted as -H$_B$ (when the buyer does not send the coins) and -H$_S$ (when the seller does not send the physical good.\newline
 The Seller has also a third possible strategy: Since he decides what happens to the collateral, he can coerce the Buyer into sending him extra resources. This strategy will be denoted C$_S$.  When the seller uses strategy C$_S$, he does not send the physical good. He rather sends a message to the Buyer: "I will not send you the physical good. Since your collateral is locked and it will only be released if you pay me $P$, I propose the following deal: In spite of me not sending you $G$, you still send me $P$ and you get back your collateral, as it "\newline
-
+-C is not depositing the collateral.\newline
+P is paying P although S deviates, -P is not paying when S deviates.
 \minisec{Payout}
 
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-      \node[draw]{S}
-        child{node[draw]{B}
-                child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{0$|$G+P-C}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
-        child{node[draw]{B}
-            child[sibling distance = 3cm]{node[shape=rectangle]{P+G$|$0}edge from parent node [left] {H$_B$}}
-            child[sibling distance = 3cm]{node[shape = rectangle]{G$|$P-C}edge from parent node [right] {-H$_B$}}edge from parent node [right] {-H$_S$}};
+      \node[draw]{B}
+        child{node[draw]{S}
+                child[sibling distance = 7cm]{node[draw]{B}
+                		child[sibling distance = 3cm]{node[shape = rectangle]{P-G$|$G-P} edge from parent node [left] {H$_B$}} 
+                		child[sibling distance = 3cm]{node[shape=rectangle]{-G$|$G-C}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 7cm]{node[draw]{B}
+                child[sibling distance = 3cm]{node[shape = rectangle]{P$|$-P} edge from parent node [left] {P$_B$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{0$|$-C}edge from parent node [right] {-P$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-C$_B$}};
 \end{tikzpicture}
+
 
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -272,8 +276,8 @@ Following protocol is proposed:
 The collateral should incentivize the Seller to behave honestly and to ship the physical good to the buyer.
 %Because of the collateral, behaving honestly should be the best strategy for the seller.
 \minisec{Possible Strategies}
-With this new protocol there are again new possible strategies. There is still the honest strategy for both players, where they behave according to the protocol description. With this strategy, the trade still unravels successfully.\newline
-But there exist other strategies: The dishonest strategy is again not sending the resources. This strategy is still denoted as -H$_B$ (when the buyer does not send the coins) and -H$_S$ (when the seller does not send the physical good.\newline
+There is still the honest strategy (H$_S$, H$_B$) for both players, where they behave according to the protocol description. With this strategy, the trade still unravels successfully.\newline
+The dishonest strategy is again not sending the resources. This strategy is still denoted as -H$_B$ (when the buyer does not send the coins) and -H$_S$ (when the seller does not send the physical good.\newline
 The Buyer has also a unique opportunity: Since he decides what happens to the collateral, he can coerce the Seller into sending him extra resources. This strategy will be denoted C$_B$.  After receiving the physical good he can tell the Seller: "Either you send me back my payment $P$ or I will tell the Smart Contract that you did not send me the physical good." In this case it is best for S to comply, because $C > P$. \newline
 
 
