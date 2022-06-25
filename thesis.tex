@@ -246,7 +246,6 @@ P is paying P although S deviates, -P is not paying when S deviates.
           child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-C$_B$}};
 \end{tikzpicture}
 
-
 \begin{center}
 \begin{tabular}{ c||c|c| }
 & H$_B$ & -H$_B$   \\
@@ -288,12 +287,12 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
       \node[draw]{B}
         child{node[draw]{S}
                 child[sibling distance = 7cm]{node[draw]{B}
-                		child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {H$_B$}} 
-                		child[sibling distance = 3cm]{node[shape=rectangle]{0$|$ G+P}edge from parent node [right] {C$_B$}} edge from parent node [left] {H$_S$}} 
+                		child[sibling distance = 3cm]{node[shape = rectangle]{P-G$|$G-P} edge from parent node [left] {H$_B$}} 
+                		child[sibling distance = 3cm]{node[shape=rectangle]{-G$|$ G}edge from parent node [right] {C$_B$}} edge from parent node [left] {H$_S$}} 
                 child[sibling distance = 7cm]{node[draw]{B}
-                child[sibling distance = 3cm]{node[shape = rectangle]{G+P-C$|$0} edge from parent node [left] {H$_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{G$|$P}edge from parent node [right] {C$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-          child[sibling distance = 10cm]{node[shape = rectangle]{G$|$P}edge from parent node [right] {-H$_B$}};
+                child[sibling distance = 3cm]{node[shape = rectangle]{P-C$|$-P} edge from parent node [left] {H$_B$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{0$|$0}edge from parent node [right] {C$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 
 Normally there is another layer under C$_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and recieve back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.
