@@ -390,6 +390,57 @@ This poses following problem: There are cases where the input to the ideal funct
  %   U_s(P) > U_s(nothing) 
 %\end{equation}
 
+\section{Possible Proof}
+Since behaviour of the smart contract is only influenced by the transactions of the two parties, we can model the payoff to each party with a function that just takes the transactions as input:
+\begin{equation}
+    SC(Tx_1, Tx_2,...,Tx_n) = (P_B, P_S)
+\end{equation}
+Since we assume only these two players, each transaction has to be made either from the buyer or from the seller.\newline
+
+
+
+Let us assume we design a situation where the Nash Equilibrium is for both parties to behave honestly and the trade to unravel successfully. In the honest case, the Transactions sent to the SC are denoted as Tx$_{honestSeller}$ for the sellers transactions and Tx$_{honestBuyer}$ for the Buyers transactions. \newline
+As the honest case is the Nash Equilibrium, the sender gets a higher payout when he sends the good in comparison when he is dishonest and keeps the good to himself.
+
+\begin{equation}
+    P_{honestSeller} > P_{dishonestSeller}
+\end{equation}
+
+\minisec{Payoff honest seller}
+\begin{equation}
+    P_{honestSeller} = P_{SC}(S_{honest})- U_S(G)
+\end{equation}
+$P_{SC}(S_{honest})$ is the amount of coins that the seller gets from the smart Contract. As the honest seller sends $G$ to the buyer, his payoff decreases by $U_S(G)$
+
+\minisec{Payoff dishonest seller}
+\begin{equation}
+    P_{dishonestSeller} = P_{SC}(S_{dishonest})
+\end{equation}
+As the dishonest seller does not send the item, his payoff is exactly the amount of coins that he gets from the smart contract.
+
+\minisec{The smart contract has to change the payoff}
+from (5.3), (5.4),(5.5):
+
+\begin{equation}
+   P_{SC}(S_{honest})- U_S(G) > P_{SC}(S_{dishonest})
+\end{equation}
+The amount of coins, that a honest seller gets back has to be substantially more than the amount of coins that a dishonest seller gets back.\newline
+Since the payoff from the SC is only dependent on the transaction of the two players, at least one of the two players has to change at least one transaction (from the honest case), so that the SC can detect that the seller is dishonest and return the different payouts.\newline
+
+The Buyer has to have a set of transaction Tx$_{penalizeSeller}$, in which he can decrease the sellers payoff to under $P_{SC}(S_{honest})- U_S(G)$, as described in (5.6).\newline
+This transactions have to be unstoppable, meaning that there exist no set of transactions Tx$_{cheatingSeller}$ for the seller, such that his payoff stays above $P_{SC}(S_{honest})- U_S(G)$. \newline 
+If such a set of transaction would exist, he would not send the item and post Tx$_{cheatingSeller}$. His Payoff would be 
+
+\[P_{cheatingSeller} = P_{SC}(Tx_{cheatingSeller}) > {SC}(S_{honest})- U_S(G) =  P_{honestSeller}\]
+
+This would break our assumption, that the Nash Equilibrium is when both players behave honestly.\newline
+
+To summarize: The Buyer has to have a set of transactions that decrease the payoff from the SC to the seller to under $P_{SC}(S_{honest})- U_S(G)$, NO MATTER what transactions the seller posts.\newline
+Since we assume a rational Buyer, for him to post Tx$_{cheatingSeller}$, he has to get a bigger payout:
+\[P_{B}(Tx_{cheatingseller}) > P_{B}(Tx_{honestBuyer})\]
+
+Now he has a set of transactions, that increase his payoff. He could post these transactions, even if the seller behaves honestly and sends the good.\newline
+This contradicts our assumption that the Nash Equilibrium is when both players behave honestly.
 \chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
