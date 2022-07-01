@@ -126,7 +126,7 @@ The goal is to design the Escrow in such a way, that it is the best strategy for
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
 
 \chapter{Proposed Possible Solutions}
-To analyse turn based games I will use Game trees. 
+To analyse turn based games we will use Game trees. 
 \minisec{Example Tree}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
@@ -139,7 +139,7 @@ To analyse turn based games I will use Game trees.
 \end{tikzpicture}
 \minisec{Description}
 
-To analyse Simultaneous games I will use a table.
+To analyse Simultaneous games we will use a table.
 \minisec{Example table}
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -163,7 +163,7 @@ The simplest protocol is without collateral and any third party. In this case th
 \begin{itemize}
 	\item First the buyer sends coins of amount $P$ to the seller and then the seller ships the physical good $G$ to the provided address. 
 	\item First the seller ships the physical good $G$ to the provided address and then the buyer sends coins of amount $P$ to the seller. 
-	\item Both parties send the resources simoultaneously
+	\item Both parties send the resources simultaneously
 \end{itemize}
  the following: The buyer sends coins of amount $P$ to the seller and then the seller ships the physical good $G$ to the provided address. There is no third party involved. 
 %Here maybe a visualization
@@ -172,11 +172,11 @@ The simplest protocol is without collateral and any third party. In this case th
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
-                child[sibling distance = 3cm]{node[shape = rectangle]{P-G$|$G-P} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 3cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_S$}} 
                 child[sibling distance = 3cm]{node[shape=rectangle]{P$|$-P}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
         child{node{0$|$0} edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}\newline
-To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option, which yields him the greatest payoff, he chooses -H$_S$ (P+G $>$ P).\newline
+To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option, which yields him the greatest payoff, he chooses -H$_S$ (P $>$ P - $U_S(G)$.\newline
 Therefore the Buyers has to choose between a payoff of 0 (by choosing -H$_B$) and -P (by choosing H$_B$). Since 0 $>$ -P, he chooses -H$_B$.\newline
 The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a Payoff of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
 
@@ -184,12 +184,12 @@ The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a Payoff 
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{S}
         child{node[draw]{B}
-                child[sibling distance = 3cm]{node[shape = rectangle]{P-G$|$G-P} edge from parent node [left] {H$_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{-G$|$G}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 3cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_B$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
         child{node{0$|$0} edge from parent node [right] {-H$_S$}};
 \end{tikzpicture}\newline
-The analysis is similar to the above case, but the roles are reversed. The Buyer would choose -H$_B$ as G $>$ G-P.\newline
-The sender would choose -H$_S$ as 0 $>$ -G.\newline
+The analysis is similar to the above case, but the roles are reversed. The Buyer would choose -H$_B$ as $U_B(G) > U_B(G)$-P.\newline
+The seller would choose -H$_S$ as 0 $> -U_S(G)$.\newline
 The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a Payoff of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
 \minisec{Payout: Both parties send simultaneous}
@@ -199,7 +199,7 @@ The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a Payoff 
 & H$_B$ & -H$_B$  \\
 \hline
 \hline
-H$_S$ & $P - G|G - P$ & $-G | G$ \\
+H$_S$ & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
 \hline
 -H$_S$ & $P |-P$ & $0 | 0$ \\ 
 \hline
@@ -213,7 +213,7 @@ It is interesting to note that this table resembles the famous prisoner's dilemm
 The Nash Equilibrium is on both parties not sending anything, still it would be better for both parties, if they just traded honestly. 
 
 \section{One Side collateral}
-To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost, if the entity does not behave honestly. In this section I will look at protocols, where only one entity deposits a collateral.
+To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost, if the entity does not behave honestly. In this section we will look at protocols where only one entity deposits a collateral.
 
 \subsection{Buyer Collateral}
 Following protocol is proposed:
@@ -251,17 +251,17 @@ P is paying P although S deviates, -P is not paying when S deviates.
 & H$_B$ & -H$_B$   \\
 \hline
 \hline
-H$_S$ & $P | G$ & $0 | G + P - C$  \\
+H$_S$ & $P | U_B(G)$ & $0 | U_B(G) + P - C$  \\
 \hline
--H$_S$ & $G + P | 0$ & $G | P - C$  \\ 
+-H$_S$ & $U_S(G) + P | 0$ & $G | P - C$  \\ 
 %\hline
-%C$_S$ & $ G | P-C$ & $G + \frac{P}{2}  | \frac{P}{2}$  \\ 
+%C$_S$ & $ U_S(G) | P-C$ & $U_B(G) + \frac{P}{2}  | \frac{P}{2}$  \\ 
 \hline
 \end{tabular}
 \end{center}
 
 The biggest possible payout for the Seller is if he can coerce the Buyer into sending him additional $\frac{P}{2}$ coins. This happens when the seller is choosing strategy C$_S$ and the buyer strategy -H$_B$.  It should be noted, that when the seller tries to coerce the buyer (C$_S$), it is actually his best option to comply (-H$_B$). This scenario is the Nash Equilibrium, because choosing a different strategy only results in a lower payoff for the player, if the other player is keeping his strategy.\newline
-The Nash Equilibrium would result in a payoff of $G + \frac{P}{2}$ for the Buyer and a payoff of $\frac{P}{2}$ for the seller. The rational buyer would never initiate the trade, because this trade will always result in a loss, if the seller behaves rational.
+The Nash Equilibrium would result in a payoff of $U_B(G) + \frac{P}{2}$ for the Buyer and a payoff of $\frac{P}{2}$ for the seller. The rational buyer would never initiate the trade, because this trade will always result in a loss, if the seller behaves rational.
 
 \subsection{Seller Collateral}
 Following protocol is proposed:
@@ -287,8 +287,8 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
       \node[draw]{B}
         child{node[draw]{S}
                 child[sibling distance = 7cm]{node[draw]{B}
-                		child[sibling distance = 3cm]{node[shape = rectangle]{P-G$|$G-P} edge from parent node [left] {H$_B$}} 
-                		child[sibling distance = 3cm]{node[shape=rectangle]{-G$|$ G}edge from parent node [right] {C$_B$}} edge from parent node [left] {H$_S$}} 
+                		child[sibling distance = 3cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_B$}} 
+                		child[sibling distance = 3cm]{node[shape=rectangle]{-$U_S(G|U_B(G)$}edge from parent node [right] {C$_B$}} edge from parent node [left] {H$_S$}} 
                 child[sibling distance = 7cm]{node[draw]{B}
                 child[sibling distance = 3cm]{node[shape = rectangle]{P-C$|$-P} edge from parent node [left] {H$_B$}} 
                 child[sibling distance = 3cm]{node[shape=rectangle]{0$|$0}edge from parent node [right] {C$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
@@ -332,13 +332,13 @@ Following protocol is proposed:
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
-                child[sibling distance = 7cm]{node[draw]{B}
-                		child[sibling distance = 3cm]{node[shape = rectangle]{P$|$G} edge from parent node [left] {1}} 
-                		child[sibling distance = 3cm]{node[shape=rectangle]{P-C$_1|$G-C$_2$}edge from parent node [right] {0}} edge from parent node [left] {H$_S$}} 
-                child[sibling distance = 7cm]{node[draw]{B}
-                child[sibling distance = 3cm]{node[shape = rectangle]{G+P$|$0} edge from parent node [left] {1}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{G+P-C$_1|$-C$_2$}edge from parent node [right] {0}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-          child[sibling distance = 10cm]{node[shape = rectangle]{G$|$P -C}edge from parent node [right] {-H$_B$}};
+                child[sibling distance = 9cm]{node[draw]{B}
+                		child[sibling distance = 5cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {1}} 
+                		child[sibling distance = 5cm]{node[shape=rectangle]{P-C$_1 - U_S(G)|U_B(G)$-C$_2$ - P}edge from parent node [right] {0}} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 9cm]{node[draw]{B}
+                child[sibling distance = 3cm]{node[shape = rectangle]{P$|$-P} edge from parent node [left] {1}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{P-C$_1|$-C$_2$-P}edge from parent node [right] {0}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$-C}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 
 
@@ -376,7 +376,7 @@ Idea: the Smart Contract automatically collects  (instructs the entities to make
 \minisec{Functionality}
 The function will always output the right amount to the two entities:
 \begin{itemize}
-    \item It cuts the collateral of all lying parties
+    \item It slashes the collateral of all lying parties
     \item It will give the amount of $P$ to the seller, if he actually ships the physical good $G$, otherwise give it back to the seller
 \end{itemize}
 
