@@ -244,7 +244,13 @@ When the Seller does not send the physical good in step 2 (plays strategy -H$_S$
                 child[sibling distance = 3cm]{node[shape = rectangle]{P$|$-P} edge from parent node [left] {P$_B$}} 
                 child[sibling distance = 3cm]{node[shape=rectangle]{0$|$-C}edge from parent node [right] {-P$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
           child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-C$_B$}};
-\end{tikzpicture}
+\end{tikzpicture}\newline
+To analyze the Payout, we again start at the bottom at the Buyer's decision. On the left branch the Buyer would choose H$_B$, as $U_B(G) - P > U_B(G) - C$.\newline
+On the right branch the Buyer would choose -P$_B$, as $-P > C$.\newline
+Based on these decisions the Seller would choose -H$_S$, because $P > P - U_S(G)$.\newline
+This means that it is better for the seller to behave maliciously and not send the physical good $G$. The Buyer would send $P$ and receive nothing leaving him with a payoff of $-P$. \newline
+Since $-P < 0$, the Buyer would choose -C$_B$ and not even deposit the collateral.\newline
+The Nash Equilibrium is at \{-H$_C$\} and the trade is unsuccessful.
 
 \begin{center}
 \begin{tabular}{ c||c|c| }
