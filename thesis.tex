@@ -355,9 +355,9 @@ There are multiple ways to implement step 4. Either the two parties report one a
 \hline
 1& $-U_S(G)| U_B(G)$\\
 \hline
-2& $-C-U_S(G)| -P$\\
+2& $-C-U_S(G)| U_B(G)-P$\\
 \hline
-3&$-C-U_S(G)|-P$ \\
+3&$-C-U_S(G)|U_B(G) -P$ \\
 \hline
 4& $P-U_S(G)| U_B(G) - P$\\
 \hline
@@ -376,16 +376,89 @@ seller would choose 1,4, 5, 8 (always what Buyer reports)\newline
 Buyer would choose 1, 5 (always say he did not receive it)\newline
 Seller would choose 5
 \minisec{Payout: The Seller reports first}
-\minisec{Payout: Both parties reports simultaneously}
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{B}
+        child{node[draw]{S}
+                child[sibling distance = 9cm]{node[draw]{S}
+                		child[sibling distance = 5cm]{node[draw]{B} 
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{1} edge from parent node [left] {0}}
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{2} edge from parent node [right] {1}}
+                		     edge from parent node [left] {0}} 
+                		child[sibling distance = 5cm]{node[draw]{B} 
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{3} edge from parent node [left] {0}}
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{4} edge from parent node [right] {1}}
+                		     edge from parent node [right] {1}}
+                		     edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 9cm]{node[draw]{S}
+                child[sibling distance = 5cm]{node[draw]{B} 
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{5} edge from parent node [left] {0}}
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{6} edge from parent node [right] {1}}
+                		     edge from parent node [left] {0}} 
+                		child[sibling distance = 5cm]{node[draw]{B} 
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{7} edge from parent node [left] {0}}
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{8} edge from parent node [right] {1}}
+                		     edge from parent node [right] {1}}
+                		     edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
+\end{tikzpicture}
 
 \begin{center}
-\begin{tabular}{ c||c|c|c| }
-& H$_B$ & -H$_B$ & C$_B$  \\
+\begin{tabular}{ |c|c| }
+\hline
+& Payout  \\
 \hline
 \hline
-H$_S$ & $P | G$ & $G | P$ & $0 | G + P$ \\
+1& $-U_S(G)| U_B(G)$\\
 \hline
--H$_S$ & $P + G - C | 0$ & $G | P$ & $G | P$ \\ 
+2& $-C-U_S(G)|U_B(G) -P$\\
+\hline
+3&$-C-U_S(G)|U_B(G)-P$ \\
+\hline
+4& $P-U_S(G)| U_B(G) - P$\\
+\hline
+5& $0|0$\\
+\hline 
+6& $-C | -P$\\
+\hline
+7& $-C|-P$\\
+\hline
+8& $P| -P$\\
+\hline
+\end{tabular}
+\end{center}
+
+Buyer chooses 1,4,5,coerce: i report 1 but you send me P + C/2\newline
+Seller chooses 4?
+
+\minisec{Payout: Both parties reports simultaneously}
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{B}
+        child{node[draw]{S}
+                child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+        child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
+\end{tikzpicture}
+
+\begin{center}
+\begin{tabular}{ c||c|c| }
+$T_1$& 0$_B$ & 1$_B$   \\
+\hline
+\hline
+0$_S$ & $P | G$ & $G | P$ \\
+\hline
+1$_S$ & $P + G - C | 0$ & $G | P$\\ 
+\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ c||c|c| }
+$T_1$& 0$_B$ & 1$_B$   \\
+\hline
+\hline
+0$_S$ & $0 | 0$ & $-C|-P$ \\
+\hline
+1$_S$ & $-C|-P$ & $P | -P$\\ 
 \hline
 \end{tabular}
 \end{center}
