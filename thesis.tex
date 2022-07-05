@@ -302,25 +302,78 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
           child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 
-Normally there is another layer under C$_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and recieve back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.
+Normally there is another layer under C$_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and receieve back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.
 
 
 \subsubsection{Both parties report}
 One Side Collateral on the Seller's side does not work if only the Buyer reports to the Smart Contract (5.2.2). If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.\newline
 Another option would be that both players report to the Smart Contract whether the physical good $G$ was sent and received.\newline 
-
+If they report something different the Smart Contract slashes the collateral. If they both report 0 ($G$ was not sent), then the Smart Contract sends $P$ back to the Buyer. If they both report 1 ($G$ was sent), then the Smart Contract sends $P$ to the Seller.\newline
+ 
 Following protocol is proposed:
 \begin{enumerate}
     \item Seller deposits collateral $C > P$ to the Smart Contract
-    \item Buyer sends funds of amount $P$ to the seller 
+    \item Buyer sends funds of amount $P$ to the Smart Contract 
     \item Seller sends the physical good to the Buyer and the Buyer receives it
     \item Buyer and Seller report the physical transaction to the Smart Contract
     \item The Smart Contract releases the collateral of the Seller
 \end{enumerate}
 There are multiple ways to implement step 4. Either the two parties report one after another or they report simultaneously.
 
-\minisec{Payout: The Seller reports first}
 \minisec{Payout: The Buyer reports first}
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{B}
+        child{node[draw]{S}
+                child[sibling distance = 9cm]{node[draw]{B}
+                		child[sibling distance = 5cm]{node[draw]{S} 
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{1} edge from parent node [left] {0}}
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{2} edge from parent node [right] {1}}
+                		     edge from parent node [left] {0}} 
+                		child[sibling distance = 5cm]{node[draw]{S} 
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{3} edge from parent node [left] {0}}
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{4} edge from parent node [right] {1}}
+                		     edge from parent node [right] {1}}
+                		     edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 9cm]{node[draw]{B}
+                child[sibling distance = 5cm]{node[draw]{S} 
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{5} edge from parent node [left] {0}}
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{6} edge from parent node [right] {1}}
+                		     edge from parent node [left] {0}} 
+                		child[sibling distance = 5cm]{node[draw]{S} 
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{7} edge from parent node [left] {0}}
+                		    child[sibling distance = 2cm]{node[shape = rectangle]{8} edge from parent node [right] {1}}
+                		     edge from parent node [right] {1}}
+                		     edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
+\end{tikzpicture}
+
+\begin{center}
+\begin{tabular}{ |c|c| }
+\hline
+& Payout  \\
+\hline
+\hline
+1& \\
+\hline
+2& \\
+\hline
+3& \\
+\hline
+4& \\
+\hline
+5& \\
+\hline
+6& \\
+\hline
+7& \\
+\hline
+8& \\
+\hline
+
+\end{tabular}
+\end{center}
+
+\minisec{Payout: The Seller reports first}
 \minisec{Payout: Both parties reports simultaneously}
 
 \begin{center}
@@ -343,7 +396,6 @@ Because not Sending (-H$_S$) is the best strategy for the seller, it is best for
 The Nash Equilibrium would be in nobody sending anything and the trade not happening.
 
 
-\minisec{Both parties report}
 
 \section{Two Side Collateral}
 Following protocol is proposed:
