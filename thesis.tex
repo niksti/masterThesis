@@ -3,6 +3,7 @@
 %Define your additional packages here
 \usepackage{xcolor}
 \usepackage{tikz}
+\usepackage{amsfonts} 
 
 \begin{document}
 
@@ -613,7 +614,13 @@ This contradicts our assumption that the Nash Equilibrium is when both players b
 Since each transaction has a timestamp, the smart contract knows automatically the ordering of the transactions. Therefore it only needs the transactions as an input to decide the payoff of each party (in contrast to the ordering as an additional parameter).
 
 \subsection{Formal Proof}
-Introduce functions $SC_B$ and $SC_S$
+We introduce functions $SC_B$ and $SC_S$ that take as input all transactions to the Smart Contract and output the corresponding Payout from the Smart Contract:
+
+\[ SC_B : \{ \textit{set of transactions}\} \to \mathbb{R} \]
+\[ SC_S : \{ \textit{set of transactions}\} \to \mathbb{R} \]
+
+We introduce a general payoff function $P$, that outputs the overall payoff that a player 
+
 \chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
