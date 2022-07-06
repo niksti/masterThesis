@@ -184,8 +184,8 @@ The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a Payoff 
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{S}
         child{node[draw]{B}
-                child[sibling distance = 3cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 4cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_B$}} 
+                child[sibling distance = 4cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
         child{node{0$|$0} edge from parent node [right] {-H$_S$}};
 \end{tikzpicture}\newline
 The analysis is similar to the above case, but the roles are reversed. The Buyer would choose -H$_B$ as $U_B(G) > U_B(G)$-P.\newline
@@ -253,23 +253,6 @@ Since $-P < 0$, the Buyer would choose -C$_B$ and not even deposit the collatera
 The Nash Equilibrium is at \{-H$_C$\} and the trade is unsuccessful.
 
 
-\begin{center}
-\begin{tabular}{ c||c|c| }
-& H$_B$ & -H$_B$   \\
-\hline
-\hline
-H$_S$ & $P | U_B(G)$ & $0 | U_B(G) + P - C$  \\
-\hline
--H$_S$ & $U_S(G) + P | 0$ & $G | P - C$  \\ 
-%\hline
-%C$_S$ & $ U_S(G) | P-C$ & $U_B(G) + \frac{P}{2}  | \frac{P}{2}$  \\ 
-\hline
-\end{tabular}
-\end{center}
-
-The biggest possible payout for the Seller is if he can coerce the Buyer into sending him additional $\frac{P}{2}$ coins. This happens when the seller is choosing strategy C$_S$ and the buyer strategy -H$_B$.  It should be noted, that when the seller tries to coerce the buyer (C$_S$), it is actually his best option to comply (-H$_B$). This scenario is the Nash Equilibrium, because choosing a different strategy only results in a lower payoff for the player if the other player is keeping his strategy.\newline
-The Nash Equilibrium would result in a payoff of $U_B(G) + \frac{P}{2}$ for the Buyer and a payoff of $\frac{P}{2}$ for the seller. The rational buyer would never initiate the trade, because this trade will always result in a loss if the seller behaves rational.
-
 \subsection{Seller Collateral}
 Following protocol is proposed:
 \begin{enumerate}
@@ -284,30 +267,32 @@ The collateral should incentivize the Seller to behave honestly and to ship the 
 \minisec{Possible Strategies}
 There is still the honest strategy (H$_S$, H$_B$) for both players, where they behave according to the protocol description. With this strategy, the trade still unravels successfully.\newline
 The dishonest strategy is again not sending the resources. This strategy is still denoted as -H$_B$ (when the buyer does not send the coins) and -H$_S$ (when the seller does not send the physical good.\newline
-The Buyer has also a unique opportunity: Since he decides what happens to the collateral, he can coerce the Seller into sending him extra resources. This strategy will be denoted C$_B$.  After receiving the physical good he can tell the Seller: "Either you send me back my payment $P$ or I will tell the Smart Contract that you did not send me the physical good." In this case it is best for S to comply, because $C > P$. \newline
-
-
+The Buyer has also a unique opportunity: Since he decides what happens to the collateral, he can coerce the Seller into sending him extra resources. This strategy will be denoted C$_B$.  After receiving the physical good he can tell the Seller: "Either you send me back my payment $P$ or I will tell the Smart Contract that you did not send me the physical good." In this case the Seller has two possible answers: he can comply and send back $P$(C$_S$) or not comply and ignore the message (-C$_S$).\newline
 
 \minisec{Payout}
 
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
-                child[sibling distance = 7cm]{node[draw]{B}
+                child[sibling distance = 8cm]{node[draw]{B}
                 		child[sibling distance = 4cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_B$}} 
-                		child[sibling distance = 4cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$}edge from parent node [right] {C$_B$}} edge from parent node [left] {H$_S$}} 
-                child[sibling distance = 7cm]{node[draw]{B}
-                child[sibling distance = 3cm]{node[shape = rectangle]{P-C$|$-P} edge from parent node [left] {H$_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{0$|$0}edge from parent node [right] {C$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+                		child[sibling distance = 4cm]{node[draw]{S}
+                		    child[sibling distance = 4cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$} edge from parent node [left] {C$_S$}}
+                		    child[sibling distance = 4cm]{node[shape=rectangle]{$P-C-U_S(G)|U_B(B)-P$} edge from parent node [right] {-C$_S$}}edge from parent node [right] {C$_B$}} edge from parent node [left] {H$_S$}} 
+                child[sibling distance = 8cm]{node[draw]{B}
+                    child[sibling distance = 3cm]{node[shape = rectangle]{P-C$|$-P} edge from parent node [left] {H$_B$}} 
+                    child[sibling distance = 3cm]{node[draw]{S}
+                        child[sibling distance = 3cm]{node[shape=rectangle]{0$|$0} edge from parent node [left] {C$_S$}}
+                        child[sibling distance = 3cm]{node[shape=rectangle]{$P-C|-P$} edge from parent node [right] {-C$_S$}}edge from parent node [right] {C$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
           child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 
 Normally there is another layer under C$_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and receive back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.\newline
 
-To analyze the payoff, we again start at the bottom. On both branches the Buyer chooses C$_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
+To analyze the payoff, we again start at the bottom. Since $P>C$, the Seller would comply (-C$_S$) on both instances.\newline
+On both branches the Buyer chooses C$_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
 Based on this information the Seller chooses -H$_S$: \[-U_S(G) < 0\]
-Payoff: $0|0$ and trade not successful.\newline
-
+The Nash Equilibrium is again at $0|0$ and the trade not successful.\newline
 %If B sends the coins (does not choose strategy -H$_B$), S has to make the following decision: Does he send the good (H$_S$) or not (-H$_S$)? We have to take into account, that B decides what happens with the collateral. \newline
 %If S does not behave honestly (does not send the good), B can punish S by reporting 0 to the Smart contract. This means, that the collateral would not be given back to S.
 What was designed to be an incentive for S to behave honestly, ended up as leverage for B over S. B can report 0 (and burn the collateral) even if S behaves honestly. 
@@ -320,7 +305,7 @@ What was designed to be an incentive for S to behave honestly, ended up as lever
 
 \subsubsection{Both parties report}
 One Side Collateral on the Seller's side does not work if only the Buyer reports to the Smart Contract (5.2.2). If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.\newline
-Another option would be that both players report to the Smart Contract whether the physical good $G$ was sent and received.\newline 
+Another option would be that both players report to the Smart Contract if the physical good $G$ was sent and received.\newline 
 If they report something different the Smart Contract slashes the collateral. If they both report 0 ($G$ was not sent), then the Smart Contract sends $P$ back to the Buyer. If they both report 1 ($G$ was sent), then the Smart Contract sends $P$ to the Seller.\newline
  
 Following protocol is proposed:
@@ -512,9 +497,9 @@ Following protocol is proposed:
 \end{tikzpicture}
 
 
-\section{SC 5/6 innputs What is a nice Headline for this section??}
+\section{SC 5/6 inputs What is a nice Headline for this section??}
 \subsection{Ideal Funcionality}
-We can model the ideal funcionality of our Smart Contract as a Function with 6 inputs and 2 outputs:
+We can model the ideal functionality of our Smart Contract as a Function with 6 inputs and 2 outputs:
 
 \minisec{Inputs}
 \begin{itemize}
@@ -531,7 +516,7 @@ We can model the ideal funcionality of our Smart Contract as a Function with 6 i
 \item{Int: agreed price $P$}
 \item{Bool: Was the physical good $G$ shipped by the seller?}
 \end{itemize}
-Idea: the Smart Contract automatically collects  (instructs the entities to make a deposit) of the right amount. If the physical good was shipped, he transfers P to the Seller, else he gives back the inital deposit to both parties
+Idea: the Smart Contract automatically collects  (instructs the entities to make a deposit) of the right amount. If the physical good was shipped, he transfers P to the Seller, else he gives back the initial deposit to both parties
 
 \minisec{Outputs}
 \begin{itemize}
@@ -614,7 +599,7 @@ Since we assume a rational Buyer, for him to post Tx$_{cheatingSeller}$, he has 
 Now the Buyer has a set of transactions that increase his payoff.  He could post these transactions, even if the seller behaves honestly and sends the good.\newline
 \minisec{The Buyer has a profitable dishonest strategy}
 When the seller is honest, the buyer can still post Tx$_{cheatingseller}$. Now his payoff is:
-\[P_{B}(Tx_{cheatingseller}) + U_B(G)\]
+\[P_{disihonestBuyer} = P_{B}(Tx_{cheatingseller}) + U_B(G)\]
 
 With 5.7:
 
@@ -627,6 +612,8 @@ This contradicts our assumption that the Nash Equilibrium is when both players b
 \minisec{Ordering of Transactions}
 Since each transaction has a timestamp, the smart contract knows automatically the ordering of the transactions. Therefore it only needs the transactions as an input to decide the payoff of each party (in contrast to the ordering as an additional parameter).
 
+\subsection{Formal Proof}
+Introduce functions $SC_B$ and $SC_S$
 \chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
