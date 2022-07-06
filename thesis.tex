@@ -248,7 +248,7 @@ When the Seller does not send the physical good in step 2 (plays strategy -H$_S$
 To analyze the Payout, we again start at the bottom at the Buyer's decision. On the left branch the Buyer would choose H$_B$, as $U_B(G) - P > U_B(G) - C$.\newline
 On the right branch the Buyer would choose -P$_B$, as $-P > C$.\newline
 Based on these decisions the Seller would choose -H$_S$, because $P > P - U_S(G)$.\newline
-This means that it is better for the seller to behave maliciously and not send the physical good $G$. The Buyer would send $P$ and receive nothing leaving him with a payoff of $-P$. \newline
+This means that it is better for the seller to behave maliciously and not send the physical good $G$. The Buyer would send $P$ to get back his collateral but receive nothing more, leaving him with a payoff of $-P$. \newline
 Since $-P < 0$, the Buyer would choose -C$_B$ and not even deposit the collateral.\newline
 The Nash Equilibrium is at \{-H$_C$\} and the trade is unsuccessful.
 
@@ -302,7 +302,20 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
           child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}
 
-Normally there is another layer under C$_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and receieve back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.
+Normally there is another layer under C$_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and receive back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.\newline
+
+To analyze the payoff, we again start at the bottom. On both branches the Buyer chooses C$_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
+Based on this information the Seller chooses -H$_S$: \[-U_S(G) < 0\]
+Payoff: $0|0$ and trade not successful.\newline
+
+%If B sends the coins (does not choose strategy -H$_B$), S has to make the following decision: Does he send the good (H$_S$) or not (-H$_S$)? We have to take into account, that B decides what happens with the collateral. \newline
+%If S does not behave honestly (does not send the good), B can punish S by reporting 0 to the Smart contract. This means, that the collateral would not be given back to S.
+What was designed to be an incentive for S to behave honestly, ended up as leverage for B over S. B can report 0 (and burn the collateral) even if S behaves honestly. 
+%Therefore B can use this leverage to coerce S into giving him extra resources: “Give me C/2 coins or I will report 0 to the Smart Contract and burn your collateral.“
+%Since sending the good has no impact on the collateral (the rational buyer will always play strategy C$_B$ over H$_B$), it is best for S to not send the physical good (-H$_B$).
+%Because not Sending (-H$_S$) is the best strategy for the seller, it is best for B to not even send P and therefore not engage in the trade at all (-H$_B$).\newline
+%The Nash Equilibrium would be in nobody sending anything and the trade not happening.
+
 
 
 \subsubsection{Both parties report}
@@ -427,8 +440,10 @@ Seller would choose 5
 \end{tabular}
 \end{center}
 
-Buyer chooses 1,4,5,coerce: i report 1 but you send me P + C/2\newline
-Seller chooses 4?
+Buyer chooses 1,5, coerce: i report 1 but you send me P + C/2\newline
+Can he only threaten it if his payoff does not change? If it changes, is this threat not believable?\newline
+Seller chooses 5?\newline
+Nash Equilibrium again $0|0$ and trade unsuccessful. 
 
 \minisec{Payout: Both parties reports simultaneously}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -444,16 +459,18 @@ Seller chooses 4?
 $T_1$& 0$_B$ & 1$_B$   \\
 \hline
 \hline
-0$_S$ & $P | G$ & $G | P$ \\
+0$_S$ & $-U_S(G) | U_B(G)$ & $-U_S(G) - C | U_B(G) - P$ \\
 \hline
-1$_S$ & $P + G - C | 0$ & $G | P$\\ 
+1$_S$ & $-U_S(G) - C | U_B(G) - P$ & $P - U_S(G) | U_B(G) - P$\\ 
 \hline
 \end{tabular}
 \end{center}
 
+The Nash Equilibrium of $T_1$ is $\{0_B, 0_S\}$ and payoff $-U_S(G) | U_B(G)$. What about $\{1_B, 1_S\}$ also Nash Equilibrium (No player can improve by changing the strategy)? 
+
 \begin{center}
 \begin{tabular}{ c||c|c| }
-$T_1$& 0$_B$ & 1$_B$   \\
+$T_2$& 0$_B$ & 1$_B$   \\
 \hline
 \hline
 0$_S$ & $0 | 0$ & $-C|-P$ \\
@@ -462,14 +479,11 @@ $T_1$& 0$_B$ & 1$_B$   \\
 \hline
 \end{tabular}
 \end{center}
-If B sends the coins (does not choose strategy -H$_B$), S has to make the following decision: Does he send the good (H$_S$) or not (-H$_S$)? We have to take into account, that B decides what happens with the collateral. \newline
-%If S does not behave honestly (does not send the good), B can punish S by reporting 0 to the Smart contract. This means, that the collateral would not be given back to S.
-What was designed to be an incentive for S to behave honestly, ended up as leverage for B over S. B can report 0 (and burn the collateral) even if S behaves honestly. 
-%Therefore B can use this leverage to coerce S into giving him extra resources: “Give me C/2 coins or I will report 0 to the Smart Contract and burn your collateral.“
-Since sending the good has no impact on the collateral (the rational buyer will always play strategy C$_B$ over H$_B$), it is best for S to not send the physical good (-H$_B$).
-Because not Sending (-H$_S$) is the best strategy for the seller, it is best for B to not even send P and therefore not engage in the trade at all (-H$_B$).\newline
-The Nash Equilibrium would be in nobody sending anything and the trade not happening.
 
+The Nash Equilibrium of $T_2$ is $\{0_B, 0_S\}$ and payoff $0 | 0$. What about $\{1_B, 1_S\}$ also Nash Equilibrium? What about strategy C$_B$ again?\newline
+
+S would choose -H$_S$, because $0>-U_S(G)$.\newline
+As both options lead to a payoff of 0, B chooses an arbitrary option. The trade is unsuccessful again.
 
 
 \section{Two Side Collateral}
