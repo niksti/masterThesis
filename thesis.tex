@@ -615,7 +615,7 @@ Since each transaction has a timestamp, the smart contract knows automatically t
 \subsection{Formal Proof}
 We introduce functions $SC_B$ and $SC_S$ that take as input all transactions to the Smart Contract and output the corresponding Payout from the Smart Contract:
 
-\[ SC_B : \{ \textit{set of transactions}\} \to \mathbb{R} \]
+\[ SC_B : \{ \textit{set of transactions}\} \times \{ \textit{set of transactions}\} \to \mathbb{R} \]
 \[ SC_S : \{ \textit{set of transactions}\} \to \mathbb{R} \]
 DEFINE TRANSACTIONS\newline
 important sets like Tx$_{honest}$  
@@ -632,19 +632,35 @@ TODO: define honest strategy
 \minisec{Begin formal proof}
 Let us assume there exists a successful Game $G$ (as defined in 4.2). That means
 \begin{equation}
-    \forall s \in \{set of Seller strategies\}: P_S(s, honest) \leq P_B(honest,honest)
+    \forall s \in \{set of Seller strategies\}: P_S(s, honest_B) \leq P_B(honest_S,honest_B)
 \end{equation}
 and
 \begin{equation}
-    \forall s \in \{set of Buyer strategies\}: P_B(honest, s) \leq P_S(honest,honest)
+    \forall s \in \{set of Buyer strategies\}: P_B(honest_S, s) \leq P_S(honest_S,honest_B)
 \end{equation}
 
 \minisec{Payout honest case}
 I have to ASSUME: P (overall payout) is only influenced by SC (Smart Contract payout) and G (physical good). Meaning the two players only send their funds through the smart contract and do not send/receive funds from third parties.
-\[ P_S(honest,honest) = SC_S(Tx_{honest}) - U_S(G) \]
-\[  P_B(honest,honest) = SC_B(Tx_{honest}) + U_B(G))\]
+\[ P_S(honest,honest) = SC_S(honest_B, honest_S) - U_S(G) \]
+\[  P_B(honest,honest) = SC_B(honest_B, honest_S) + U_B(G))\]
 
-\minisec{}
+\minisec{Payout dishonest seller}
+DEFINE STRATEGY:
+dishonestSeller: In this strategy the seller posts the exact same transactions to the Smart Contract as if he was honest, but does not send the physical good $G$ to the Buyer.\newline
+
+His payout is (dependent on the buyers strategy $S_B$ (and Transactions $Tx_S$))
+\begin{equation}
+    P_S(dishonestSeller,S_B) = SC(honest_S,Tx_S)
+\end{equation}
+As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.
+
+\minisec{The smart contract has to change the payout}
+from (5.3), (5.4),(5.5):
+
+\begin{equation}
+   P_{SC}(S_{honest})- U_S(G) > P_{SC}(S_{dishonest})
+\end{equation}
+
 \chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
