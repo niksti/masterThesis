@@ -112,7 +112,7 @@ The buyer is in possession of the physical good and his funds have decreased by 
 
 \minisec{Assumptions}
 Both entities have access to the Escrow and know the addresses of each other. The seller also knows the physical address to which the buyer wants the good to be shipped. Other than this information they know nothing about each other.\newline Both parties can send funds in the given cryptocurrency to any address. The sender has the power to send/ship the physical good to any physical address he wants. The Escrow is a smart contract and both the seller and the buyer know the code of the Smart Contract.\newline
-We assume both entities to behave rational, meaning that they both want to maximise their expected payoff.\newline
+We assume both entities to behave rational, meaning that they both want to maximise their expected payout.\newline
 Transaction Fees and Fees for the escrows are not analysed.
 
 
@@ -157,7 +157,7 @@ H$_S$ & $P_S | P_B$ & $P_S | P_B$ \\
 \minisec{Description} On the top are the possible strategies for the buyer: H$_B$ is the strategy where the buyer behaves honestly and -H$_B$ is the strategy where the Buyer behaves dishonestly.\newline
 On the left side are the strategies for the seller. Similar to the buyer, H$_S$ denotes the strategy where the seller behaves honestly and -H$_S$ denotes the strategy where the seller behaves dishonestly.\newline
 
-For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payoff of the seller and $P_B$ denotes the payoff of the buyer.
+For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payout of the seller and $P_B$ denotes the payout of the buyer.
 \section{The naive approach}
 To examine any possible solutions, we begin with the simplest possible protocol.\newline
 The simplest protocol is without collateral and any third party. In this case there are 3 possibilities:
@@ -177,9 +177,9 @@ The simplest protocol is without collateral and any third party. In this case th
                 child[sibling distance = 3cm]{node[shape=rectangle]{P$|$-P}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
         child{node{0$|$0} edge from parent node [right] {-H$_B$}};
 \end{tikzpicture}\newline
-To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option, which yields him the greatest payoff, he chooses -H$_S$ (P $>$ P - $U_S(G)$.\newline
-Therefore the Buyers has to choose between a payoff of 0 (by choosing -H$_B$) and -P (by choosing H$_B$). Since 0 $>$ -P, he chooses -H$_B$.\newline
-The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a Payoff of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
+To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option, which yields him the greatest payout, he chooses -H$_S$ (P $>$ P - $U_S(G)$.\newline
+Therefore the Buyers has to choose between a payout of 0 (by choosing -H$_B$) and -P (by choosing H$_B$). Since 0 $>$ -P, he chooses -H$_B$.\newline
+The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
 
 \minisec{Payout: The Sender sends first}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -191,7 +191,7 @@ The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a Payoff 
 \end{tikzpicture}\newline
 The analysis is similar to the above case, but the roles are reversed. The Buyer would choose -H$_B$ as $U_B(G) > U_B(G)$-P.\newline
 The seller would choose -H$_S$ as 0 $> -U_S(G)$.\newline
-The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a Payoff of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
+The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
 \minisec{Payout: Both parties send simultaneous}
 
@@ -207,7 +207,7 @@ H$_S$ & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
 \end{tabular}
 \end{center}
 
-If we look at the payoff table we can see that -H$_B$ dominates H$_B$ and -H$_S$ dominates H$_S$. This means that the dishonest strategy provides a bigger payoff regardless of the strategy of the other party. \newline
+If we look at the payout table we can see that -H$_B$ dominates H$_B$ and -H$_S$ dominates H$_S$. This means that the dishonest strategy provides a bigger payout regardless of the strategy of the other party. \newline
 Since we assume the players to be rational, they would both chose the dishonest strategy. Both players choosing the dishonest strategy is the Nash Equilibrium of the game.\newline
 It is interesting to note that this table resembles the famous prisoner's dilemma.
 %TODO find literature to the prisoners dilemma
@@ -249,7 +249,7 @@ When the Seller does not send the physical good in step 2 (plays strategy -H$_S$
 To analyze the Payout, we again start at the bottom at the Buyer's decision. On the left branch the Buyer would choose H$_B$, as $U_B(G) - P > U_B(G) - C$.\newline
 On the right branch the Buyer would choose -P$_B$, as $-P > C$.\newline
 Based on these decisions the Seller would choose -H$_S$, because $P > P - U_S(G)$.\newline
-This means that it is better for the seller to behave maliciously and not send the physical good $G$. The Buyer would send $P$ to get back his collateral but receive nothing more, leaving him with a payoff of $-P$. \newline
+This means that it is better for the seller to behave maliciously and not send the physical good $G$. The Buyer would send $P$ to get back his collateral but receive nothing more, leaving him with a payout of $-P$. \newline
 Since $-P < 0$, the Buyer would choose -C$_B$ and not even deposit the collateral.\newline
 The Nash Equilibrium is at \{-H$_C$\} and the trade is unsuccessful.
 
@@ -290,7 +290,7 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
 
 Normally there is another layer under C$_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and receive back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.\newline
 
-To analyze the payoff, we again start at the bottom. Since $P>C$, the Seller would comply (-C$_S$) on both instances.\newline
+To analyze the payout, we again start at the bottom. Since $P>C$, the Seller would comply (-C$_S$) on both instances.\newline
 On both branches the Buyer chooses C$_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
 Based on this information the Seller chooses -H$_S$: \[-U_S(G) < 0\]
 The Nash Equilibrium is again at $0|0$ and the trade not successful.\newline
@@ -427,7 +427,7 @@ Seller would choose 5
 \end{center}
 
 Buyer chooses 1,5, coerce: i report 1 but you send me P + C/2\newline
-Can he only threaten it if his payoff does not change? If it changes, is this threat not believable?\newline
+Can he only threaten it if his payout does not change? If it changes, is this threat not believable?\newline
 Seller chooses 5?\newline
 Nash Equilibrium again $0|0$ and trade unsuccessful. 
 
@@ -452,7 +452,7 @@ $T_1$& 0$_B$ & 1$_B$   \\
 \end{tabular}
 \end{center}
 
-The Nash Equilibrium of $T_1$ is $\{0_B, 0_S\}$ and payoff $-U_S(G) | U_B(G)$. What about $\{1_B, 1_S\}$ also Nash Equilibrium (No player can improve by changing the strategy)? 
+The Nash Equilibrium of $T_1$ is $\{0_B, 0_S\}$ and payout $-U_S(G) | U_B(G)$. What about $\{1_B, 1_S\}$ also Nash Equilibrium (No player can improve by changing the strategy)? 
 
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -466,10 +466,10 @@ $T_2$& 0$_B$ & 1$_B$   \\
 \end{tabular}
 \end{center}
 
-The Nash Equilibrium of $T_2$ is $\{0_B, 0_S\}$ and payoff $0 | 0$. What about $\{1_B, 1_S\}$ also Nash Equilibrium? What about strategy C$_B$ again?\newline
+The Nash Equilibrium of $T_2$ is $\{0_B, 0_S\}$ and payout $0 | 0$. What about $\{1_B, 1_S\}$ also Nash Equilibrium? What about strategy C$_B$ again?\newline
 
 S would choose -H$_S$, because $0>-U_S(G)$.\newline
-As both options lead to a payoff of 0, B chooses an arbitrary option. The trade is unsuccessful again.
+As both options lead to a payout of 0, B chooses an arbitrary option. The trade is unsuccessful again.
 
 
 \section{Two Side Collateral}
@@ -547,7 +547,7 @@ This poses following problem: There are cases where the input to the ideal funct
 %\end{equation}
 
 \section{Possible Proof}
-Since behaviour of the smart contract is only influenced by the transactions of the two parties, we can model the payoff to each party with a function that just takes the transactions as input:
+Since behaviour of the smart contract is only influenced by the transactions of the two parties, we can model the payout to each party with a function that just takes the transactions as input:
 \begin{equation}
     SC(Tx_1, Tx_2,...,Tx_n) = (P_B, P_S)
 \end{equation}
@@ -562,48 +562,47 @@ As the honest case is the Nash Equilibrium, the sender gets a higher payout when
     P_{honestSeller} > P_{dishonestSeller}
 \end{equation}
 
-\minisec{Payoff honest seller}
+\minisec{Payout honest seller}
 \begin{equation}
     P_{honestSeller} = P_{SC}(S_{honest})- U_S(G)
 \end{equation}
-$P_{SC}(S_{honest})$ is the amount of coins that the seller gets from the smart Contract. As the honest seller sends $G$ to the buyer, his payoff decreases by $U_S(G)$
+$P_{SC}(S_{honest})$ is the amount of coins that the seller gets from the smart Contract. As the honest seller sends $G$ to the buyer, his payout decreases by $U_S(G)$
 
-\minisec{Payoff dishonest seller}
+\minisec{Payout dishonest seller}
 \begin{equation}
     P_{dishonestSeller} = P_{SC}(S_{dishonest})
 \end{equation}
-As the dishonest seller does not send the item, his payoff is exactly the amount of coins that he gets from the smart contract.
+As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.
 
-\minisec{The smart contract has to change the payoff}
+\minisec{The smart contract has to change the payout}
 from (5.3), (5.4),(5.5):
 
 \begin{equation}
    P_{SC}(S_{honest})- U_S(G) > P_{SC}(S_{dishonest})
 \end{equation}
 The amount of coins, that a honest seller gets back has to be substantially more than the amount of coins that a dishonest seller gets back.\newline
-Since the payoff from the SC is only dependent on the transaction of the two players, at least one of the two players has to change at least one transaction (from the honest case), so that the SC can detect that the seller is dishonest and return the different payouts.\newline
+Since the payout from the SC is only dependent on the transaction of the two players, at least one of the two players has to change at least one transaction (from the honest case), so that the SC can detect that the seller is dishonest and return the different payouts.\newline
 
-The Buyer has to have a set of transaction Tx$_{penalizeSeller}$, in which he can decrease the sellers payoff to under $P_{SC}(S_{honest})- U_S(G)$, as described in (5.6).\newline
-This transactions have to be unstoppable, meaning that there exist no set of transactions Tx$_{cheatingSeller}$ for the seller, such that his payoff stays above $P_{SC}(S_{honest})- U_S(G)$. \newline 
-If such a set of transaction would exist, he would not send the item and post Tx$_{cheatingSeller}$. His Payoff would be 
+The Buyer has to have a set of transaction Tx$_{penalizeSeller}$, in which he can decrease the sellers payout to under $P_{SC}(S_{honest})- U_S(G)$, as described in (5.6).\newline
+This transactions have to be unstoppable, meaning that there exist no set of transactions Tx$_{cheatingSeller}$ for the seller, such that his payout stays above $P_{SC}(S_{honest})- U_S(G)$. \newline 
+If such a set of transaction would exist, he would not send the item and post Tx$_{cheatingSeller}$. His payout would be 
 
 \[P_{cheatingSeller} = P_{SC}(Tx_{cheatingSeller}) > {SC}(S_{honest})- U_S(G) =  P_{honestSeller}\]
 
 This would break our assumption, that the Nash Equilibrium is when both players behave honestly.\newline
 
-To summarize: The Buyer has to have a set of transactions that decrease the payoff from the SC to the seller to under $P_{SC}(S_{honest})- U_S(G)$, NO MATTER what transactions the seller posts.\newline
+To summarize: The Buyer has to have a set of transactions that decrease the payout from the SC to the seller to under $P_{SC}(S_{honest})- U_S(G)$, NO MATTER what transactions the seller posts.\newline
 Since we assume a rational Buyer, for him to post Tx$_{cheatingSeller}$, he has to get a bigger payout:
 \begin{equation}
     P_{B}(Tx_{cheatingseller}) > P_{B}(Tx_{honestBuyer})
 \end{equation}
 
-Now the Buyer has a set of transactions that increase his payoff.  He could post these transactions, even if the seller behaves honestly and sends the good.\newline
+Now the Buyer has a set of transactions that increase his payout.  He could post these transactions, even if the seller behaves honestly and sends the good.\newline
 \minisec{The Buyer has a profitable dishonest strategy}
-When the seller is honest, the buyer can still post Tx$_{cheatingseller}$. Now his payoff is:
+When the seller is honest, the buyer can still post Tx$_{cheatingseller}$. Now his payout is:
 \[P_{disihonestBuyer} = P_{B}(Tx_{cheatingseller}) + U_B(G)\]
 
 With 5.7:
-
 \begin{equation}
     P_{dishonestBuyer} = P_{B}(Tx_{cheatingseller}) + U_B(G) > P_{B}(Tx_{honestBuyer}) + U_B(G) = P_{honestBuyer}
 \end{equation}
@@ -611,16 +610,41 @@ With 5.7:
 This contradicts our assumption that the Nash Equilibrium is when both players behave honestly.
 
 \minisec{Ordering of Transactions}
-Since each transaction has a timestamp, the smart contract knows automatically the ordering of the transactions. Therefore it only needs the transactions as an input to decide the payoff of each party (in contrast to the ordering as an additional parameter).
+Since each transaction has a timestamp, the smart contract knows automatically the ordering of the transactions. Therefore it only needs the transactions as an input to decide the payout of each party (in contrast to the ordering as an additional parameter).
 
 \subsection{Formal Proof}
 We introduce functions $SC_B$ and $SC_S$ that take as input all transactions to the Smart Contract and output the corresponding Payout from the Smart Contract:
 
 \[ SC_B : \{ \textit{set of transactions}\} \to \mathbb{R} \]
 \[ SC_S : \{ \textit{set of transactions}\} \to \mathbb{R} \]
+DEFINE TRANSACTIONS\newline
+important sets like Tx$_{honest}$  
 
-We introduce a general payoff function $P$, that outputs the overall payoff that a player 
 
+We introduce a general payout functions $P_B$ and $P_S$, that take two strategies as input and output the overall payout that a player receives when playing this strategy.\newline
+Questions: How to model strategy, since payout is also dependent on opponent, assume minmax?\newline
+TODO: define honest strategy
+
+\[P_S : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
+\[P_S : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
+%\[P_S : \{ \textit{set of strategies}\} \to \mathbb{R} \]
+
+\minisec{Begin formal proof}
+Let us assume there exists a successful Game $G$ (as defined in 4.2). That means
+\begin{equation}
+    \forall s \in \{set of Seller strategies\}: P_S(s, honest) \leq P_B(honest,honest)
+\end{equation}
+and
+\begin{equation}
+    \forall s \in \{set of Buyer strategies\}: P_B(honest, s) \leq P_S(honest,honest)
+\end{equation}
+
+\minisec{Payout honest case}
+I have to ASSUME: P (overall payout) is only influenced by SC (Smart Contract payout) and G (physical good). Meaning the two players only send their funds through the smart contract and do not send/receive funds from third parties.
+\[ P_S(honest,honest) = SC_S(Tx_{honest}) - U_S(G) \]
+\[  P_B(honest,honest) = SC_B(Tx_{honest}) + U_B(G))\]
+
+\minisec{}
 \chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
