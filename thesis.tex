@@ -577,10 +577,68 @@ function ideal_Payout(int: buyerCollateral, int: sellerCollateral, int: price,
 }
 \end{verbatim}
 
+\subsubsection{protocol}
+Similar to section 5.3, following protocol is proposed:
+\begin{enumerate}
+    \item Seller deposits collateral $C_1 > P$ to the Smart Contract
+    \item Buyer deposits collateral $C_2 > P$ to the Smart Contract
+    \item Buyer sends Funds of amount $P$ to the Smart Contract
+    \item Seller sends physical good $G$ to the seller 
+    \item Buyer receives the physical good and confirms it to the Smart Contract
+    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
+\end{enumerate}
 \subsubsection{Payout}
-Such a smart contract solves the problem completely as the Nash Equilibrium is both parties behaving honestly.%TODO Show it
-It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+    \node[draw]{S}
+        child[sibling distance = 9cm]{node[draw]{B}
+    		child[sibling distance = 5cm]{node[draw]{S}
+    		    child[sibling distance = 3cm]{node{1} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
+    		child[sibling distance = 5cm]{node[draw]{S}
+    		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {H$_S$}} 
+        child[sibling distance = 9cm]{node[draw]{B}
+            child[sibling distance = 5cm]{node[draw]{S}
+                child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
+            child[sibling distance = 5cm]{node[draw]{S}
+                child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {-H$_S$}};
+\end{tikzpicture}
 
+\begin{center}
+\begin{tabular}{ |c|c| }
+\hline
+& Payout  \\
+\hline
+\hline
+1& $P-U_S(G) - C_S| U_B(G)-P - C_B$\\
+\hline
+2& $P-U_S(G)| U_B(G)-P - C_B$\\
+\hline
+3&$P-U_S(G) - C_S| U_B(G)-P$ \\
+\hline
+4& $P-U_S(G)| U_B(G)-P$\\
+\hline
+5& $0|0$\\
+\hline 
+6& $-C_S |0$\\
+\hline
+7& $0|-C_B$\\
+\hline
+8& $-C_S| -C_B$\\
+\hline
+\end{tabular}
+\end{center}
+
+Remark: If any party does not send the collateral, the Smart Contract will release the collateral of the the other party and it would result in a payoff of $0,0$. This option is not analyzed in the Game tree but has to be considered as an option for each party.\newline
+
+We again start at the bottom of the tree at the seller's decision. A rational seller would always behave honestly (choose 2,4,5,7), as the honest behaviour always yields the bigger payoff. The buyer would also behave honestly (choose 4,5) for the same reason.\newline
+The seller would choose option 4, because $P - U_S(G)>0$. \newline
+The Nash Equilibrium is at \{$H_S$, 0, 1\}.\newline
+
+Such a smart contract solves the problem completely as the Nash Equilibrium is both parties behaving honestly.
+%TODO It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
 \subsection{Real World Functionality}
 In the real world, the smart contract does have the last input. The Smart Contract has no way of knowing if the physical good was actually shipped or not. \newline
 This poses following problem: There are cases where the input to the ideal functionality differs only by the last input (if the seller actually sent the good), but the output to the two party differs vastly. These two cases are indistinguishable if the last input is missing. Therefore it is not possible for a function with only the five inputs to have the ideal outputs.
