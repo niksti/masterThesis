@@ -499,7 +499,7 @@ Following protocol is proposed:
 
 
 \section{SC 5/6 inputs What is a nice Headline for this section??}
-\subsection{Ideal Funcionality}
+\subsection{Ideal Functionality}
 We can model the ideal functionality of our Smart Contract as a Function with 6 inputs and 2 outputs:
 
 \minisec{Inputs}
@@ -536,6 +536,48 @@ The function will always output the right amount to the two entities:
     \item It will give the amount of $P$ to the seller if he actually ships the physical good $G$, otherwise give it back to the seller
 \end{itemize}
 
+\begin{verbatim}
+function ideal_Payout(int: buyerCollateral, int: sellerCollateral, int: price,
+                        bool: sellerReport, bool: buyerReport, bool: shipped){
+    if(sellerReports){
+        if buyerReports{
+            if(shipped){
+                return [price + sellerCollateral , buyerCollateral]
+            }
+            else{
+                return [price + sellerCollateral, 0]
+            }
+        }
+        else{
+            if(shipped){
+                return [P, buyerCollateral]
+            }
+            else{
+                return [sellerCollateral, 0]
+            }
+        }
+    }else {
+        if(buyerReports){
+            if(shipped){
+                return [price + sellerCollateral , 0]
+            }
+            else{
+                return [price + sellerCollateral, buyerCollateral]
+            }
+        }
+        else{
+            if(shipped){
+                return [P, 0]
+            }
+            else{
+                return [sellerCollateral, buyerCollateral]
+            }
+        }    
+    }
+}
+\end{verbatim}
+
+\subsubsection{Payout}
 Such a smart contract solves the problem completely as the Nash Equilibrium is both parties behaving honestly.%TODO Show it
 It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
 
