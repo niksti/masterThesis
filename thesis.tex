@@ -132,11 +132,11 @@ To analyse turn based games we will use Game trees.
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
-                child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$} edge from parent node [left] {H$_S$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
+                child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$} edge from parent node [left] {$H_S$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
         child{node[draw]{S}
-            child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [left] {H$_S$}}
-            child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$}edge from parent node [right] {-H$_S$}}edge from parent node [right] {-H$_B$}};
+            child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [left] {$H_S$}}
+            child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$}edge from parent node [right] {$-H_S$}}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}
 \minisec{Description}
 
@@ -144,18 +144,18 @@ To analyse Simultaneous games we will use a table.
 \minisec{Example table}
 \begin{center}
 \begin{tabular}{ c||c|c| }
-& H$_B$ & -H$_B$  \\
+& $H_B$ & $-H_B$  \\
 \hline
 \hline
-H$_S$ & $P_S | P_B$ & $P_S | P_B$ \\
+$H_S$ & $P_S | P_B$ & $P_S | P_B$ \\
 \hline
--H$_S$ & $P_S | P_B$ & $P_S | P_B$ \\ 
+$-H_S$ & $P_S | P_B$ & $P_S | P_B$ \\ 
 \hline
 \end{tabular}
 \end{center}
 
-\minisec{Description} On the top are the possible strategies for the buyer: H$_B$ is the strategy where the buyer behaves honestly and -H$_B$ is the strategy where the Buyer behaves dishonestly.\newline
-On the left side are the strategies for the seller. Similar to the buyer, H$_S$ denotes the strategy where the seller behaves honestly and -H$_S$ denotes the strategy where the seller behaves dishonestly.\newline
+\minisec{Description} On the top are the possible strategies for the buyer: $H_B$ is the strategy where the buyer behaves honestly and $-H_B$ is the strategy where the Buyer behaves dishonestly.\newline
+On the left side are the strategies for the seller. Similar to the buyer, $H_S$ denotes the strategy where the seller behaves honestly and $-H_S$ denotes the strategy where the seller behaves dishonestly.\newline
 
 For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payout of the seller and $P_B$ denotes the payout of the buyer.
 \section{The naive approach}
@@ -173,41 +173,41 @@ The simplest protocol is without collateral and any third party. In this case th
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
-                child[sibling distance = 3cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_S$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{P$|$-P}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-        child{node{0$|$0} edge from parent node [right] {-H$_B$}};
+                child[sibling distance = 3cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$H_S$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{$P|-P$}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+        child{node{0$|$0} edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}\newline
-To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option, which yields him the greatest payout, he chooses -H$_S$ (P $>$ P - $U_S(G)$.\newline
-Therefore the Buyers has to choose between a payout of 0 (by choosing -H$_B$) and -P (by choosing H$_B$). Since 0 $>$ -P, he chooses -H$_B$.\newline
-The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
+To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option, which yields him the greatest payout, he chooses $-H_S$ ($P > P - U_S(G)$).\newline
+Therefore the Buyers has to choose between a payout of 0 (by choosing $-H_B$) and $-P$ (by choosing $H_B$). Since $0 > -P$, he chooses $-H_B$.\newline
+The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
 
 \minisec{Payout: The Sender sends first}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{S}
         child{node[draw]{B}
-                child[sibling distance = 4cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_B$}} 
-                child[sibling distance = 4cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
-        child{node{0$|$0} edge from parent node [right] {-H$_S$}};
+                child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$H_B$}} 
+                child[sibling distance = 4cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)$}edge from parent node [right] {$-H_B$}} edge from parent node [left] {$H_S$}} 
+        child{node{0$|$0} edge from parent node [right] {$-H_S$}};
 \end{tikzpicture}\newline
-The analysis is similar to the above case, but the roles are reversed. The Buyer would choose -H$_B$ as $U_B(G) > U_B(G)$-P.\newline
-The seller would choose -H$_S$ as 0 $> -U_S(G)$.\newline
-The Nash Equilibrium of this game is \{-H$_S$, -H$_B$\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
+The analysis is similar to the above case, but the roles are reversed. The Buyer would choose $-H_B$ as $U_B(G) > U_B(G)-P$.\newline
+The seller would choose $-H_S$ as $0 > -U_S(G)$.\newline
+The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
 \minisec{Payout: Both parties send simultaneous}
 
 \begin{center}
 \begin{tabular}{ c||c|c| }
-& H$_B$ & -H$_B$  \\
+& $H_B$ & $-H_B$  \\
 \hline
 \hline
-H$_S$ & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
+$H_S$ & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
 \hline
--H$_S$ & $P |-P$ & $0 | 0$ \\ 
+$-H_S$ & $P |-P$ & $0 | 0$ \\ 
 \hline
 \end{tabular}
 \end{center}
 
-If we look at the payout table we can see that -H$_B$ dominates H$_B$ and -H$_S$ dominates H$_S$. This means that the dishonest strategy provides a bigger payout regardless of the strategy of the other party. \newline
+If we look at the payout table we can see that $-H_B$ dominates $H_B$ and $-H_S$ dominates $H_S$. This means that the dishonest strategy provides a bigger payout regardless of the strategy of the other party. \newline
 Since we assume the players to be rational, they would both chose the dishonest strategy. Both players choosing the dishonest strategy is the Nash Equilibrium of the game.\newline
 It is interesting to note that this table resembles the famous prisoner's dilemma.
 %TODO find literature to the prisoners dilemma
@@ -228,10 +228,10 @@ Following protocol is proposed:
 Because the Smart Contract has access to the blockchain, it can automatically release the collateral if the Buyer sends $P$  to the seller. The collateral should incentivize the Buyer to pay the seller after receiving the physical good $G$.
 
 \minisec{Possible Strategies}
-With this new protocol there are new possible strategies. Of course there is still the honest strategy(H$_S$ and H$_B$) for both players, where they behave according to the protocol description. With this strategy the trade unravels successfully.\newline
-But there exist other strategies: The dishonest strategy is again not sending the resources. This strategy is again denoted as -H$_B$ (when the buyer does not send the coins) and -H$_S$ (when the seller does not send the physical good.\newline
-The Buyer can also refuse to pay the collateral to the Smart Contract. This behaviour is denoted as -C$_B$.\newline
-When the Seller does not send the physical good in step 2 (plays strategy -H$_S$), the Buyer still has to decide if he wants to send $P$ to the seller in order to get back his collateral. Sending $P$ in this scenario is denoted as P$_B$ and not sending $P$ is denoted as -P$_B$.\newline
+With this new protocol there are new possible strategies. Of course there is still the honest strategy($H_S$ and $H_B$) for both players, where they behave according to the protocol description. With this strategy the trade unravels successfully.\newline
+But there exist other strategies: The dishonest strategy is again not sending the resources. This strategy is again denoted as $-H_B$ (when the buyer does not send the coins) and $-H_S$ (when the seller does not send the physical good.\newline
+The Buyer can also refuse to pay the collateral to the Smart Contract. This behaviour is denoted as $-C_B$.\newline
+When the Seller does not send the physical good in step 2 (plays strategy $-H_S$), the Buyer still has to decide if he wants to send $P$ to the seller in order to get back his collateral. Sending $P$ in this scenario is denoted as P$_B$ and not sending $P$ is denoted as $-P_B$.\newline
 
 \minisec{Payout}
 
@@ -239,18 +239,18 @@ When the Seller does not send the physical good in step 2 (plays strategy -H$_S$
       \node[draw]{B}
         child{node[draw]{S}
                 child[sibling distance = 7cm]{node[draw]{B}
-                		child[sibling distance = 4cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_B$}} 
-                		child[sibling distance = 4cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$-C}edge from parent node [right] {-H$_B$}} edge from parent node [left] {H$_S$}} 
+                		child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$H_B$}} 
+                		child[sibling distance = 4cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$-C}edge from parent node [right] {$-H_B$}} edge from parent node [left] {$H_S$}} 
                 child[sibling distance = 7cm]{node[draw]{B}
-                child[sibling distance = 3cm]{node[shape = rectangle]{P$|$-P} edge from parent node [left] {P$_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{0$|$-C}edge from parent node [right] {-P$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-C$_B$}};
+                child[sibling distance = 3cm]{node[shape = rectangle]{$P|-P$} edge from parent node [left] {$P_B$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{$0|-C$}edge from parent node [right] {$-P_B$}}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {$-C_B$}};
 \end{tikzpicture}\newline
-To analyze the Payout, we again start at the bottom at the Buyer's decision. On the left branch the Buyer would choose H$_B$, as $U_B(G) - P > U_B(G) - C$.\newline
+To analyze the Payout, we again start at the bottom at the Buyer's decision. On the left branch the Buyer would choose $H_B$, as $U_B(G) - P > U_B(G) - C$.\newline
 On the right branch the Buyer would choose -P$_B$, as $-P > C$.\newline
-Based on these decisions the Seller would choose -H$_S$, because $P > P - U_S(G)$.\newline
+Based on these decisions the Seller would choose $-H_S$, because $P > P - U_S(G)$.\newline
 This means that it is better for the seller to behave maliciously and not send the physical good $G$. The Buyer would send $P$ to get back his collateral but receive nothing more, leaving him with a payout of $-P$. \newline
-Since $-P < 0$, the Buyer would choose -C$_B$ and not even deposit the collateral.\newline
+Since $-P < 0$, the Buyer would choose $-C_B$ and not even deposit the collateral.\newline
 The Nash Equilibrium is at \{-H$_C$\} and the trade is unsuccessful.
 
 
@@ -266,9 +266,9 @@ Following protocol is proposed:
 The collateral should incentivize the Seller to behave honestly and to ship the physical good to the buyer.
 %Because of the collateral, behaving honestly should be the best strategy for the seller.
 \minisec{Possible Strategies}
-There is still the honest strategy (H$_S$, H$_B$) for both players, where they behave according to the protocol description. With this strategy, the trade still unravels successfully.\newline
-The dishonest strategy is again not sending the resources. This strategy is still denoted as -H$_B$ (when the buyer does not send the coins) and -H$_S$ (when the seller does not send the physical good.\newline
-The Buyer has also a unique opportunity: Since he decides what happens to the collateral, he can coerce the Seller into sending him extra resources. This strategy will be denoted C$_B$.  After receiving the physical good he can tell the Seller: "Either you send me back my payment $P$ or I will tell the Smart Contract that you did not send me the physical good." In this case the Seller has two possible answers: he can comply and send back $P$(C$_S$) or not comply and ignore the message (-C$_S$).\newline
+There is still the honest strategy ($H_S$, $H_B$) for both players, where they behave according to the protocol description. With this strategy, the trade still unravels successfully.\newline
+The dishonest strategy is again not sending the resources. This strategy is still denoted as $-H_B$ (when the buyer does not send the coins) and $-H_S$ (when the seller does not send the physical good.\newline
+The Buyer has also a unique opportunity: Since he decides what happens to the collateral, he can coerce the Seller into sending him extra resources. This strategy will be denoted $C_B$.  After receiving the physical good he can tell the Seller: "Either you send me back my payment $P$ or I will tell the Smart Contract that you did not send me the physical good." In this case the Seller has two possible answers: he can comply and send back $P$ ($C_S$) or not comply and ignore the message ($-C_S$).\newline
 
 \minisec{Payout}
 
@@ -276,30 +276,30 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
       \node[draw]{B}
         child{node[draw]{S}
                 child[sibling distance = 8cm]{node[draw]{B}
-                		child[sibling distance = 4cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {H$_B$}} 
+                		child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$H_B$}} 
                 		child[sibling distance = 4cm]{node[draw]{S}
-                		    child[sibling distance = 4cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$} edge from parent node [left] {C$_S$}}
-                		    child[sibling distance = 4cm]{node[shape=rectangle]{$P-C-U_S(G)|U_B(B)-P$} edge from parent node [right] {-C$_S$}}edge from parent node [right] {C$_B$}} edge from parent node [left] {H$_S$}} 
+                		    child[sibling distance = 4cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)$} edge from parent node [left] {$C_S$}}
+                		    child[sibling distance = 4cm]{node[shape=rectangle]{$P-C-U_S(G)|U_B(B)-P$} edge from parent node [right] {$-C_S$}}edge from parent node [right] {$C_B$}} edge from parent node [left] {$H_S$}} 
                 child[sibling distance = 8cm]{node[draw]{B}
-                    child[sibling distance = 3cm]{node[shape = rectangle]{P-C$|$-P} edge from parent node [left] {H$_B$}} 
+                    child[sibling distance = 3cm]{node[shape = rectangle]{$P-C|-P$} edge from parent node [left] {$H_B$}} 
                     child[sibling distance = 3cm]{node[draw]{S}
-                        child[sibling distance = 3cm]{node[shape=rectangle]{0$|$0} edge from parent node [left] {C$_S$}}
-                        child[sibling distance = 3cm]{node[shape=rectangle]{$P-C|-P$} edge from parent node [right] {-C$_S$}}edge from parent node [right] {C$_B$}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
+                        child[sibling distance = 3cm]{node[shape=rectangle]{0$|$0} edge from parent node [left] {$C_S$}}
+                        child[sibling distance = 3cm]{node[shape=rectangle]{$P-C|-P$} edge from parent node [right] {$-C_S$}}edge from parent node [right] {$C_B$}}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}
 
-Normally there is another layer under C$_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and receive back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.\newline
+Normally there is another layer under $C_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and receive back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.\newline
 
-To analyze the payout, we again start at the bottom. Since $P>C$, the Seller would comply (-C$_S$) on both instances.\newline
-On both branches the Buyer chooses C$_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
-Based on this information the Seller chooses -H$_S$: \[-U_S(G) < 0\]
+To analyze the payout, we again start at the bottom. Since $P>C$, the Seller would comply ($-C_S$) on both instances.\newline
+On both branches the Buyer chooses $C_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
+Based on this information the Seller chooses $-H_S$: \[-U_S(G) < 0\]
 The Nash Equilibrium is again at $0|0$ and the trade not successful.\newline
-%If B sends the coins (does not choose strategy -H$_B$), S has to make the following decision: Does he send the good (H$_S$) or not (-H$_S$)? We have to take into account, that B decides what happens with the collateral. \newline
+%If B sends the coins (does not choose strategy $-H_B$), S has to make the following decision: Does he send the good ($H_S$) or not ($-H_S$)? We have to take into account, that B decides what happens with the collateral. \newline
 %If S does not behave honestly (does not send the good), B can punish S by reporting 0 to the Smart contract. This means, that the collateral would not be given back to S.
 What was designed to be an incentive for S to behave honestly, ended up as leverage for B over S. B can report 0 (and burn the collateral) even if S behaves honestly. 
 %Therefore B can use this leverage to coerce S into giving him extra resources: “Give me C/2 coins or I will report 0 to the Smart Contract and burn your collateral.“
-%Since sending the good has no impact on the collateral (the rational buyer will always play strategy C$_B$ over H$_B$), it is best for S to not send the physical good (-H$_B$).
-%Because not Sending (-H$_S$) is the best strategy for the seller, it is best for B to not even send P and therefore not engage in the trade at all (-H$_B$).\newline
+%Since sending the good has no impact on the collateral (the rational buyer will always play strategy $C_B$ over $H_B$), it is best for S to not send the physical good ($-H_B$).
+%Because not Sending ($-H_S$) is the best strategy for the seller, it is best for B to not even send P and therefore not engage in the trade at all ($-H_B$).\newline
 %The Nash Equilibrium would be in nobody sending anything and the trade not happening.
 
 
@@ -332,7 +332,7 @@ There are multiple ways to implement step 4. Either the two parties report one a
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{3} edge from parent node [left] {0}}
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{4} edge from parent node [right] {1}}
                 		     edge from parent node [right] {1}}
-                		     edge from parent node [left] {H$_S$}} 
+                		     edge from parent node [left] {$H_S$}} 
                 child[sibling distance = 9cm]{node[draw]{B}
                 child[sibling distance = 5cm]{node[draw]{S} 
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{5} edge from parent node [left] {0}}
@@ -342,8 +342,8 @@ There are multiple ways to implement step 4. Either the two parties report one a
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{7} edge from parent node [left] {0}}
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{8} edge from parent node [right] {1}}
                 		     edge from parent node [right] {1}}
-                		     edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
+                		     edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}
 
 \begin{center}
@@ -387,7 +387,7 @@ Seller would choose 5
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{3} edge from parent node [left] {0}}
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{4} edge from parent node [right] {1}}
                 		     edge from parent node [right] {1}}
-                		     edge from parent node [left] {H$_S$}} 
+                		     edge from parent node [left] {$H_S$}} 
                 child[sibling distance = 9cm]{node[draw]{S}
                 child[sibling distance = 5cm]{node[draw]{B} 
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{5} edge from parent node [left] {0}}
@@ -397,8 +397,8 @@ Seller would choose 5
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{7} edge from parent node [left] {0}}
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{8} edge from parent node [right] {1}}
                 		     edge from parent node [right] {1}}
-                		     edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
+                		     edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}
 
 \begin{center}
@@ -435,9 +435,9 @@ Nash Equilibrium again $0|0$ and trade unsuccessful.
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
-                child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {H$_S$}} 
-                child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-        child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {-H$_B$}};
+                child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {$H_S$}} 
+                child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+        child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}
 
 \begin{center}
@@ -466,17 +466,17 @@ $T_2$& 0$_B$ & 1$_B$   \\
 \end{tabular}
 \end{center}
 
-The Nash Equilibrium of $T_2$ is $\{0_B, 0_S\}$ and payout $0 | 0$. What about $\{1_B, 1_S\}$ also Nash Equilibrium? What about strategy C$_B$ again?\newline
+The Nash Equilibrium of $T_2$ is $\{0_B, 0_S\}$ and payout $0 | 0$. What about $\{1_B, 1_S\}$ also Nash Equilibrium? What about strategy $C_B$ again?\newline
 
-S would choose -H$_S$, because $0>-U_S(G)$.\newline
+S would choose $-H_S$, because $0>-U_S(G)$.\newline
 As both options lead to a payout of 0, B chooses an arbitrary option. The trade is unsuccessful again.
 
 
 \section{Two Side Collateral}
 Following protocol is proposed:
 \begin{enumerate}
-    \item Seller  deposits collateral $C_1 > P$ to the Smart Contract
-    \item Buyer  deposits collateral $C_2 > P$ to the Smart Contract
+    \item Seller deposits collateral $C_S > P$ to the Smart Contract
+    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
     \item Buyer sends Funds of amount $P$ to the Seller
     \item Seller sends physical good $G$ to the seller 
     \item Buyer receives the physical good and confirms it to the Smart Contract
@@ -489,12 +489,12 @@ Following protocol is proposed:
       \node[draw]{B}
         child{node[draw]{S}
                 child[sibling distance = 9cm]{node[draw]{B}
-                		child[sibling distance = 5cm]{node[shape = rectangle]{P-$U_S(G)|U_B(G)$-P} edge from parent node [left] {1}} 
-                		child[sibling distance = 5cm]{node[shape=rectangle]{P-C$_1 - U_S(G)|U_B(G)$-C$_2$ - P}edge from parent node [right] {0}} edge from parent node [left] {H$_S$}} 
+                		child[sibling distance = 5cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {1}} 
+                		child[sibling distance = 5cm]{node[shape=rectangle]{$P-C_S - U_S(G)|U_B(G)-C_B - P$}edge from parent node [right] {0}} edge from parent node [left] {$H_S$}} 
                 child[sibling distance = 9cm]{node[draw]{B}
                 child[sibling distance = 3cm]{node[shape = rectangle]{P$|$-P} edge from parent node [left] {1}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{P-C$_1|$-C$_2$-P}edge from parent node [right] {0}}edge from parent node [right] {-H$_S$}} edge from parent node [left] {H$_B$}} 
-          child[sibling distance = 10cm]{node[shape = rectangle]{0$|$-C}edge from parent node [right] {-H$_B$}};
+                child[sibling distance = 3cm]{node[shape=rectangle]{$P-C_S|-C_B-P$}edge from parent node [right] {0}}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+          child[sibling distance = 10cm]{node[shape = rectangle]{$0|-C$}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}
 
 
@@ -580,8 +580,8 @@ function ideal_Payout(int: buyerCollateral, int: sellerCollateral, int: price,
 \subsubsection{protocol}
 Similar to section 5.3, following protocol is proposed:
 \begin{enumerate}
-    \item Seller deposits collateral $C_1 > P$ to the Smart Contract
-    \item Buyer deposits collateral $C_2 > P$ to the Smart Contract
+    \item Seller deposits collateral $C_S > P$ to the Smart Contract
+    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
     \item Buyer sends Funds of amount $P$ to the Smart Contract
     \item Seller sends physical good $G$ to the seller 
     \item Buyer receives the physical good and confirms it to the Smart Contract
@@ -596,14 +596,14 @@ Similar to section 5.3, following protocol is proposed:
     		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
     		child[sibling distance = 5cm]{node[draw]{S}
     		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {H$_S$}} 
+    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$H_S$}} 
         child[sibling distance = 9cm]{node[draw]{B}
             child[sibling distance = 5cm]{node[draw]{S}
                 child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
             child[sibling distance = 5cm]{node[draw]{S}
                 child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {-H$_S$}};
+    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
 \end{tikzpicture}
 
 \begin{center}
@@ -635,7 +635,7 @@ Remark: If any party does not send the collateral, the Smart Contract will relea
 
 We again start at the bottom of the tree at the seller's decision. A rational seller would always behave honestly (choose 2,4,5,7), as the honest behaviour always yields the bigger payoff. The buyer would also behave honestly (choose 4,5) for the same reason.\newline
 The seller would choose option 4, because $P - U_S(G)>0$. \newline
-The Nash Equilibrium is at \{$H_S$, 0, 1\}.\newline
+The Nash Equilibrium is at \{$H_S$, 1, 1\}.\newline
 
 Such a smart contract solves the problem completely as the Nash Equilibrium is both parties behaving honestly.
 %TODO It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
