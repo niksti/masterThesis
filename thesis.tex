@@ -49,7 +49,7 @@
 	
 	\section*{English translation for information purposes only:\\Thesis Statement pursuant to § 22 paragraph 7 of APB TU Darmstadt}
 	
-	I herewith formally declare that I, \textcolor{red}{\textbf{first name last name}}, have written the submitted thesis independently pursuant to § 22 paragraph 7 of APB TU Darmstadt. I did not use any outside support except for the quoted literature and other sources mentioned in the paper. I clearly marked and separately listed all of the literature and all of the other sources which I employed when producing this academic work, either literally or in content. This thesis has not been handed in or published before in the same or similar form.
+	I herewith formally declare that I, \textcolor{red}{\textbf{Nikolaos Stivaktakis}}, have written the submitted thesis independently pursuant to § 22 paragraph 7 of APB TU Darmstadt. I did not use any outside support except for the quoted literature and other sources mentioned in the paper. I clearly marked and separately listed all of the literature and all of the other sources which I employed when producing this academic work, either literally or in content. This thesis has not been handed in or published before in the same or similar form.
 	
 	I am aware, that in case of an attempt at deception based on plagiarism (§38 Abs. 2 APB), the thesis would be graded with 5,0 and counted as one failed examination attempt. The thesis may only be repeated once.
 	
@@ -127,7 +127,7 @@ The goal is to design the Escrow in such a way, that it is the best strategy for
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
 
 \chapter{Proposed Possible Solutions}
-To analyse turn based games we will use Game trees. 
+To analyse turn based games we will use game trees. 
 \minisec{Example Tree}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
@@ -140,7 +140,7 @@ To analyse turn based games we will use Game trees.
 \end{tikzpicture}
 \minisec{Description}
 
-To analyse Simultaneous games we will use a table.
+To analyse simultaneous games we will use a table.
 \minisec{Example table}
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -290,7 +290,7 @@ The Buyer has also a unique opportunity: Since he decides what happens to the co
 
 Normally there is another layer under $C_B$: Does S comply and send P or not? As already discussed, it is always better for the seller to send back the payment $P$ and receive back his collateral $C$, because $C>P$. Should I put it in the tree? make it bigger and more difficult to read but completely correct.\newline
 
-To analyze the payout, we again start at the bottom. Since $P>C$, the Seller would comply ($-C_S$) on both instances.\newline
+To analyze the payout, we again start at the bottom. Since $P>C$, the Seller would comply ($C_S$) on both instances.\newline
 On both branches the Buyer chooses $C_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
 Based on this information the Seller chooses $-H_S$: \[-U_S(G) < 0\]
 The Nash Equilibrium is again at $0|0$ and the trade not successful.\newline
@@ -715,8 +715,8 @@ Since each transaction has a timestamp, the smart contract knows automatically t
 \subsection{Formal Proof}
 We introduce functions $SC_B$ and $SC_S$ that take as input all transactions to the Smart Contract and output the corresponding Payout from the Smart Contract:
 
+\[ SC_S : \{ \textit{set of transactions}\} \times \{ \textit{set of transactions}\} \to \mathbb{R} \]
 \[ SC_B : \{ \textit{set of transactions}\} \times \{ \textit{set of transactions}\} \to \mathbb{R} \]
-\[ SC_S : \{ \textit{set of transactions}\} \to \mathbb{R} \]
 DEFINE TRANSACTIONS\newline
 important sets like Tx$_{honest}$  
 
@@ -726,7 +726,7 @@ Questions: How to model strategy, since payout is also dependent on opponent, as
 TODO: define honest strategy
 
 \[P_S : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
-\[P_S : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
+\[P_R : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
 %\[P_S : \{ \textit{set of strategies}\} \to \mathbb{R} \]
 
 \minisec{Begin formal proof}
@@ -738,19 +738,39 @@ and
 \begin{equation}
     \forall s \in \{set of Buyer strategies\}: P_B(honest_S, s) \leq P_S(honest_S,honest_B)
 \end{equation}
+It is the best strategy to behave honestly if the other party behaves honestly as well.\newline
 
+
+In addition the game should be incoercible, meaning that the other party has no dishonest strategy that decreases the payout from the first party:
+
+\begin{equation}
+    \forall s \in \{set of Buyer strategies\}: P_S(honest_S, s) \geq P_S(honest_S,honest_B)
+\end{equation}
+\begin{equation}
+    \forall s \in \{set of Seller strategies\}: P_B(s, honest_B) \geq P_B(honest_S,honest_B)
+\end{equation}
 \minisec{Payout honest case}
-I have to ASSUME: P (overall payout) is only influenced by SC (Smart Contract payout) and G (physical good). Meaning the two players only send their funds through the smart contract and do not send/receive funds from third parties.
-\[ P_S(honest,honest) = SC_S(honest_B, honest_S) - U_S(G) \]
-\[  P_B(honest,honest) = SC_B(honest_B, honest_S) + U_B(G))\]
+I have to ASSUME: P (overall payout) is only influenced by SC (Smart Contract payout) and G (physical good). Meaning the two players only send their funds through the smart contract and do not send/receive funds from third parties.\newline
+Reason: If there exists a successful protocol where one party pays the other directly, we can transform it into a protocol where all payments are routed through the Smart Contract. Therefore there has to exist a protocol successful protocol where no party pays the other party directly.
+\begin{equation}
+    P_B(honest_S,honest_B) = SC_B(honest_S, honest_B) + U_B(G))
+\end{equation} 
+\begin{equation}
+    P_S(honest_S,honest_B) = SC_S(honest_S, honest_B) - U_S(G) 
+\end{equation}
 
+As $U_B(G)$ is a constant, from (5.10 and 5.11):
+\begin{equation}
+    \forall Tx_B \in \{\textit{set of transactions}\}: SC_B(honest_S, Tx_B) \leq SC_B(honest_S,honest_B)
+\end{equation}
+If the seller posts the transactions $honest_S$, posting the transactions $honest_B$ will give B the biggest payout from the Smart Contract.
 \minisec{Payout dishonest seller}
 DEFINE STRATEGY:
 dishonestSeller: In this strategy the seller posts the exact same transactions to the Smart Contract as if he was honest, but does not send the physical good $G$ to the Buyer.\newline
 
-His payout is (dependent on the buyers strategy $S_B$ (and Transactions $Tx_S$))
+His payout is (dependent on the buyers strategy $S_B$ (and Transactions $Tx_B$))
 \begin{equation}
-    P_S(dishonestSeller,S_B) = SC(honest_S,Tx_S)
+    P_S(dishonestSeller,S_B) = SC_S(honest_S,Tx_B)
 \end{equation}
 As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.
 
@@ -758,8 +778,14 @@ As the dishonest seller does not send the item, his payout is exactly the amount
 from (5.3), (5.4),(5.5):
 
 \begin{equation}
-   P_{SC}(S_{honest})- U_S(G) > P_{SC}(S_{dishonest})
+   SC_S(honest_S,honest_B)- U_S(G) > SC_S(honest_S,Tx_S)
 \end{equation}
+
+The amount of coins, that a honest seller gets back has to be substantially more than the amount of coins that a dishonest seller gets back.\newline
+If any dishonest behaviour by the seller a
+Since the payout from the SC is only dependent on the transaction of the two players, at least one of the two players has to change at least one transaction (from the honest case), so that the SC can detect that the seller is dishonest and return the different payouts.\newline
+
+The Buyer has to have a set of transaction Tx$_{penalizeSeller}$, in which he can decrease the sellers payout to under $P_{SC}(S_{honest})- U_S(G)$, as described in (5.6).\newline
 
 \chapter{Open Research/ Questions}
 
