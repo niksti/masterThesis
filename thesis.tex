@@ -700,7 +700,7 @@ Since we assume a rational Buyer, for him to post Tx$_{cheatingSeller}$, he has 
 Now the Buyer has a set of transactions that increase his payout.  He could post these transactions, even if the seller behaves honestly and sends the good.\newline
 \minisec{The Buyer has a profitable dishonest strategy}
 When the seller is honest, the buyer can still post Tx$_{cheatingseller}$. Now his payout is:
-\[P_{disihonestBuyer} = P_{B}(Tx_{cheatingseller}) + U_B(G)\]
+\[P_{dishonestBuyer} = P_{B}(Tx_{cheatingseller}) + U_B(G)\]
 
 With 5.7:
 \begin{equation}
@@ -726,29 +726,29 @@ Questions: How to model strategy, since payout is also dependent on opponent, as
 TODO: define honest strategy
 
 \[P_S : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
-\[P_R : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
+\[P_B : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
 %\[P_S : \{ \textit{set of strategies}\} \to \mathbb{R} \]
 
 \minisec{Begin formal proof}
 Let us assume there exists a successful Game $G$ (as defined in 4.2). That means
 \begin{equation}
-    \forall s \in \{set of Seller strategies\}: P_S(s, honest_B) \leq P_B(honest_S,honest_B)
+    \forall s \in \{\textit{set of Seller strategies}\}: P_S(s, honest_B) \leq P_S(honest_S,honest_B)
 \end{equation}
 and
 \begin{equation}
-    \forall s \in \{set of Buyer strategies\}: P_B(honest_S, s) \leq P_S(honest_S,honest_B)
+    \forall s \in \{\textit{set of Buyer strategies}\}: P_B(honest_S, s) \leq P_B(honest_S,honest_B)
 \end{equation}
 It is the best strategy to behave honestly if the other party behaves honestly as well.\newline
 
 
-In addition the game should be incoercible, meaning that the other party has no dishonest strategy that decreases the payout from the first party:
-
-\begin{equation}
-    \forall s \in \{set of Buyer strategies\}: P_S(honest_S, s) \geq P_S(honest_S,honest_B)
-\end{equation}
-\begin{equation}
-    \forall s \in \{set of Seller strategies\}: P_B(s, honest_B) \geq P_B(honest_S,honest_B)
-\end{equation}
+%In addition the game should be incoercible, meaning that the other party has no dishonest strategy that decreases the payout from the first party:
+%I think this is a inreasonable assumption. How to model incoercible?
+%\begin{equation}
+ %   \forall s \in \{\textit{set of Buyer strategies}\}: P_S(honest_S, s) \geq P_S(honest_S,honest_B)
+%\end{equation}
+%\begin{equation}
+ %   \forall s \in \{\textit{set of Seller strategies}\}: P_B(s, honest_B) \geq P_B(honest_S,honest_B)
+%\end{equation}
 \minisec{Payout honest case}
 I have to ASSUME: P (overall payout) is only influenced by SC (Smart Contract payout) and G (physical good). Meaning the two players only send their funds through the smart contract and do not send/receive funds from third parties.\newline
 Reason: If there exists a successful protocol where one party pays the other directly, we can transform it into a protocol where all payments are routed through the Smart Contract. Therefore there has to exist a protocol successful protocol where no party pays the other party directly.
@@ -775,6 +775,7 @@ His payout is (dependent on the buyers strategy $S_B$ (and Transactions $Tx_B$))
 As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.
 
 \minisec{The smart contract has to change the payout}
+
 from (5.3), (5.4),(5.5):
 
 \begin{equation}
@@ -787,6 +788,30 @@ Since the payout from the SC is only dependent on the transaction of the two pla
 
 The Buyer has to have a set of transaction Tx$_{penalizeSeller}$, in which he can decrease the sellers payout to under $P_{SC}(S_{honest})- U_S(G)$, as described in (5.6).\newline
 
+
+\minisec{It should not be favourable to behave dishonest}
+If the Buyer is behaving rational (maximizing his output), then no dishonest seller exists that gets a higher output than the honest seller. (Maybe new assumption??)
+Another (valid??) assumption: If the other party behaves rational, behaving honestly yields the best payout. TODO write that into Formulations.\newline
+
+
+DEFINE $best_B()$, welches ist beste Strategie/Transaktion auf antwort von Seller strategie. Eigentlich als Funktion von Sellers Strategie.
+LAUT 5.13
+\begin{equation}
+best_B(honestTx_s) = honestTx_B
+\end{equation}
+Mit assumption dass honest seller größeren payout als dishonest seller hat, wenn Buyer rational ist.
+\begin{equation}
+   SC_S(honest_S,honest_B)- U_S(G) > SC_S(honest_S,best_B(honestTx_B))
+\end{equation}
+MIT 5.16
+\begin{equation}
+   SC_S(honest_S,honest_B)- U_S(G) > SC_S(honest_S,honest_B)
+\end{equation} 
+UND SOMIT
+\begin{equation}
+U_S(G) < 0
+\end{equation}
+WAS UNSERE ASSUMPTIONS WIDERSPRICHT
 \chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
