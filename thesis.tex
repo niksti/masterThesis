@@ -713,21 +713,27 @@ This contradicts our assumption that the Nash Equilibrium is when both players b
 Since each transaction has a timestamp, the smart contract knows automatically the ordering of the transactions. Therefore it only needs the transactions as an input to decide the payout of each party (in contrast to the ordering as an additional parameter).
 
 \subsection{Formal Proof}
-We introduce functions $SC_B$ and $SC_S$ that take as input all transactions to the Smart Contract and output the corresponding Payout from the Smart Contract:
 
-\[ SC_S : \{ \textit{set of transactions}\} \times \{ \textit{set of transactions}\} \to \mathbb{R} \]
-\[ SC_B : \{ \textit{set of transactions}\} \times \{ \textit{set of transactions}\} \to \mathbb{R} \]
-DEFINE TRANSACTIONS\newline
-important sets like Tx$_{honest}$  
-
+\minisec{General payoff function}
 
 We introduce a general payout functions $P_B$ and $P_S$, that take two strategies as input and output the overall payout that a player receives when playing this strategy.\newline
-Questions: How to model strategy, since payout is also dependent on opponent, assume minmax?\newline
-TODO: define honest strategy
+A strategy is a set of decisions that define the behaviour of a player. %TODO: MAYBE PRELIMINARIES? LOOK AT THAT AGAIN
+%Questions: How to model strategy, since payout is also dependent on opponent, assume minmax?\newline
+
 
 \[P_S : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
 \[P_B : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
 %\[P_S : \{ \textit{set of strategies}\} \to \mathbb{R} \]
+The honest strategy for each player ($honest_S, honest_B$) is behaving according to the agreed protocol.
+\minisec{Transactions}
+DEFINE $T$ as the set of all possible Transaction SETS. TODO think about that again.\newline
+When both parties behave honestly both parties post numerous transactions to the Smart Contract. We call the set of transactions that an honest Seller posts $Tx\_honest_S$ and the transaction from an honest Buyer $Tx\_honest_B$.
+
+\minisec{Payoff from the SC}
+We introduce functions $SC_B$ and $SC_S$ that take as input all transactions to the Smart Contract and output the corresponding Payout from the Smart Contract:
+
+\[ SC_S : \{T\} \times \{T\} \to \mathbb{R} \]
+\[ SC_B : \{ \textit{set of transactions}\} \times \{ \textit{set of transactions}\} \to \mathbb{R} \]
 
 \minisec{Begin formal proof}
 Let us assume there exists a successful Game $G$ (as defined in 4.2). That means
@@ -753,26 +759,28 @@ It is the best strategy to behave honestly if the other party behaves honestly a
 I have to ASSUME: P (overall payout) is only influenced by SC (Smart Contract payout) and G (physical good). Meaning the two players only send their funds through the smart contract and do not send/receive funds from third parties.\newline
 Reason: If there exists a successful protocol where one party pays the other directly, we can transform it into a protocol where all payments are routed through the Smart Contract. Therefore there has to exist a protocol successful protocol where no party pays the other party directly.
 \begin{equation}
-    P_B(honest_S,honest_B) = SC_B(honest_S, honest_B) + U_B(G))
+    P_B(honest_S,honest_B) = SC_B(Tx\_honest_S, Tx\_honest_B) + U_B(G))
 \end{equation} 
 \begin{equation}
-    P_S(honest_S,honest_B) = SC_S(honest_S, honest_B) - U_S(G) 
+    P_S(honest_S,honest_B) = SC_S(Tx\_honest_S, Tx\_honest_B) - U_S(G) 
 \end{equation}
 
 As $U_B(G)$ is a constant, from (5.10 and 5.11):
 \begin{equation}
-    \forall Tx_B \in \{\textit{set of transactions}\}: SC_B(honest_S, Tx_B) \leq SC_B(honest_S,honest_B)
+    \forall Tx_B \in \{T\}: SC_B(Tx\_honest_S, Tx_B) \leq SC_B(Tx\_honest_S, Tx\_honest_B)
 \end{equation}
-If the seller posts the transactions $honest_S$, posting the transactions $honest_B$ will give B the biggest payout from the Smart Contract.
+If the seller posts the transactions $Tx\_honest_S$, posting the transactions $Tx\_honest_B$ will give B the biggest payout from the Smart Contract.
 \minisec{Payout dishonest seller}
 DEFINE STRATEGY:
 dishonestSeller: In this strategy the seller posts the exact same transactions to the Smart Contract as if he was honest, but does not send the physical good $G$ to the Buyer.\newline
 
 His payout is (dependent on the buyers strategy $S_B$ (and Transactions $Tx_B$))
 \begin{equation}
-    P_S(dishonestSeller,S_B) = SC_S(honest_S,Tx_B)
+    P_S(dishonestSeller,S_B) = SC_S(Tx\_honest_S,Tx_B)
 \end{equation}
-As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.
+As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.\newline
+
+HIER: DISHONEST STRATEGY WINS BECAUSE OF 5.14! WENN ER DAS POSTET, POSTET DER RATIONAL BUYER HONESTB UND DANN IST DER PAYOUT VON SELLER GRÖßER ALS WENN ER HONEST WÄR. DAS WIDERSPRICHT EINER ASSUMPTION:WELCHE? ES DARF SICH NICHT RENTIEREN ZU SCHUMMELN. BZW VIELLEICHT AUCH SCHON 5.9
 
 \minisec{The smart contract has to change the payout}
 
