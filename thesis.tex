@@ -4,6 +4,7 @@
 \usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{amsfonts} 
+%\usepackage{macros}
 
 \begin{document}
 
@@ -525,9 +526,9 @@ Idea: the Smart Contract automatically collects  (instructs the entities to make
 \item{Int: Seller Payout}
 \end{itemize}
 
-\begin{equation}
-	SC_{ideal}:= ....	
-\end{equation}
+%\begin{equation}
+%	SC_{ideal}:= ....	
+%\end{equation}
 
 \minisec{Functionality}
 The function will always output the right amount to the two entities:
@@ -645,74 +646,7 @@ This poses the following problem: The last input was needed in every critical pa
 %\begin{equation}
  %   U_s(P) > U_s(nothing) 
 %\end{equation}
-
-\section{Possible Proof}
-Since behaviour of the smart contract is only influenced by the transactions of the two parties, we can model the payout to each party with a function that just takes the transactions as input:
-\begin{equation}
-    SC(Tx_1, Tx_2,...,Tx_n) = (P_B, P_S)
-\end{equation}
-Since we assume only these two players, each transaction has to be made either from the buyer or from the seller.\newline
-
-
-
-Let us assume we design a situation where the Nash Equilibrium is for both parties to behave honestly and the trade to unravel successfully. In the honest case, the Transactions sent to the SC are denoted as Tx$_{honestSeller}$ for the sellers transactions and Tx$_{honestBuyer}$ for the Buyers transactions. \newline
-As the honest case is the Nash Equilibrium, the sender gets a higher payout when he sends the good in comparison when he is dishonest and keeps the good to himself.
-
-\begin{equation}
-    P_{honestSeller} > P_{dishonestSeller}
-\end{equation}
-
-\minisec{Payout honest seller}
-\begin{equation}
-    P_{honestSeller} = P_{SC}(S_{honest})- U_S(G)
-\end{equation}
-$P_{SC}(S_{honest})$ is the amount of coins that the seller gets from the smart Contract. As the honest seller sends $G$ to the buyer, his payout decreases by $U_S(G)$
-
-\minisec{Payout dishonest seller}
-\begin{equation}
-    P_{dishonestSeller} = P_{SC}(S_{dishonest})
-\end{equation}
-As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.
-
-\minisec{The smart contract has to change the payout}
-from (5.3), (5.4),(5.5):
-
-\begin{equation}
-   P_{SC}(S_{honest})- U_S(G) > P_{SC}(S_{dishonest})
-\end{equation}
-The amount of coins, that a honest seller gets back has to be substantially more than the amount of coins that a dishonest seller gets back.\newline
-Since the payout from the SC is only dependent on the transaction of the two players, at least one of the two players has to change at least one transaction (from the honest case), so that the SC can detect that the seller is dishonest and return the different payouts.\newline
-
-The Buyer has to have a set of transaction Tx$_{penalizeSeller}$, in which he can decrease the sellers payout to under $P_{SC}(S_{honest})- U_S(G)$, as described in (5.6).\newline
-This transactions have to be unstoppable, meaning that there exist no set of transactions Tx$_{cheatingSeller}$ for the seller, such that his payout stays above $P_{SC}(S_{honest})- U_S(G)$. \newline 
-If such a set of transaction would exist, he would not send the item and post Tx$_{cheatingSeller}$. His payout would be 
-
-\[P_{cheatingSeller} = P_{SC}(Tx_{cheatingSeller}) > {SC}(S_{honest})- U_S(G) =  P_{honestSeller}\]
-
-This would break our assumption, that the Nash Equilibrium is when both players behave honestly.\newline
-
-To summarize: The Buyer has to have a set of transactions that decrease the payout from the SC to the seller to under $P_{SC}(S_{honest})- U_S(G)$, NO MATTER what transactions the seller posts.\newline
-Since we assume a rational Buyer, for him to post Tx$_{cheatingSeller}$, he has to get a bigger payout:
-\begin{equation}
-    P_{B}(Tx_{cheatingseller}) > P_{B}(Tx_{honestBuyer})
-\end{equation}
-
-Now the Buyer has a set of transactions that increase his payout.  He could post these transactions, even if the seller behaves honestly and sends the good.\newline
-\minisec{The Buyer has a profitable dishonest strategy}
-When the seller is honest, the buyer can still post Tx$_{cheatingseller}$. Now his payout is:
-\[P_{dishonestBuyer} = P_{B}(Tx_{cheatingseller}) + U_B(G)\]
-
-With 5.7:
-\begin{equation}
-    P_{dishonestBuyer} = P_{B}(Tx_{cheatingseller}) + U_B(G) > P_{B}(Tx_{honestBuyer}) + U_B(G) = P_{honestBuyer}
-\end{equation}
-
-This contradicts our assumption that the Nash Equilibrium is when both players behave honestly.
-
-\minisec{Ordering of Transactions}
-Since each transaction has a timestamp, the smart contract knows automatically the ordering of the transactions. Therefore it only needs the transactions as an input to decide the payout of each party (in contrast to the ordering as an additional parameter).
-
-\subsection{Formal Proof}
+\section{Formal Proof}
 
 \minisec{General payoff function}
 
@@ -771,55 +705,27 @@ As $U_B(G)$ is a constant, from (5.10 and 5.11):
 \end{equation}
 If the seller posts the transactions $Tx\_honest_S$, posting the transactions $Tx\_honest_B$ will give B the biggest payout from the Smart Contract.
 \minisec{Payout dishonest seller}
-DEFINE STRATEGY:
-dishonestSeller: In this strategy the seller posts the exact same transactions to the Smart Contract as if he was honest, but does not send the physical good $G$ to the Buyer.\newline
-
-His payout is (dependent on the buyers strategy $S_B$ (and Transactions $Tx_B$))
+Strategy $dishonestSeller$: In this strategy the seller behaves according to the agreed protocol (and posts the exact same transactions to the Smart Contract as if he was honest), but does not send the physical good $G$ to the Buyer.\newline
+His payout is (dependent on the buyers strategy $S_B$ (and Transactions $Tx_B$)):
 \begin{equation}
     P_S(dishonestSeller,S_B) = SC_S(Tx\_honest_S,Tx_B)
 \end{equation}
 As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.\newline
 
-HIER: DISHONEST STRATEGY WINS BECAUSE OF 5.14! WENN ER DAS POSTET, POSTET DER RATIONAL BUYER HONESTB UND DANN IST DER PAYOUT VON SELLER GRÖßER ALS WENN ER HONEST WÄR. DAS WIDERSPRICHT EINER ASSUMPTION:WELCHE? ES DARF SICH NICHT RENTIEREN ZU SCHUMMELN. BZW VIELLEICHT AUCH SCHON 5.9
-
-\minisec{The smart contract has to change the payout}
-
-from (5.3), (5.4),(5.5):
+\minisec{It is profitable for the seller to behave malicious}
+We already showed, that if the seller posts the transactions $Tx\_honest_S$, posting $Tx\_honest_B$ yields the biggest payout for B (5.13).\newline
+Therefore the rational B will always post $Tx\_honest_B$ if the Seller posts $Tx\_honest_A$, even if the protocol requires a different behaviour. We call this strategy (posting $Tx\_honest_B$) $Post\_Tx\_honest_B$.\newline
+The general payoff of a Seller using strategy $dishonestSeller$ is:
 
 \begin{equation}
-   SC_S(honest_S,honest_B)- U_S(G) > SC_S(honest_S,Tx_S)
+    P_S(dishonestSeller,Post\_Tx\_honest_B) = SC_S(Tx\_honest_S,Tx\_honest_B)
 \end{equation}
 
-The amount of coins, that a honest seller gets back has to be substantially more than the amount of coins that a dishonest seller gets back.\newline
-If any dishonest behaviour by the seller a
-Since the payout from the SC is only dependent on the transaction of the two players, at least one of the two players has to change at least one transaction (from the honest case), so that the SC can detect that the seller is dishonest and return the different payouts.\newline
+As we assume $U_S(G) > 0$, this strategy yields a bigger payoff than the honest strategy (5.4, 5.7):
+\[P_S(dishonestSeller,Post\_Tx\_honest_B) = P_S(honest_S,honest_B) + U_S(G)\]
 
-The Buyer has to have a set of transaction Tx$_{penalizeSeller}$, in which he can decrease the sellers payout to under $P_{SC}(S_{honest})- U_S(G)$, as described in (5.6).\newline
+This contradicts our assumption that $G$ is a successful Game as defined in 4.2, as the honest strategy is no longer the best strategy for the Seller.
 
-
-\minisec{It should not be favourable to behave dishonest}
-If the Buyer is behaving rational (maximizing his output), then no dishonest seller exists that gets a higher output than the honest seller. (Maybe new assumption??)
-Another (valid??) assumption: If the other party behaves rational, behaving honestly yields the best payout. TODO write that into Formulations.\newline
-
-
-DEFINE $best_B()$, welches ist beste Strategie/Transaktion auf antwort von Seller strategie. Eigentlich als Funktion von Sellers Strategie.
-LAUT 5.13
-\begin{equation}
-best_B(honestTx_s) = honestTx_B
-\end{equation}
-Mit assumption dass honest seller größeren payout als dishonest seller hat, wenn Buyer rational ist.
-\begin{equation}
-   SC_S(honest_S,honest_B)- U_S(G) > SC_S(honest_S,best_B(honestTx_B))
-\end{equation}
-MIT 5.16
-\begin{equation}
-   SC_S(honest_S,honest_B)- U_S(G) > SC_S(honest_S,honest_B)
-\end{equation} 
-UND SOMIT
-\begin{equation}
-U_S(G) < 0
-\end{equation}
-WAS UNSERE ASSUMPTIONS WIDERSPRICHT
 \chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
