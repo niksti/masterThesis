@@ -4,7 +4,7 @@
 \usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{amsfonts} 
-%\usepackage{macros}
+\usepackage{macros}
 
 \begin{document}
 
@@ -531,6 +531,27 @@ Idea: the Smart Contract automatically collects  (instructs the entities to make
 %\end{equation}
 
 \minisec{Functionality}
+\begin{lstlisting}[language=java]
+function assign_coins(
+  buyerCol: natural, sellerCol: int, price: int,
+  sellerSent: bool, buyerRecv: bool, shipped: bool
+) -> (int /* seller coins */, int /* buyer coins */) {
+  if sellerSent == buyerRecv { /* do whatever the SC does */ }
+  if (not sellerSent) and buyerRecv { /* do whatever the SC does */ }
+
+  // both claim they went through and the other failed
+  if shipped {
+    sellerCoins: int >= price + sellerCol
+    buyerCoins: int < price + buyerCol - U_B(G)
+    // U_B(G) > price
+    // U_S(G) < price
+  } else {
+    sellerCoins: int < min(price, sellerCol)
+    buyerCoins: int >= price + buyerCol
+  }
+  return (sellerCoins, buyerCoins)
+}
+\end{lstlisting}
 The function will always output the right amount to the two entities:
 \begin{itemize}
     \item It slashes the collateral of all lying parties
@@ -729,7 +750,35 @@ This contradicts our assumption that $G$ is a successful Game as defined in 4.2,
 \chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
-	
+
+\chapter{test}
+\begin{lstlisting}[language=java]
+function assign_coins(
+  buyerCol: natural, sellerCol: int, price: int,
+  sellerSent: bool, buyerRecv: bool, shipped: bool
+) -> (int /* seller coins */, int /* buyer coins */) {
+  if sellerSent == buyerRecv { /* do whatever the SC does */ }
+  if (not sellerSent) and buyerRecv { /* do whatever the SC does */ }
+
+  // both claim they went through and the other failed
+  if shipped {
+    sellerCoins: int >= price + sellerCol
+    buyerCoins: int < price + buyerCol - U_B(G)
+    // U_B(G) > price
+    // U_S(G) < price
+  } else {
+    sellerCoins: int < min(price, sellerCol)
+    buyerCoins: int >= price + buyerCol
+  }
+  return (sellerCoins, buyerCoins)
+}
+\end{lstlisting}
+
+ %\begin{figure}[!htbp]
+    %\begin{systembox}{A}
+%	ss
+    %\end{systembox}
+ %\end{figure}
 	
 	%\bibliographystyle{}
 	%\bibliography{}

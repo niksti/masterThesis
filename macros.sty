@@ -1,0 +1,130 @@
+\ProvidesPackage{macros}
+
+%------------------------------
+%  Do not add notation macros to this file 
+%  use notation.tex instead
+%-------------------------------
+
+%--- Macro \ifelseieee to automate switching between documentclasses --------
+
+\makeatletter%
+\newif\ifclassisieee
+\@ifclassloaded{IEEEtran}%
+  {\classisieeetrue}%
+  {\classisieeefalse}%
+\makeatother%
+
+\newcommand{\ifelseieee}[2]{%
+  \ifclassisieee%
+    #1%
+  \else%
+    #2%
+  \fi%
+}
+
+%-------------------------------------------------------------------------------
+%  Magic Stuff below
+%-------------------------------------------------------------------------------
+
+%------ Quote ------------------------------------------------------------------
+
+\renewcommand{\quote}{\list{}{\rightmargin=\leftmargin\topsep=0pt}\item\relax}
+
+
+%----- Box Environment ---------------------------------------------------------
+
+\RequirePackage{mdframed}
+
+%Basic box structure with title box
+\newenvironment{titlebox}[3]
+ {\mdfsetup{
+   style=#2,
+   innertopmargin=1.1\baselineskip,
+   skipabove={\dimexpr0.7\baselineskip+\topskip\relax},
+   skipbelow={1em},needspace=3\baselineskip,
+   singleextra={\node[#3,right=10pt,overlay] at (P-|O){~{\sffamily\bfseries #1 }};},%
+   firstextra={\node[#3,right=10pt,overlay] at (P-|O) {~{\sffamily\bfseries #1 }};},
+   frametitleaboveskip=9em,
+   innerrightmargin=5pt
+  }
+  \begin{mdframed}[font=\small]\setlist[itemize]{leftmargin=13pt}\setlist[enumerate]{leftmargin=13pt}\raggedright% 
+ }
+ {\end{mdframed}}
+
+ %title box style
+ \tikzstyle{normal} = [thick, fill=white, text=black, draw, rounded corners, rectangle, minimum height=.7cm, inner sep=3pt]
+ \tikzstyle{gray} = [thick, fill=gray!90, text=white, rounded corners, rectangle, minimum height=.7cm, inner sep=3pt]
+
+ %box style
+ \mdfdefinestyle{commonbox}{%
+  align=center, middlelinewidth=1.1pt,userdefinedwidth=\linewidth
+  innerrightmargin=0pt,innerleftmargin=5pt,innertopmargin=5pt,
+  splittopskip=15pt,splitbottomskip=15pt
+ }
+ \mdfdefinestyle{roundbox}{style=commonbox,roundcorner=5pt,userdefinedwidth=\linewidth}
+
+ \newenvironment{systembox}[1]
+ {\vspace{\baselineskip}\begin{titlebox}{Functionality \normalfont #1}{roundbox}{normal}}
+ {\end{titlebox}}
+
+
+ \newenvironment{gsystembox}[1]
+ {\vspace{\baselineskip}\begin{titlebox}{Global Functionality \normalfont #1}{roundbox}{normal}}
+ {\end{titlebox}}
+
+ \newenvironment{protocolbox}[1]
+ {\begin{titlebox}{Protocol \normalfont #1}{commonbox}{normal}}
+ {\end{titlebox}}
+
+ \newenvironment{algobox}[1]
+ {\begin{titlebox}{Algorithm \normalfont #1}{commonbox}{normal}}
+ {\end{titlebox}}
+
+ \newenvironment{reductionbox}[1]
+ {\begin{titlebox}{Reduction \normalfont #1}{commonbox}{normal}}
+ {\end{titlebox}}
+
+ \newenvironment{gamebox}[1]
+ {\begin{titlebox}{Game \normalfont #1}{commonbox}{gray}}
+ {\end{titlebox}}
+
+ \newenvironment{simulatorbox}[1]
+ {\begin{titlebox}{Simulator \normalfont #1}{commonbox}{normal}}
+ {\end{titlebox}}
+
+%-----things I made--------------------------------------
+
+ 
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    keywords={,function, natural}
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\lstset{emph={  
+    function, natural, bool
+    },emphstyle={\color{magenta}}
+}
