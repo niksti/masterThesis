@@ -531,7 +531,7 @@ function assign_coins(
   buyerCol: natural, sellerCol: natural, price: natural,
   sellerSent: bool, buyerRecv: bool, shipped: bool
 ) -> (int /* seller coins */, int /* buyer coins */) {
-  if sellerSent == buyerRecv { /* trivial case, multiple possible solutions  */ }
+  if sellerSent == buyerRecv { /* honest case, multiple possible solutions  */ }
   if (not sellerSent) and buyerRecv { /* nonsensical case, multiple possible solutions */ }
 
   // both claim they went through and the other player failed
@@ -566,53 +566,38 @@ The dishonest Seller deposits collateral $C_S$ but does not ship the good $G$. T
 The honest Buyer deposits collateral $C_S$ and Price $P$. To have a positive general payout, his payout from the smart Contract has to be greater than $P + C_S$. His general payout is greater than
 \[P + C_S - C_S - P = 0\]
 
-When honest case is when both parties agree on whether the good was shipped. The easiest implementation is to give back their collateral. If the good was actually
-The function will always output the right amount to the two entities:
-\begin{itemize}
-    \item It slashes the collateral of all lying parties
-    \item It will give the amount of $P$ to the seller if he actually ships the physical good $G$, otherwise give it back to the seller
-\end{itemize}
+\subsection{Example Protocol}
+The easiest implementation of the honest case is to give back their collateral. If the good was actually shipped, the Seller will be awarded coins of amount $P$, otherwise those coins go back to the Buyer.\newline
+In the nonsensical case the SC will not give any coins back.\newline
+In the case of a dispute the SC rewards all the coins to the honest party.
 
-\begin{verbatim}
-function ideal_Functionality(int: buyerCollateral, int: sellerCollateral, int: price,
-                        bool: sellerReport, bool: buyerReport, bool: shipped){
-    if(sellerReports){
-        if(buyerReports){
-            if(shipped){
-                return [price + sellerCollateral , buyerCollateral]
-            }
-            else{
-                return [0, price]
-            }
-        }
-        else{
-            if(shipped){
-                return [price + sellerCollateral, 0]
-            }
-            else{
-                return [0, price + buyerCollateral]
-            }
-        }
-    }else {
-        if(buyerReports){
-            if(shipped){
-                return [price, buyerCollateral]
-            }
-            else{
-                return [sellerCollateral, price]
-            }
-        }
-        else{
-            if(shipped){
-                return [price, 0]
-            }
-            else{
-                return [sellerCollateral, price + buyerCollateral]
-            }
-        }    
+\begin{lstlisting}[language=java]
+function assign_coins(
+  buyerCol: natural, sellerCol: natural, price: natural,
+  sellerSent: bool, buyerRecv: bool, shipped: bool
+) -> (int /* seller coins */, int /* buyer coins */) {
+  if sellerSent == buyerRecv { 
+    sellerCoins = sellerCol // give back the collateral
+    buyerCoins = buyerCol //give back the collateral
+    if shipped{sellerCoins += price} // G was shipped, Seller gets price
+    else {buyerCoins += price}// G was not shipped, Buyer gets price
     }
+  if (not sellerSent) and buyerRecv { 
+    sellerCoins = 0 //nonsensical case, give both parties no coins
+    buyerCoins = 0
+  }
+
+  // both claim they went through and the other player failed
+  if shipped {
+    sellerCoins = price + sellerCol + buyerCol // honest seller
+    buyerCoins =  0 //lying Buyer
+  } else {
+    sellerCoins = 0 // lying seller
+    buyerCoins = price + selleCol + buyerCol // honest buyer
+  }
+  return (sellerCoins, buyerCoins)
 }
-\end{verbatim}
+\end{lstlisting}
 
 \subsubsection{Protocol}
 Similar to section 5.3, following protocol is proposed:
