@@ -499,26 +499,21 @@ Following protocol is proposed:
 \end{tikzpicture}
 
 
-\section{SC 5/6 inputs What is a nice Headline for this section??}
+\section{An extra input is needed}
+The Smart Contract plays an important role. We want to create a Smart Contract that rewards honest behaviour and punishes dishonest behaviour.\newline
+Problems arise, because the Smart Contract does not know if the physical good $G$ was actually sent to the Buyer. Because of this missing information, it is impossible for the Smart Contract to settle disputes.
 \subsection{Ideal Functionality}
-We can model the ideal functionality of our Smart Contract as a Function with 6 inputs and 2 outputs:
+We can achieve the ideal functionality of our Smart Contract by giving it the information whether the good was actually shipped as an Input. We model the ideal Behaviour with Function with 6 inputs and 2 outputs.
 
 \minisec{Inputs}
 \begin{itemize}
-\item{Int: Buyer Collateral DO WE REALLY NEED THAT as input?}
-\item{Int: Seller Collateral DO WE REALLY NEED THAT as input?}
+\item{Int: Buyer Collateral}
+\item{Int: Seller Collateral}
 \item{Int: the Price $P$}
 \item{Bool: Sellers report}
 \item{Bool: Buyers report}
-\item{Bool: Was the physical good $G$ shipped by the seller?}
+\item{Bool: The actual information, if $G$ was shipped by the seller}
 \end{itemize}
-
-\minisec{Inputs MAYBE EASIER}
-\begin{itemize}
-\item{Int: agreed price $P$}
-\item{Bool: Was the physical good $G$ shipped by the seller?}
-\end{itemize}
-Idea: the Smart Contract automatically collects  (instructs the entities to make a deposit) of the right amount. If the physical good was shipped, he transfers P to the Seller, else he gives back the initial deposit to both parties
 
 \minisec{Outputs}
 \begin{itemize}
@@ -533,25 +528,33 @@ Idea: the Smart Contract automatically collects  (instructs the entities to make
 \minisec{Functionality}
 \begin{lstlisting}[language=java]
 function assign_coins(
-  buyerCol: natural, sellerCol: int, price: int,
+  buyerCol: natural, sellerCol: natural, price: natural,
   sellerSent: bool, buyerRecv: bool, shipped: bool
 ) -> (int /* seller coins */, int /* buyer coins */) {
-  if sellerSent == buyerRecv { /* do whatever the SC does */ }
-  if (not sellerSent) and buyerRecv { /* do whatever the SC does */ }
+  if sellerSent == buyerRecv { /* trivial case, multiple possible solutions  */ }
+  if (not sellerSent) and buyerRecv { /* nonsensical case, multiple possible solutions */ }
 
-  // both claim they went through and the other failed
+  // both claim they went through and the other player failed
   if shipped {
-    sellerCoins: int >= price + sellerCol
-    buyerCoins: int < price + buyerCol - U_B(G)
-    // U_B(G) > price
-    // U_S(G) < price
+    sellerCoins: int >= price + sellerCol // honest seller
+    buyerCoins: int < price + buyerCol - U_B(G) //lying Buyer
   } else {
-    sellerCoins: int < min(price, sellerCol)
-    buyerCoins: int >= price + buyerCol
+    sellerCoins: int < sellerCol // lying seller
+    buyerCoins: int >= price + buyerCol // honest buyer
   }
   return (sellerCoins, buyerCoins)
 }
 \end{lstlisting}
+The trivial and nonsensical case can be implemented without the last input. There are multiple possible solutions.\newline
+The important case is when the seller reports that he shipped the good and the Buyer reports that he did not receive it. Because the Smart Contract has the input 'shipped', it can determine which party is lying and which party is telling the truth.\newline
+The Smart Contract settles the disputes in such a way that the honest party has a payout greater than zero and the lying party has a payout smaller than zero. There fore it is unfavorable for any party to report wrongfully.\newline
+It is important to see that the outputs of the function have to be implemented like this, to achieve the ideal functionality.\newline
+
+
+
+
+
+When honest case is when both parties agree on whether the good was shipped. The easiest implementation is to give back their collateral. If the good was actually
 The function will always output the right amount to the two entities:
 \begin{itemize}
     \item It slashes the collateral of all lying parties
@@ -669,7 +672,7 @@ This poses the following problem: The last input was needed in every critical pa
 %\end{equation}
 \section{Formal Proof}
 
-\minisec{General payoff function}
+\minisec{General payout function}
 
 We introduce a general payout functions $P_B$ and $P_S$, that take two strategies as input and output the overall payout that a player receives when playing this strategy.\newline
 A strategy is a set of decisions that define the behaviour of a player. %TODO: MAYBE PRELIMINARIES? LOOK AT THAT AGAIN
@@ -684,7 +687,7 @@ The honest strategy for each player ($honest_S, honest_B$) is behaving according
 DEFINE $T$ as the set of all possible Transaction SETS. TODO think about that again.\newline
 When both parties behave honestly both parties post numerous transactions to the Smart Contract. We call the set of transactions that an honest Seller posts $Tx\_honest_S$ and the transaction from an honest Buyer $Tx\_honest_B$.
 
-\minisec{Payoff from the SC}
+\minisec{payout from the SC}
 We introduce functions $SC_B$ and $SC_S$ that take as input all transactions to the Smart Contract and output the corresponding Payout from the Smart Contract:
 
 \[ SC_S : \{T\} \times \{T\} \to \mathbb{R} \]
@@ -736,13 +739,13 @@ As the dishonest seller does not send the item, his payout is exactly the amount
 \minisec{It is profitable for the seller to behave malicious}
 We already showed, that if the seller posts the transactions $Tx\_honest_S$, posting $Tx\_honest_B$ yields the biggest payout for B (5.13).\newline
 Therefore the rational B will always post $Tx\_honest_B$ if the Seller posts $Tx\_honest_A$, even if the protocol requires a different behaviour. We call this strategy (posting $Tx\_honest_B$) $Post\_Tx\_honest_B$.\newline
-The general payoff of a Seller using strategy $dishonestSeller$ is:
+The general payout of a Seller using strategy $dishonestSeller$ is:
 
 \begin{equation}
     P_S(dishonestSeller,Post\_Tx\_honest_B) = SC_S(Tx\_honest_S,Tx\_honest_B)
 \end{equation}
 
-As we assume $U_S(G) > 0$, this strategy yields a bigger payoff than the honest strategy (5.4, 5.7):
+As we assume $U_S(G) > 0$, this strategy yields a bigger payout than the honest strategy (5.4, 5.7):
 \[P_S(dishonestSeller,Post\_Tx\_honest_B) = P_S(honest_S,honest_B) + U_S(G)\]
 
 This contradicts our assumption that $G$ is a successful Game as defined in 4.2, as the honest strategy is no longer the best strategy for the Seller.
