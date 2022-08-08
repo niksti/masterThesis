@@ -634,29 +634,29 @@ Similar to section 5.3, following protocol is proposed:
 & Payout  \\
 \hline
 \hline
-1& $P -U_S(G) - C_S| U_B(G)-P - C_B$\\
+1& $-U_S(G) | U_B(G)$\\
 \hline
-2& $P-U_S(G)- C_S| U_B(G)-P $\\
+2& $-U_S(G) - C_S| U_B(G)-P - C_B  $\\
 \hline
-3&$P-U_S(G) | U_B(G)-P - C_B$ \\
+3&$P-U_S(G) + C_B | U_B(G)-P - C_B$ \\
 \hline
 4& $P-U_S(G)| U_B(G)-P$\\
 \hline
 5& $0|0$\\
 \hline 
-6& $-0 |- C_B$\\
+6& $-C_S |-P - C_B$\\
 \hline
-7& $- C_S|0$\\
+7& $- C_S| C_S$\\
 \hline
-8& $-C_S| -C_B$\\
+8& $P| -P$\\
 \hline
 \end{tabular}
 \end{center}
 
 Remark: If any party does not send the collateral, the Smart Contract will release the collateral of the the other party and it would result in a payout of $0,0$. This option is not analyzed in the Game tree but has to be considered as an option for each party.\newline
 
-We again start at the bottom of the tree at the Buyer's decision. A rational Buyer would always behave honestly (choose 2,4,5,7), as the honest behaviour always yields the bigger payout. Out of these options the Seller would choose outcome 4 ($H_S,1$), as this is the best outcome for him.\newline
-The Nash Equilibrium is at \{$H_S$, 1, 1\}.\newline
+We again start at the bottom of the tree at the Buyer's decision. A rational Buyer would choose 2,4,5,7. Out of these options the Seller would choose outcome 4 ($H_S,1$), as this is the best outcome for him.\newline
+The Nash Equilibrium is at \{$H_S$, 1, 1\} and the trade would unravel successfully.\newline
 
 Such a smart contract solves the problem completely as the Nash Equilibrium is both parties behaving honestly.
 %TODO It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
