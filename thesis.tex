@@ -540,7 +540,7 @@ function assign_coins(
     buyerCoins: int < price + buyerCol - U_B(G) //lying Buyer
   } else {
     sellerCoins: int < sellerCol // lying seller
-    buyerCoins: int >= price + buyerCol // honest buyer
+    buyerCoins: int > price + buyerCol // honest buyer
   }
   return (sellerCoins, buyerCoins)
 }
@@ -550,9 +550,21 @@ The important case is when the seller reports that he shipped the good and the B
 The Smart Contract settles the disputes in such a way that the honest party has a payout greater than zero and the lying party has a payout smaller than zero. There fore it is unfavorable for any party to report wrongfully.\newline
 It is important to see that the outputs of the function have to be implemented like this, to achieve the ideal functionality.\newline
 
+\minisec{Honest Seller}
+The honest Seller (line 10) ships the good to the Buyer and deposits collateral $C_S$. To have a positive general payout, his lowest possible payout from the smart Contract is $P + C_S$. His general payout is at least
+\[P + C_S - C_S - U_S(G) = P - U_S(G) > 0\]
 
+\minisec{Lying Buyer}
+The Lying Buyer (line 11) receives $G$ and deposits collateral $C_S$ and Price $P$ to the Smart Contract. To have a negative general payout, his payout from the smart Contract has to be less than $P + Col_B - U_B(G)$. His general payout is less than
+\[P + C_B - U_B(G) + U_B(G) - C_B -P = 0\]
 
+\minisec{Dishonest Seller}
+The dishonest Seller deposits collateral $C_S$ but does not ship the good $G$. To have a negative general payout, payout from the smart Contract has to be less than $C_S$. His general payout is less than
+\[C_S - C_S = 0\]
 
+\minisec{Honest Buyer}
+The honest Buyer deposits collateral $C_S$ and Price $P$. To have a positive general payout, his payout from the smart Contract has to be greater than $P + C_S$. His general payout is greater than
+\[P + C_S - C_S - P = 0\]
 
 When honest case is when both parties agree on whether the good was shipped. The easiest implementation is to give back their collateral. If the good was actually
 The function will always output the right amount to the two entities:
