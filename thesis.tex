@@ -431,8 +431,13 @@ Buyer chooses 1,5, coerce: i report 1 but you send me P + C/2\newline
 Can he only threaten it if his payout does not change? If it changes, is this threat not believable?\newline
 Seller chooses 5?\newline
 Nash Equilibrium again $0|0$ and trade unsuccessful. 
-
-\minisec{Payout: Both parties reports simultaneously}
+\minisec{How to report simultaneously}
+ Every transaction to the Smart Contract is public. As the players have to report to the Smart Contract by sending a public transaction, the other player also knows what the first player reported. By just demanding both to report at the same time, the player who reports second does always know what value the first player reported. Then the report is not really simultaneous.\newline
+ 
+ 
+ We can fix this problem by using a (at least) computationally hiding and binding commitment scheme. Both players would commit to their decision and send the commitment to the SC. The second player sees the commitment of the first player. Because the commitment scheme is computationally hiding and we assume the players to be computationally bounded, the commitment does not reveal any information about the actual decision of the first player. \newline
+ After both players sent the commitment to the SC, they both send the opening value for their commitment to the SC. As the commitment is computationally binding, the players can not change what they initially reported. When a player does not send an opening value after a predefined time, the SC can punish the player by slashing his collateral.
+\subsubsection{Payout: Both parties reports simultaneously}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
