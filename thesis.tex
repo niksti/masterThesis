@@ -668,6 +668,17 @@ This poses the following problem: The last input was needed in every critical pa
  %   U_s(P) > U_s(nothing) 
 %\end{equation}
 \section{Formal Proof}
+\minisec{Assumptions}
+\begin{enumerate}
+    \item if the other party behaves honestly or rational, it will be the best strategy to behave honest as well (WRITE IN FORMALIZATIONS)
+    \item $U_S(G)$ and $U_B(G)$ are constants $> 0$ (WRITE IN FORMALIZATIONS)
+    \item All Payments go through the smart Contract
+    \item The players only interact with each other and the Smart Contract. There are no other entities involved.
+    \item The entities interact with the SC with transactions. The payoff from the SC does only depend on these transactions.
+    \item The Smart Contract handles the payoff after receiving all the transactions.
+    \item The seller can post $Tx\_honest_S$, even if he does not send $G$. There is no mechanism for the Buyer to prevent the seller from posting $Tx_honest_S$.
+
+\end{enumerate}
 
 \minisec{General payout function}
 
@@ -711,8 +722,6 @@ It is the best strategy to behave honestly if the other party behaves honestly a
  %   \forall s \in \{\textit{set of Seller strategies}\}: P_B(s, honest_B) \geq P_B(honest_S,honest_B)
 %\end{equation}
 \minisec{Payout honest case}
-I have to ASSUME: P (overall payout) is only influenced by SC (Smart Contract payout) and G (physical good). Meaning the two players only send their funds through the smart contract and do not send/receive funds from third parties.\newline
-Reason: If there exists a successful protocol where one party pays the other directly, we can transform it into a protocol where all payments are routed through the Smart Contract. Therefore there has to exist a protocol successful protocol where no party pays the other party directly.
 \begin{equation}
     P_B(honest_S,honest_B) = SC_B(Tx\_honest_S, Tx\_honest_B) + U_B(G))
 \end{equation} 
