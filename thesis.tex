@@ -167,9 +167,12 @@ The simplest protocol is without collateral and any third party. In this case th
 	\item First the seller ships the physical good $G$ to the provided address and then the buyer sends coins of amount $P$ to the seller. 
 	\item Both parties send the resources simultaneously
 \end{itemize}
- the following: The buyer sends coins of amount $P$ to the seller and then the seller ships the physical good $G$ to the provided address. There is no third party involved. 
+
 %Here maybe a visualization
 
+\minisec{Possible strategies}
+There are many possible strategies for the two players. We will only analyse the strategies where a player plays honestly and the strategies where a player intentionally behaves dishonest to gain an advantage.\newline
+In the above described protocols we analyse two strategies for each player. The Buyer can choose between strategy $H_B$ where he behaves honestly and sends the money and strategy $-H_B$ where the Buyer behaves dishonestly and does not send the money. The Seller can choose as well between strategy $H_S$ where he behaves honestly and sends the good $G$ and strategy $-H_S$ where the Buyer behaves dishonestly and does not send the $G$.
 \minisec{Payout: The Buyer sends first}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
@@ -178,7 +181,7 @@ The simplest protocol is without collateral and any third party. In this case th
                 child[sibling distance = 3cm]{node[shape=rectangle]{$P|-P$}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
         child{node{0$|$0} edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}\newline
-To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option, which yields him the greatest payout, he chooses $-H_S$ ($P > P - U_S(G)$).\newline
+To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option, which yields him the greatest payout, he chooses $-H_S$ (Because $P > P - U_S(G)$).\newline
 Therefore the Buyers has to choose between a payout of 0 (by choosing $-H_B$) and $-P$ (by choosing $H_B$). Since $0 > -P$, he chooses $-H_B$.\newline
 The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
 
@@ -674,6 +677,15 @@ This poses the following problem: The last input was needed in every critical pa
  %   U_s(P) > U_s(nothing) 
 %\end{equation}
 \section{Formal Proof}
+
+
+\chapter{Open Research/ Questions}
+
+\chapter{Conclusion}
+
+\chapter{Appendix}
+
+\section{Formal proof}
 \minisec{Assumptions}
 \begin{enumerate}
     \item if the other party behaves honestly or rational, it will be the best strategy to behave honest as well (WRITE IN FORMALIZATIONS)
@@ -705,7 +717,7 @@ When both parties behave honestly both parties post numerous transactions to the
 We introduce functions $SC_B$ and $SC_S$ that take as input all transactions to the Smart Contract and output the corresponding Payout from the Smart Contract:
 
 \[ SC_S : \{T\} \times \{T\} \to \mathbb{R} \]
-\[ SC_B : \{ \textit{set of transactions}\} \times \{ \textit{set of transactions}\} \to \mathbb{R} \]
+\[ SC_B : \{T\} \times \{T\} \to \mathbb{R} \]
 
 \minisec{Begin formal proof}
 Let us assume there exists a successful Game $G$ (as defined in 4.2). That means
@@ -735,7 +747,7 @@ It is the best strategy to behave honestly if the other party behaves honestly a
     P_S(honest_S,honest_B) = SC_S(Tx\_honest_S, Tx\_honest_B) - U_S(G) 
 \end{equation}
 
-As $U_B(G)$ is a constant, from (5.10 and 5.11):
+As $U_B(G)$ is a constant, from (8.2 and 8.3):
 \begin{equation}
     \forall Tx_B \in \{T\}: SC_B(Tx\_honest_S, Tx_B) \leq SC_B(Tx\_honest_S, Tx\_honest_B)
 \end{equation}
@@ -749,7 +761,7 @@ His payout is (dependent on the buyers strategy $S_B$ (and Transactions $Tx_B$))
 As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.\newline
 
 \minisec{It is profitable for the seller to behave malicious}
-We already showed, that if the seller posts the transactions $Tx\_honest_S$, posting $Tx\_honest_B$ yields the biggest payout for B (5.13).\newline
+We already showed, that if the seller posts the transactions $Tx\_honest_S$, posting $Tx\_honest_B$ yields the biggest payout for B (8.5).\newline
 Therefore the rational B will always post $Tx\_honest_B$ if the Seller posts $Tx\_honest_A$, even if the protocol requires a different behaviour. We call this strategy (posting $Tx\_honest_B$) $Post\_Tx\_honest_B$.\newline
 The general payout of a Seller using strategy $dishonestSeller$ is:
 
@@ -757,38 +769,10 @@ The general payout of a Seller using strategy $dishonestSeller$ is:
     P_S(dishonestSeller,Post\_Tx\_honest_B) = SC_S(Tx\_honest_S,Tx\_honest_B)
 \end{equation}
 
-As we assume $U_S(G) > 0$, this strategy yields a bigger payout than the honest strategy (5.4, 5.7):
+As we assume $U_S(G) > 0$, this strategy yields a bigger payout than the honest strategy (8.4, 8.7):
 \[P_S(dishonestSeller,Post\_Tx\_honest_B) = P_S(honest_S,honest_B) + U_S(G)\]
 
 This contradicts our assumption that $G$ is a successful Game as defined in 4.2, as the honest strategy is no longer the best strategy for the Seller.
-
-\chapter{Open Research/ Questions}
-
-\chapter{Conclusion}
-
-\chapter{test}
-\begin{lstlisting}[language=java]
-function assign_coins(
-  buyerCol: natural, sellerCol: int, price: int,
-  sellerSent: bool, buyerRecv: bool, shipped: bool
-) -> (int /* seller coins */, int /* buyer coins */) {
-  if sellerSent == buyerRecv { /* do whatever the SC does */ }
-  if (not sellerSent) and buyerRecv { /* do whatever the SC does */ }
-
-  // both claim they went through and the other failed
-  if shipped {
-    sellerCoins: int >= price + sellerCol
-    buyerCoins: int < price + buyerCol - U_B(G)
-    // U_B(G) > price
-    // U_S(G) < price
-  } else {
-    sellerCoins: int < min(price, sellerCol)
-    buyerCoins: int >= price + buyerCol
-  }
-  return (sellerCoins, buyerCoins)
-}
-\end{lstlisting}
-
  %\begin{figure}[!htbp]
     %\begin{systembox}{A}
 %	ss
