@@ -508,7 +508,7 @@ Following protocol is proposed:
 The Smart Contract plays an important role. We want to create a Smart Contract that rewards honest behaviour and punishes dishonest behaviour.\newline
 Problems arise, because the Smart Contract does not know if the physical good $G$ was actually sent to the Buyer. Because of this missing information, it is impossible for the Smart Contract to settle disputes.
 \subsection{Ideal Functionality}
-We can achieve the ideal functionality of our Smart Contract by giving it the information whether the good was actually shipped as an Input. We model the ideal Behaviour with Function with 6 inputs and 2 outputs.
+We can achieve the ideal functionality of our Smart Contract by giving it the information whether the good was actually shipped as an Input. We model the ideal behaviour with a function taking 6 inputs and giving 2 outputs.
 
 \minisec{Inputs}
 \begin{itemize}
@@ -534,7 +534,8 @@ We can achieve the ideal functionality of our Smart Contract by giving it the in
 \begin{lstlisting}[language=java]
 function assign_coins(
   buyerCol: natural, sellerCol: natural, price: natural,
-  sellerSent: bool, buyerRecv: bool, shipped: bool
+  sellerSent: bool /* self reported */, buyerRecv: bool /* self reported */, 
+  shipped: bool /* ground truth */
 ) -> (int /* seller coins */, int /* buyer coins */) {
   if sellerSent == buyerRecv { /* honest case, multiple possible solutions  */ }
   if (not sellerSent) and buyerRecv { /* nonsensical case, multiple possible solutions */ }
@@ -550,9 +551,9 @@ function assign_coins(
   return (sellerCoins, buyerCoins)
 }
 \end{lstlisting}
-The trivial and nonsensical case can be implemented without the last input. There are multiple possible solutions.\newline
+The honest and nonsensical case can be implemented without the last input. There are multiple possible solutions.\newline
 The important case is when the seller reports that he shipped the good and the Buyer reports that he did not receive it. Because the Smart Contract has the input 'shipped', it can determine which party is lying and which party is telling the truth.\newline
-The Smart Contract settles the disputes in such a way that the honest party has a payout greater than zero and the lying party has a payout smaller than zero. There fore it is unfavorable for any party to report wrongfully.\newline
+The Smart Contract settles the disputes in such a way that the honest party has a payout greater than zero and the lying party has a payout smaller than zero. Therefore it is unfavorable for any party to report wrongfully.\newline
 It is important to see that the outputs of the function have to be implemented like this, to achieve the ideal functionality.\newline
 
 \minisec{Honest Seller}
