@@ -255,7 +255,7 @@ On the right branch the Buyer would choose P$_B$, as $-P > -C$.\newline
 Based on these decisions the Seller would choose $-H_S$, because $P > P - U_S(G)$.\newline
 This means that it is better for the seller to behave maliciously and not send the physical good $G$. The Buyer would send $P$ to get back his collateral but receive nothing more, leaving him with a payout of $-P$. \newline
 Since $-P < 0$, the Buyer would choose $-C_B$ and not even deposit the collateral.\newline
-The Nash Equilibrium is at \{-H$_C$\} and the trade is unsuccessful.
+The Nash Equilibrium is at \{-C$_B$\} and the trade is unsuccessful.
 
 
 \subsection{Seller Collateral}
@@ -520,32 +520,83 @@ S would choose $-H_S$, because $0>-U_S(G)$.\newline
 As both options lead to a payout of 0, B chooses an arbitrary option. The trade is unsuccessful again.
 
 
-\section{Two Side Collateral}
+\section{Two side collateral}
+One side collateral does not work. The party that does not deposit collateral always has an unfair advantage over the other party. \newline
+When only the Buyer deposits collateral, the Seller has no incentive to send $G$. \newline
+When only the Seller deposits collateral, the Buyer can coerce the Seller into sending back his payment $P$, because the Buyer can burn the collateral by reporting 0.\newline 
+
+We introduce another protocol that addresses this problems. In this protocol both parties deposit collateral. This should incentivize the parties to both behave honestly.\newline
+If the two parties report something different, the Smart Contract will slash the collateral of both players, as it can not determine which party is lying. If both parties report 0, the Smart Contract will send the payment $P$ back to the Buyer. If both parties report 1, the Smart Contract will send the payment $P$ to the Seller.  \newline
+
+
 Following protocol is proposed:
 \begin{enumerate}
     \item Seller deposits collateral $C_S > P$ to the Smart Contract
     \item Buyer deposits collateral $C_B > P$ to the Smart Contract
-    \item Buyer sends Funds of amount $P$ to the Seller
-    \item Seller sends physical good $G$ to the seller 
+    \item Buyer sends Funds of amount $P$ to the Smart Contract
+    \item Seller sends physical good $G$ to the seller and reports it to the Smart Contract
     \item Buyer receives the physical good and confirms it to the Smart Contract
-    \item The Smart Contract releases the collateral of the Seller and the Buyer
+    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
 \end{enumerate}
+\minisec{Possible strategies}
+As always, $H_S$ denotes the honest strategy, where the Seller sends $G$ and $-H_S$ denotes the dishonest strategy where the Seller does not send the $G$.
 
 \minisec{Payout}
+To increase readability, we do not plot the decisions from point 1 to point 3. If someone does not deposit the collateral, the Smart Contract aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step 3), he loses his collateral. The payout is $0|-C_B$\newline
 
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-      \node[draw]{B}
+    \node[draw]{S}
         child[sibling distance = 9cm]{node[draw]{S}
-                child[sibling distance = 9cm]{node[draw]{B}
-                		child[sibling distance = 5cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {1}} 
-                		child[sibling distance = 5cm]{node[shape=rectangle]{$P-C_S - U_S(G)|U_B(G)-C_B - P$}edge from parent node [right] {0}} edge from parent node [left] {$H_S$}} 
-                child[sibling distance = 9cm]{node[draw]{B}
-                child[sibling distance = 3cm]{node[shape = rectangle]{P$|$-P} edge from parent node [left] {1}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{$P-C_S|-C_B-P$}edge from parent node [right] {0}}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
-          child[sibling distance = 7cm]{node[shape = rectangle]{$0|-C$}edge from parent node [right] {$-H_B$}};
+    		child[sibling distance = 5cm]{node[draw]{B}
+    		    child[sibling distance = 3cm]{node{1} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
+    		child[sibling distance = 5cm]{node[draw]{B}
+    		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$H_S$}} 
+        child[sibling distance = 9cm]{node[draw]{S}
+            child[sibling distance = 5cm]{node[draw]{B}
+                child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
+            child[sibling distance = 5cm]{node[draw]{B}
+                child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
 \end{tikzpicture}
 
+\begin{center}
+\begin{tabular}{ |c|c| }
+\hline
+& Payout  \\
+\hline
+\hline
+1& $-U_S(G) | U_B(G)$\\
+\hline
+2& $-U_S(G) - C_S| U_B(G)- P - C_B $\\
+\hline
+3&$P-U_S(G) - C_S | U_B(G) -P - C_B$ \\
+\hline
+4& $P-U_S(G)| U_B(G)-P$\\
+\hline
+5& $0|0$\\
+\hline 
+6& $-C_S |-P - C_B$\\
+\hline
+7& $- C_S| -P-C_S$\\
+\hline
+8& $P| -P$\\
+\hline
+\end{tabular}
+\end{center}
 
+To analyze the payout, we start at the bottom of the tree. The Buyer would choose:
+\begin{itemize}
+    \item 1 over 2 ($U_B(G) > U_B(G) -P -C_B$)
+    \item 4 over 3 ($U_B(G) - P > U_B(G) -P -C_B$)
+    \item 5 over 6 ($0 > -P -C_B$)
+    \item 8 over 7 ($-P > -P -C_B)$)
+\end{itemize}
+The Seller would choose option 8, as 
+\[P>P-U_S(G)>0>-U_S\]
+Because the payout of the Buyer is $-P<0$, he would not engage in this trade and therefore refuse to pay the collateral in step 1. The trade is still unsuccessful.
 \section{An extra input is needed}
 The Smart Contract plays an important role. We want to create a Smart Contract that rewards honest behaviour and punishes dishonest behaviour.\newline
 Problems arise, because the Smart Contract does not know if the physical good $G$ was actually sent to the Buyer. Because of this missing information, it is impossible for the Smart Contract to settle disputes.
@@ -692,7 +743,7 @@ Similar to section 5.3, following protocol is proposed:
 \hline
 5& $0|0$\\
 \hline 
-6& $-C_S |-P - C_B$\\
+6& $P + C_B |-P - C_B$\\
 \hline
 7& $- C_S| C_S$\\
 \hline
