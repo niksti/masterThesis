@@ -293,8 +293,9 @@ The Buyer also has a unique opportunity: Since he decides what happens to the co
                     child[sibling distance = 3cm]{node[draw]{S}
                         child[sibling distance = 3cm]{node[shape=rectangle]{0$|$0} edge from parent node [left] {$C_S$}}
                         child[sibling distance = 3cm]{node[shape=rectangle]{$P-C|-P$} edge from parent node [right] {$-C_S$}}edge from parent node [right] {$C_B$}}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
-          child[sibling distance = 9cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {$-H_B$}};
-\end{tikzpicture}
+          child[sibling distance = 8cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {$-H_B$}};
+\end{tikzpicture}\newline
+
 To analyze the payout, we again start at the bottom. Since $C>P$, the Seller would comply ($C_S$) on both instances.\newline
 On both branches the Buyer chooses $C_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
 Based on this information the Seller chooses $-H_S$: \[-U_S(G) < 0\]
@@ -324,6 +325,84 @@ Following protocol is proposed:
     \item The Smart Contract releases the collateral of the Seller
 \end{enumerate}
 There are multiple ways to implement step 4. Either the two parties report one after another or they report simultaneously.
+\subsubsection{The Seller reports first}
+As the Buyer reports last, this protocols still gives the Buyer the power of burning the collateral of the Seller by reporting exactly the opposite from the Sellers report.\newline
+Therefore he can still coerce the Seller into sending him back his payment. This strategy will be denoted as $C_B$. As we already have shown above, a rational seller will comply and send back the payment $P$ (this last decision will be omitted from the tree for better readability).\newline
+
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{B}
+        child[sibling distance = 8cm]{node[draw]{S}
+                child[sibling distance = 9cm]{node[draw]{S}
+                		child[sibling distance = 4.5cm]{node[draw]{B} 
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{1} edge from parent node [left] {0}}
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{2} edge from parent node [right] {1}}
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{3} edge from parent node [right] {$C_B$}}
+                		     edge from parent node [left] {0}} 
+                		child[sibling distance = 4.5cm]{node[draw]{B} 
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{4} edge from parent node [left] {0}}
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{5} edge from parent node [right] {1}}
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{6} edge from parent node [right] {$C_B$}}
+                		     edge from parent node [right] {1}}
+                		     edge from parent node [left] {$H_S$}} 
+                child[sibling distance = 9cm]{node[draw]{S}
+                child[sibling distance = 4.5cm]{node[draw]{B} 
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{7} edge from parent node [left] {0}}
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{8} edge from parent node [right] {1}}
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{9} edge from parent node [right] {$C_B$}}
+                		     edge from parent node [left] {0}} 
+                		child[sibling distance = 4.5cm]{node[draw]{B} 
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{10} edge from parent node [left] {0}}
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{11} edge from parent node [right] {1}}
+                		    child[sibling distance = 1.5cm]{node[shape = rectangle]{12} edge from parent node [right] {$C_B$}}
+                		     edge from parent node [right] {1}}
+                		     edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+          child[sibling distance = 8cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$-H_B$}};
+\end{tikzpicture}
+
+\begin{center}
+\begin{tabular}{ |c|c| }
+\hline
+& Payout  \\
+\hline
+\hline
+1& $-U_S(G)| U_B(G)$\\
+\hline
+2& $-C-U_S(G)|U_B(G) -P$\\
+\hline
+3&$-U_S(G)|U_B(G)$ \\
+\hline
+4& $-C-U_S(G)|U_B(G)-P$ \\
+\hline
+5& $P-U_S(G)| U_B(G) - P$\\
+\hline 
+6& $-U_S(G)|U_B(G)$\\
+\hline
+7& $0|0$\\
+\hline
+8& $-C | -P$\\
+\hline
+9& $0|0$\\
+\hline
+10& $-C|-P$\\
+\hline
+11& $P| -P$\\
+\hline
+12& $0| 0$\\
+\hline
+\end{tabular}
+\end{center}
+To analyze the payout, we again start at the bottom. The Buyer chooses:
+\begin{itemize}
+    \item 1 or 3 over 2 ($U_B(G) > U_B(G) - P$)
+    \item 6 over 5 and 4  ($U_B(G) > U_B(G) - P$)
+    \item 7 or 9 over 8 ($0 > -C$)
+    \item 12 over 10 and 11 ($0 > -P$)
+\end{itemize}
+The Buyer chooses:
+\begin{itemize}
+    \item 7 or 12 over 1 and 6 ($0>-U_S(G)$)
+\end{itemize}
+No matter which decision the Buyer takes at the top of the tree, the payout will be $0|0$ and the trade unsuccessful.
 
 \subsubsection{Payout: The Buyer reports first}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -393,62 +472,7 @@ The Buyer always reports that he did not receive the item.\newline
 As \[0 > -U_S(G)\] the Seller chooses not to send the physical good ($-H_S$).\newline
 No matter which decision the Buyer takes at the top of the tree, the payout will be $0|0$ and the trade unsuccessful.
 
-\subsubsection{Payout: The Seller reports first}
-\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-      \node[draw]{B}
-        child[sibling distance = 9cm]{node[draw]{S}
-                child[sibling distance = 9cm]{node[draw]{S}
-                		child[sibling distance = 5cm]{node[draw]{B} 
-                		    child[sibling distance = 2cm]{node[shape = rectangle]{1} edge from parent node [left] {0}}
-                		    child[sibling distance = 2cm]{node[shape = rectangle]{2} edge from parent node [right] {1}}
-                		     edge from parent node [left] {0}} 
-                		child[sibling distance = 5cm]{node[draw]{B} 
-                		    child[sibling distance = 2cm]{node[shape = rectangle]{3} edge from parent node [left] {0}}
-                		    child[sibling distance = 2cm]{node[shape = rectangle]{4} edge from parent node [right] {1}}
-                		     edge from parent node [right] {1}}
-                		     edge from parent node [left] {$H_S$}} 
-                child[sibling distance = 9cm]{node[draw]{S}
-                child[sibling distance = 5cm]{node[draw]{B} 
-                		    child[sibling distance = 2cm]{node[shape = rectangle]{5} edge from parent node [left] {0}}
-                		    child[sibling distance = 2cm]{node[shape = rectangle]{6} edge from parent node [right] {1}}
-                		     edge from parent node [left] {0}} 
-                		child[sibling distance = 5cm]{node[draw]{B} 
-                		    child[sibling distance = 2cm]{node[shape = rectangle]{7} edge from parent node [left] {0}}
-                		    child[sibling distance = 2cm]{node[shape = rectangle]{8} edge from parent node [right] {1}}
-                		     edge from parent node [right] {1}}
-                		     edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
-          child[sibling distance = 9cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$-H_B$}};
-\end{tikzpicture}
 
-\begin{center}
-\begin{tabular}{ |c|c| }
-\hline
-& Payout  \\
-\hline
-\hline
-1& $-U_S(G)| U_B(G)$\\
-\hline
-2& $-C-U_S(G)|U_B(G) -P$\\
-\hline
-3&$-C-U_S(G)|U_B(G)-P$ \\
-\hline
-4& $P-U_S(G)| U_B(G) - P$\\
-\hline
-5& $0|0$\\
-\hline 
-6& $-C | -P$\\
-\hline
-7& $-C|-P$\\
-\hline
-8& $P| -P$\\
-\hline
-\end{tabular}
-\end{center}
-
-Buyer chooses 1,5, coerce: i report 1 but you send me P + C/2\newline
-Can he only threaten it if his payout does not change? If it changes, is this threat not believable?\newline
-Seller chooses 5?\newline
-Nash Equilibrium again $0|0$ and trade unsuccessful. 
 \minisec{How to report simultaneously}
  Every transaction to the Smart Contract is public. As the players have to report to the Smart Contract by sending a public transaction, the other player also knows what the first player reported. By just demanding both to report at the same time, the player who reports second does always know what value the first player reported. Then the report is not really simultaneous.\newline
  
@@ -476,7 +500,7 @@ $T_1$& 0$_B$ & 1$_B$   \\
 \end{tabular}
 \end{center}
 
-The Nash Equilibrium of $T_1$ is $\{0_B, 0_S\}$ and payout $-U_S(G) | U_B(G)$. What about $\{1_B, 1_S\}$ also Nash Equilibrium (No player can improve by changing the strategy)? 
+The Nash Equilibrium of $T_1$ is $\{0_B, 0_S\}$ and payout $-U_S(G) | U_B(G)$.
 
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -490,7 +514,7 @@ $T_2$& 0$_B$ & 1$_B$   \\
 \end{tabular}
 \end{center}
 
-The Nash Equilibrium of $T_2$ is $\{0_B, 0_S\}$ and payout $0 | 0$. What about $\{1_B, 1_S\}$ also Nash Equilibrium? What about strategy $C_B$ again?\newline
+The Nash Equilibrium of $T_2$ is $\{0_B, 0_S\}$ and payout $0 | 0$. \newline
 
 S would choose $-H_S$, because $0>-U_S(G)$.\newline
 As both options lead to a payout of 0, B chooses an arbitrary option. The trade is unsuccessful again.
