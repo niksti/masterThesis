@@ -129,7 +129,9 @@ The trade is considered successful if the situation transitions from the start p
 \minisec{Goal}
 The goal is to design the protocol in such a way, that it is the behaviour with the biggest reward for both the buyer and the seller to perform a successful trade.\newline
 No trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. A successful trade should be a Nash Equilibrium: If the other party behaves honestly, the best strategy will be to behave honestly as well.\newline
+%If the other party behaves rational it should be best to behave honest.
 Another goal is that the trade is incoercible against rational attacks. It should be unprofitable, but not necessarily impossible, to decrease the payout of the other party, if the other party is behaving honestly. 
+
 
 %\subsection{Implementation}
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
@@ -845,11 +847,10 @@ The third Entity will be fully trusted by the Buyer. It has its own physical add
 The third Entity also has its own wallet on the blockchain and can communicate with the Smart Contract and the Buyer.
 
 \section{Formal definition of the new Game}
-\subsection{Entities}
 
 \minisec{Utility function}
 The utility function $U_P(G)$ describes how much utility a physical good $G$ provides to a player $P$. The output of this function is a numerical value, which corresponds to the amount of coins that have the same value as $U_P(G)$.
-\section{Entities}
+\subsection{Entities}
 
 \minisec{Seller}An entity that owns a specific physical good $G$. The seller has bigger utility in owning $P$ amount of coins in contrast to owning $G$. He therefore desires to exchange $G$ against coins of amount $P$.
 
@@ -868,7 +869,7 @@ The utility function $U_P(G)$ describes how much utility a physical good $G$ pro
 \minisec{Smart Contract} An entity that should ensure that the trade is successful. It acts as a fully trusted oracle.
 
 \minisec{Reporting Entity}
-
+An Entity that should ensure that the Seller is punished when misbehaving. It is fully trusted by the Buyer.
 \subsection{The new Game}
 
 \minisec{Start Point}
@@ -878,10 +879,10 @@ A Seller and a buyer want to trade successfully: Both have funds in the given cr
 The buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the seller have increased by $P$.
 
 \minisec{Assumptions}
-Both entities have access to the Smart Contract and know the addresses of each other. The seller also knows the physical address to which the buyer wants the good to be shipped. Other than this information they know nothing about each other.\newline 
-Both parties can send funds in the given cryptocurrency to any address. The sender has the power to send/ship the physical good to any physical address he wants. Both the seller and the buyer know the code of the Smart Contract.\newline
-We assume both entities to behave rational, meaning that they both want to maximise their expected payout.\newline
-Both $U_S(G)$ and $U_B(G)$ are positive. \newline
+All entities have access to the Smart Contract and know the addresses of each other. The seller also knows the physical address of the reporting Entity. The reporting Entity knows the physical address of the Buyer. Other than this information they know nothing about each other.\newline 
+Both parties can send funds in the given cryptocurrency to any address. The sender and the reporting Entity have the power to ship the physical good to any physical address they want. Both the seller and the buyer know the code of the Smart Contract.\newline
+We assume rational behaviour for the Buyer and the Seller, meaning that they both want to maximise their expected payout.\newline
+Both $U_S(G)$ and $U_B(G)$ are positive.\newline
 Transaction Fees and Fees for the escrows are not analysed.
 
 
@@ -998,7 +999,7 @@ The general payout of a Seller using strategy $dishonestSeller$ is:
 As we assume $U_S(G) > 0$, this strategy yields a bigger payout than the honest strategy (8.4, 8.7):
 \[P_S(dishonestSeller,Post\_Tx\_honest_B) = P_S(honest_S,honest_B) + U_S(G)\]
 
-This contradicts our assumption that $G$ is a successful Game as defined in 4.2, as the honest strategy is no longer the best strategy for the Seller.
+This contradicts our assumption that $G$ is a successful Game as defined in 4.2, as the honest strategy is no longer the best strategy for the Seller when the buyer is acting rational.
  %\begin{figure}[!htbp]
     %\begin{systembox}{A}
 %	ss
