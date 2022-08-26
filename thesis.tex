@@ -5,6 +5,8 @@
 \usepackage{tikz}
 \usepackage{amsfonts} 
 \usepackage{macros}
+\usepackage{biblatex}
+\addbibresource{references.bib}
 
 \begin{document}
 
@@ -90,14 +92,14 @@ Hier unbedingt Asganokar sein paper erwähnen (sale of digital goods)
 The utility function $U_P(G)$ describes how much utility a physical good $G$ provides to a player $P$. The output of this function is a numerical value, which corresponds to the amount of coins that have the same value as $U_P(G)$.
 \section{Entities}
 
-\minisec{Seller}An entity that owns a specific physical good $G$. The seller has bigger utility in owning $P$ amount of coins in contrast to owning $G$. He therefore desires to exchange $G$ against coins of amount $P$.
+\minisec{Seller}An entity S that owns a specific physical good $G$. The seller has bigger utility in owning $P$ amount of coins in contrast to owning $G$. He therefore desires to exchange $G$ against coins of amount $P$.
 
 %Insert Utility function distribution
 \begin{equation}
     U_S(G) + P > P > U_S(G) > 0
 \end{equation}
 
-\minisec{Buyer}An entity that owns coins of at least amount of $P$. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins. He therefore desires to exchange coins of amount $P$ against $G$.
+\minisec{Buyer}An entity B that owns coins of at least amount of $P$. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins. He therefore desires to exchange coins of amount $P$ against $G$.
 
 %Insert Utility function distribution
 \begin{equation}
@@ -117,7 +119,7 @@ The buyer is in possession of the physical good and his funds have decreased by 
 \minisec{Assumptions}
 Both entities have access to the Smart Contract and know the addresses of each other. The seller also knows the physical address to which the buyer wants the good to be shipped. Other than this information they know nothing about each other.\newline 
 Both parties can send funds in the given cryptocurrency to any address. The sender has the power to send/ship the physical good to any physical address he wants. Both the seller and the buyer know the code of the Smart Contract.\newline
-We assume both entities to behave rational, meaning that they both want to maximise their expected payout.\newline
+We assume both entities to behave rationally, meaning that they both want to maximise their expected payout.\newline
 Both $U_S(G)$ and $U_B(G)$ are positive. \newline
 Transaction Fees and Fees for the escrows are not analysed.
 
@@ -127,7 +129,7 @@ Transaction Fees and Fees for the escrows are not analysed.
 The trade is considered successful if the situation transitions from the start point to the end point.
 
 \minisec{Goal}
-The goal is to design the protocol in such a way, that it is the behaviour with the biggest reward for both the buyer and the seller to perform a successful trade.\newline
+The goal is to design a protocol in which behavior that results in a successful trade is a Nash Equilibrium.\newline
 No trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. A successful trade should be a Nash Equilibrium: If the other party behaves honestly, the best strategy will be to behave honestly as well.\newline
 %If the other party behaves rational it should be best to behave honest.
 Another goal is that the trade is incoercible against rational attacks. It should be unprofitable, but not necessarily impossible, to decrease the payout of the other party, if the other party is behaving honestly. 
@@ -537,7 +539,14 @@ When only the Seller deposits collateral, the Buyer can coerce the Seller into s
 We introduce another protocol that addresses this problems. In this protocol both parties deposit collateral. This should incentivize the parties to both behave honestly.\newline
 If the two parties report something different, the Smart Contract will slash the collateral of both players, as it can not determine which party is lying. If both parties report 0, the Smart Contract will send the payment $P$ back to the Buyer. If both parties report 1, the Smart Contract will send the payment $P$ to the Seller.  \newline
 
+Again, there are three possible ways of handling the reports:
+\begin{itemize}
+    \item The Seller reports first
+    \item The Buyer reports first
+    \item Both players report simultaneously
+\end{itemize}
 
+\subsection{The Seller reports first}
 Following protocol is proposed:
 \begin{enumerate}
     \item Seller deposits collateral $C_S > P$ to the Smart Contract
@@ -581,7 +590,7 @@ To increase readability, we do not plot the decisions from point 1 to point 3. I
 \hline
 2& $-U_S(G) - C_S| U_B(G)- P - C_B $\\
 \hline
-3&$P-U_S(G) - C_S | U_B(G) -P - C_B$ \\
+3&$-U_S(G) - C_S | U_B(G) -P - C_B$ \\
 \hline
 4& $P-U_S(G)| U_B(G)-P$\\
 \hline
@@ -589,7 +598,7 @@ To increase readability, we do not plot the decisions from point 1 to point 3. I
 \hline 
 6& $-C_S |-P - C_B$\\
 \hline
-7& $- C_S| -P-C_S$\\
+7& $-C_S| -P-C_B$\\
 \hline
 8& $P| -P$\\
 \hline
@@ -606,8 +615,88 @@ To analyze the payout, we start at the bottom of the tree. The Buyer would choos
 The Seller would choose option 8, as 
 \[P>P-U_S(G)>0>-U_S(G)\]
 Because the payout of the Buyer is $-P<0$, he would not engage in this trade and therefore refuse to pay the collateral in step 1. The trade is still unsuccessful.
+
+\subsection{The Buyer reports first}
+Following protocol is proposed:
+\begin{enumerate}
+    \item Seller deposits collateral $C_S > P$ to the Smart Contract
+    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
+    \item Buyer sends Funds of amount $P$ to the Smart Contract
+    \item Seller sends physical good $G$ to the seller
+    \item Buyer receives the physical good and confirms it to the Smart Contract
+    \item Seller reports to the Smart Contract that he did send $G$
+    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
+\end{enumerate}
+\minisec{Possible strategies}
+As always, $H_S$ denotes the honest strategy, where the Seller sends $G$ and $-H_S$ denotes the dishonest strategy where the Seller does not send the $G$.
+
+\minisec{Payout}
+To increase readability, we do not plot the decisions from point 1 to point 3. If someone does not deposit the collateral, the Smart Contract aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step 3), he loses his collateral. The payout is $0|-C_B$\newline
+
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+    \node[draw]{S}
+        child[sibling distance = 9cm]{node[draw]{B}
+    		child[sibling distance = 5cm]{node[draw]{S}
+    		    child[sibling distance = 3cm]{node{1} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
+    		child[sibling distance = 5cm]{node[draw]{S}
+    		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$H_S$}} 
+        child[sibling distance = 9cm]{node[draw]{B}
+            child[sibling distance = 5cm]{node[draw]{S}
+                child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
+            child[sibling distance = 5cm]{node[draw]{S}
+                child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
+    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
+\end{tikzpicture}
+
+\begin{center}
+\begin{tabular}{ |c|c| }
+\hline
+& Payout  \\
+\hline
+\hline
+1& $-U_S(G) | U_B(G)$\\
+\hline
+2&$-U_S(G) - C_S | U_B(G) -P - C_B$ \\
+\hline
+3& $-U_S(G) - C_S| U_B(G)- P - C_B $\\
+\hline
+4& $P-U_S(G)| U_B(G)-P$\\
+\hline
+5& $0|0$\\
+\hline 
+6& $-C_S |-P - C_B$\\
+\hline
+7& $-C_S| -P-C_B$\\
+\hline
+8& $P| -P$\\
+\hline
+\end{tabular}
+\end{center}
+
+To analyze the payout, we start at the bottom of the tree. The Seller would choose:
+\begin{itemize}
+    \item 1 over 2 ($-U_S(G) > -U_S(G) -C_S$)
+    \item 4 over 3 ($P -U_S(G) > -U_S(G) -C_B$)
+    \item 5 over 6 ($0 > -C_S$)
+    \item 8 over 7 ($P >-C_S$)
+\end{itemize}
+The Buyer would choose:
+\begin{itemize}
+    \item 1 over 4 ($U_B(G) > U_B(G) - P$)
+    \item 5 over 8 ($0 > -P$)
+\end{itemize}
+The Buyer would always report 0, no matter if the Seller was honest or not.\newline
+The Seller chooses $-H_S$, as 
+\[0>-U_S(G)\]
+The Seller will never send $G$ in this game and the trade is unsuccessful.
+
+
+
 \section{An extra input is needed}
-The Smart Contract plays an important role in the two side collateral protocol. We want to create a Smart Contract that rewards honest behaviour and punishes dishonest behaviour.\newline
+The Smart Contract plays an important role in the two side collateral protocol. We want to create a Smart Contract that rewards honest behaviour and punishes dishonest behaviour.\newline 
 Problems arise, because the Smart Contract does not know if the physical good $G$ was actually sent to the Buyer. Because of this missing information, it is impossible for the Smart Contract to settle disputes.
 \subsection{Ideal Functionality}
 We can achieve the ideal functionality of our Smart Contract by giving it the information whether the good was actually shipped as an Input. We model the ideal behaviour with a function taking 6 inputs and giving 2 outputs.
@@ -987,7 +1076,7 @@ In this section we provide a proof showing that (under our Assumptions) there ca
 
 \minisec{Assumptions}
 \begin{enumerate}
-    \item if the other party behaves honestly or rational, it will be the best strategy to behave honest as well
+    \item if the other party behaves honestly or rationally, it will be the best strategy to behave honestly
     \item $U_S(G)$ and $U_B(G)$ are constants $> 0$
     \item All Payments go through the smart Contract
     \item The players only interact with each other and the Smart Contract. There are no other entities involved.
@@ -1079,7 +1168,9 @@ This contradicts our assumption that $G$ is a successful Game as defined in 4.2,
  %\end{figure}
 	
 	%\bibliographystyle{}
-	%\bibliography{}
+	
+	%\bibliography{references.bib}
+	\printbibliography
 	
 	\appendix
 \end{document}
