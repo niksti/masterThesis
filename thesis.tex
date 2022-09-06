@@ -949,7 +949,7 @@ We need to rework our Assumptions and requirements for the game we want to desig
 \hline 
 6& $-C_S |-P - C_B$\\
 \hline
-7& $- C_S| -P-C_S$\\
+7& $- C_S| -P-C_B$\\
 \hline
 8& $P| -P$\\
 \hline
@@ -1025,8 +1025,34 @@ The honest behaviour of the Seller remains unchanged by the new protocol. It sti
     \item Report to the Smart Contract  that $G$ was sent
 \end{enumerate}
 
+\subsubsection{Possible Strategies}
+The new protocol has no impact on the possible strategies for the Seller. He still has the option to either send ($H_S$) or not send ($-H_S$) the physical good. After that, he has the option to report 0 or 1 to the Smart Contract.\newline
+As the Buyer does not longer report to the Smart Contract, he has fewer decisions to make. As soon as he enters the trade (pays the collateral and $P$ to the SC), he no longer has any decision to make. The Mediator will take care of reporting to the Smart Contract.
+
+\subsubsection{Payout}
+We again start our analysis at point 5 of the protocol.\newline
+
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+    \node[draw]{S}
+        child[sibling distance = 9cm]{node[draw]{S}
+    		child[sibling distance = 5.5cm]{node[draw]{M}
+    		    child[sibling distance = 5cm]{node[shape = rectangle]{$-U_S(G) - C_S| - P - C_B $} edge from parent node [right] {1}}edge from parent node [left] {0}}
+    		child[sibling distance = 5.5cm]{node[draw]{M}
+    		    child[sibling distance = 3cm]{node[shape = rectangle]{$P-U_S(G)| U_B(G)-P$} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$H_S$}} 
+        child[sibling distance = 9cm]{node[draw]{S}
+            child[sibling distance = 5cm]{node[draw]{M}
+    		    child[sibling distance = 3cm]{node[shape = rectangle]{$0|0$} edge from parent node [right] {1}}edge from parent node [left] {0}}
+            child[sibling distance = 5cm]{node[draw]{M}
+    		    child[sibling distance = 3cm]{node[shape = rectangle]{$- C_S| -P-C_B$} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
+\end{tikzpicture}\newline
 
 
+The Mediator is always behaving in the same way. Therefore the Seller can choose the one option, which yields him the biggest payout. This is sending the good ($H_S$) and reporting 1, as: 
+
+\[P-U_S(G)>0>-C_S>-U_S(G) - C_S\]
+
+It is the best option for the Seller to behave honestly.\newline
+As completing the trade honestly is also profitable for the Buyer, this protocol solves the problem.
 \section{Approaches}
 \subsection{Friend of Buyer reports}
 One possible approach is letting a loyal friend of the Buyer be the reporting Entity. It is important that he is loyal to the Buyer, meaning that he will not betray the Buyer and keep the physical good $G$ to himself. The Buyer fully trusts his loyal friend. 
