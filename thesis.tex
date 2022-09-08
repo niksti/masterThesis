@@ -728,7 +728,8 @@ $T_1$& 0$_B$ & 1$_B$   \\
 \end{tabular}
 \end{center}
 
-The Nash Equilibrium of $T_1$ is $\{0_B, 0_S\}$ and payout $-U_S(G) | U_B(G)$.
+The subgame $T_1$ has two Nash Equilibria: $\{0_B, 0_S\}$ and $\{1_B, 1_S\}$.\newline
+The payout of $\{0_B, 0_S\}$ is $-U_S(G)|U_B(G)$. The payout of $\{1_B, 1_S\}$ is $P-U_S(G)|U_B(G)-P$.
 
 \begin{center}
 \begin{tabular}{ c||c|c| }
@@ -741,6 +742,27 @@ $T_2$& 0$_B$ & 1$_B$   \\
 \hline
 \end{tabular}
 \end{center}
+
+The subgame $T_2$ has the same two Nash Equilibria as well: $\{0_B, 0_S\}$ and $\{1_B, 1_S\}$.\newline
+The payout of $\{0_B, 0_S\}$ is $0|0$. The payout of $\{1_B, 1_S\}$ is $P|-P$.\newline
+
+The Seller decides if he wants to enter subgame $T_1$ or $T_2$. To analyse his decision we look at his payout from each subgame:\newline
+\begin{enumerate}
+    \item $T_1$
+        \begin{itemize}
+            \item $\{0_B, 0_S\}: -U_S(G)$
+            \item $\{1_B, 1_S\}: P-U_S(G)$
+        \end{itemize}
+    \item $T_2$
+        \begin{itemize}
+            \item $\{0_B, 0_S\}: 0$
+            \item $\{1_B, 1_S\}: P$
+        \end{itemize}
+\end{enumerate}
+If we compare these 4 possible payouts:
+\[P > P-U_S(G) > 0 > -U_S(G)\]
+Without any additional assumptions, it is unclear which is the better subgame for the Seller. 
+
 \section{An extra input is needed}
 The Smart Contract plays an important role in the two side collateral protocol. We want to create a Smart Contract that rewards honest behaviour and punishes dishonest behaviour.\newline 
 Problems arise, because the Smart Contract does not know if the physical good $G$ was actually sent to the Buyer. Because of this missing information, it is impossible for the Smart Contract to settle disputes.
@@ -1053,7 +1075,7 @@ The Mediator is always behaving in the same way. Therefore the Seller can choose
 
 It is the best option for the Seller to behave honestly.\newline
 As completing the trade honestly is also profitable for the Buyer, this protocol solves the problem.
-\section{Approaches}
+\section{Possible realizations of Mediator}
 \subsection{Friend of Buyer reports}
 One possible approach is letting a loyal friend of the Buyer be the reporting Entity. It is important that he is loyal to the Buyer, meaning that he will not betray the Buyer and keep the physical good $G$ to himself. The Buyer fully trusts his loyal friend. 
 \minisec{Modeling the Friend}
