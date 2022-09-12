@@ -1075,12 +1075,16 @@ The Mediator is always behaving in the same way. Therefore the Seller can choose
 
 It is the best option for the Seller to behave honestly.\newline
 As completing the trade honestly is also profitable for the Buyer, this protocol solves the problem.
+
+
 \section{Possible realizations of Mediator}
+The Mediator, as it is defined in 6.1, is an theoretical Entity. In the following section we will discuss some practical attempts to realize the Mediator.
 \subsection{Friend of Buyer reports}
-One possible approach is letting a loyal friend of the Buyer be the reporting Entity. It is important that he is loyal to the Buyer, meaning that he will not betray the Buyer and keep the physical good $G$ to himself. The Buyer fully trusts his loyal friend. 
+As the Buyer has to trust the Mediator, one possible approach is choosing a loyal friend of the Buyer to be the Mediator. It is important that he is loyal to the Buyer, meaning that he will not betray the Buyer and keep the physical good $G$ to himself. The Buyer fully trusts his loyal friend. 
 \minisec{Modeling the Friend}
 The friend will not act rational, as he does not want to maximize his own Utility. He rather wants to maximize the Buyer's utility. Therefore he will always choose the option that maximizes the payout of the Buyer.\newline
 The Friend(F) will receive the physical good $G$ and check if it the agreed good. After that, he reports 0 (received the good successfully) or 1 (did not receive the good successfully) to the Smart Contract. After that he will send the $G$ to the Buyer.
+
 \minisec{Protocol}
 \begin{enumerate}
     \item Seller and Buyer deposit Collateral to the SC
@@ -1090,6 +1094,10 @@ The Friend(F) will receive the physical good $G$ and check if it the agreed good
     \item Friend sends $G$ to the Buyer
 \end{enumerate}
 
+\minisec{Friend is not the ideal Mediator}
+We modeled the friend as being loyal to the Buyer. He wants to maximize the utility of the Buyer.\newline
+That means that he will always choose the behaviour that benefits the Buyer. Therefore he is not suited as being the Mediator. He does not achieve the same functionality as the ideal Mediator proposed in 6.1, as he will not always report truthfully to the Smart Contract.\newline
+As the Seller knows this, he can take advantage of it. He knows that he will not be punished if he does not send the physical good. The friend as Mediator is not a credible threat to the Seller. Therefore a rational Seller will not send the good and not behave honestly in this setting. 
 \minisec{Payout}
 To increase readability, we do not plot the decisions from point 1 to point 3. If someone does not deposit the collateral, the Smart Contract aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step 3), he loses his collateral. The payout is $0|-C_B$\newline
 
@@ -1145,8 +1153,21 @@ We again start at the bottom of the tree to analyze the payout. As F wants to ma
 The Seller would choose option 8, as 
 \[P>P-U_S(G)>0>-U_S(G)\]
 Because the payout of the Buyer is $-P<0$, he would not engage in this trade and therefore refuse to pay the collateral in step 1. The trade is still unsuccessful. \newline
-Introducing a friend as the reporting Entity does not solve the problem. The tree and the payout are exactly the same as in the two side collateral protocol. As the Seller knows that F will act in the best interest of the Buyer, he can still misbehave without being punished.\newline
-To solve the problem we need to come up with an reporting Entity that is fully trusted by the Buyer, but is not acting in his best interest. Every entity that is acting in the best interest for the Buyer will not be a credible threat to the Seller.
+Introducing a friend as the Mediator does not solve the problem. The tree and the payout are exactly the same as in the two side collateral protocol. As the Seller knows that F will act in the best interest of the Buyer, he can still misbehave without being punished.\newline
+To solve the problem we need to come up with a Mediator that is fully trusted by the Buyer, but is not acting in his best interest. Every entity that is acting in the best interest for the Buyer will not be a credible threat to the Seller.
+
+
+\subsection{Postal Office reports}
+In our formal analysis we assumed that there is a way for the physical item $G$ to be reliably shipped. In practice physical goods are usually shipped by a another party (Post office/ shipping company). \newline
+Therefore the parties have to trust the Postal Office (PO) to actually deliver the good. Because the parties already trust the PO, the PO can also report to the Smart Contract and thereby act as the Mediator.
+\minisec{Protocol}
+\begin{enumerate}
+    \item Seller and Buyer deposit Collateral to the SC
+    \item Buyer sends $P$ to the SC
+    \item Seller hands $G$ to the Postal Office and reports 1/0 to the SC
+    \item Postal Office checks if the good is correct and reports 1/0 to the SC
+    \item Postal Office ships $G$ to the Buyer
+\end{enumerate}
 \subsection{AI Box reports}
 TODO: SHOW THAT THIS APPROACH (HOPEFULLY) DOES WORK
 \section{Difference from trusted third party/ Escrow}
