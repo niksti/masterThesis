@@ -1162,12 +1162,36 @@ In our formal analysis we assumed that there is a way for the physical item $G$ 
 Therefore the parties have to trust the Postal Office (PO) to actually deliver the good. Because the parties already trust the PO, the PO can also report to the Smart Contract and thereby act as the Mediator.
 \minisec{Protocol}
 \begin{enumerate}
+    \item Buyer gives SC address and specifications for G to the Postal Office
     \item Seller and Buyer deposit Collateral to the SC
     \item Buyer sends $P$ to the SC
     \item Seller hands $G$ to the Postal Office and reports 1/0 to the SC
     \item Postal Office checks if the good is correct and reports 1/0 to the SC
     \item Postal Office ships $G$ to the Buyer
 \end{enumerate}
+\subsubsection{Postal Office realises ideal Mediator}
+An honest Postal Office realises the ideal Mediator as defined in 6.1:
+\begin{enumerate}
+    \item It receives the SC address and specifications that describe G
+    \item It receives the physical good from the Seller
+    \item It checks, if the received good matches the specifications for $G$
+        \begin{itemize}
+            \item YES: it reports 1 and sends the good to the Buyer
+            \item NO: it reports 0 and destroys the good
+        \end{itemize}
+\end{enumerate}
+As the Postal Office has to be trusted by the Buyer, it meets the requirements to being the ideal mediator. We have already shown (6.2) that a practical implementation of the ideal Mediator would solve our problem. Therefore the Postal Office reporting to the Smart Contract and thereby acting as Mediator is a viable solution to the problem.
+\minisec{Trust in the Postal Office}
+Although this solution with the PO as Mediator achieves an incoercible sale of the physical good $G$, both parties still have to trust the Postal Office behave honestly.\newline
+In addition to that, the Postal Office now knows the specifications of the good being shipped. This means that there is less privacy for the Buyer and the Seller. If the physical good that is being shipped is very valuable, it opens up possible attacks by the Postal Office.\newline
+
+-po has to be big/trusted enough\newline
+-exit scams?
+\minisec{Difference Postal Office and Escrow}
+The big difference between the Postal Office and traditional third party escrow is that the PO does not handle the money. \newline
+In traditional third party escrows, the escrow has to be trusted with the good and the money. As it is in possession of both, it opens up possibilities to scam the Buyer and the Seller out of both the money and the physical good.\newline
+As the postal Office is only holding on to the physical good, the reward of a possible scam is less than if it also had control of the money.\newline
+We trust the PO by default? Third party escrow is third rational party therefore can scam, but PO is not modeled as rational party? kind of cheating
 \subsection{AI Box reports}
 TODO: SHOW THAT THIS APPROACH (HOPEFULLY) DOES WORK
 \section{Difference from trusted third party/ Escrow}
