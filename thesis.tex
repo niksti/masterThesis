@@ -1162,6 +1162,7 @@ In our formal analysis we assumed that there is a way for the physical item $G$ 
 Therefore the parties have to trust the Postal Office (PO) to actually deliver the good. Because the parties already trust the PO, the PO can also report to the Smart Contract and thereby act as the Mediator.
 \minisec{Protocol}
 \begin{enumerate}
+    \item MAYBE: Postal Office releases Public Key
     \item Buyer gives SC address and specifications for G to the Postal Office
     \item Seller and Buyer deposit Collateral to the SC
     \item Buyer sends $P$ to the SC
@@ -1192,8 +1193,46 @@ The big difference between the Postal Office and traditional third party escrow 
 In traditional third party escrows, the escrow has to be trusted with the good and the money. As it is in possession of both, it opens up possibilities to scam the Buyer and the Seller out of both the money and the physical good.\newline
 As the postal Office is only holding on to the physical good, the reward of a possible scam is less than if it also had control of the money.\newline
 We trust the PO by default? Third party escrow is third rational party therefore can scam, but PO is not modeled as rational party? kind of cheating
-\subsection{AI Box reports}
-TODO: SHOW THAT THIS APPROACH (HOPEFULLY) DOES WORK
+\subsection{Machine reports}
+If we can build a machine that can recognize $G$ reliably, we can completely eliminate trust. This machine can act as the Mediator. It does not make decisions, it simply takes inputs and acts accordingly.\newline
+The inputs it takes are:
+\begin{itemize}
+    \item The address of the SC
+    \item Specifications that describe $G$
+    \item The physical good $G$
+\end{itemize}
+
+The Mediator now is a deterministic machine in contrast to a third Entity. This has the advantage that both the Buyer and the Seller know that the Machine will behave exactly as it is programmed to do. There is no need of trust anymore.\newline
+
+\subsubsection{Behaviour of the Machine}
+\begin{enumerate}
+    \item it releases the its Pk  
+    \item It receives the SC address and specifications that describe G
+    \item It receives the physical good from the Seller
+    \item It checks, if the received good matches the specifications for $G$
+        \begin{itemize}
+            \item YES: it reports 1 and sends the good to the Buyer
+            \item NO: it reports 0 and destroys the good
+        \end{itemize}
+\end{enumerate}
+A Machine with this behaviour is realising the ideal Mediator from 6.1. 
+
+\subsubsection{Protocol}
+\begin{enumerate}
+    \item Machine releases PK and physical address
+    \item Buyer gives SC address and specifications for G to the Machine
+    \item Seller and Buyer deposit Collateral to the SC
+    \item Buyer sends $P$ to the SC
+    \item Seller hands $G$ to the Machine and reports 1/0 to the SC
+    \item Machine checks if the good is correct and reports 1/0 to the SC
+    \item Machine ships $G$ to the Buyer
+\end{enumerate}
+As the machine realises an ideal ideal Mediator (6.1), this protocol achieves an incoercible sale of $G$.\newline
+In addition to that, no trust is needed as the Mediator is not able to behave differently. It will always behave as it was programmed to behave. Therefore it is not able to perform any kind of scam.
+
+\subsubsection{Technology of the machine}
+The biggest challenge for the machine is to determine if the provided good actually matches the specifications.\newline
+We believe that a machine which behaves exactly as we described is could be realised using artificial intelligence. 
 \section{Difference from trusted third party/ Escrow}
 How is the reporting entity different than an escrow?
 -only buyer has to trust?
