@@ -2,14 +2,23 @@
 
 %Define your additional packages here
 \usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{nameref}
 \usepackage{tikz}
-\usepackage{amsfonts} 
+\usepackage{amsfonts}
+\usepackage{amsthm}
 \usepackage{macros}
 \usepackage{biblatex}
 \usepackage{capt-of}
 
 
 \addbibresource{references.bib}
+
+\newcommand{\authnote}[3]{{ \footnotesize \textbf{#1[#2: #3]~}}}
+\newcommand{\orfnote}[1]{\authnote{\color{blue}}{Orfeas}{#1}}
+\newcommand{\niknote}[1]{\authnote{\color{red}}{Orfeas}{#1}}
+
+\newtheorem{definition}{Definition}
 
 \begin{document}
 
@@ -92,58 +101,124 @@ Hier unbedingt Asganokar sein paper erwähnen (sale of digital goods)
 
 \chapter{Formalization}
 \minisec{Utility function}
+
+% Example usage of definition START
+\begin{definition}[Darmstadt]
+\label{def:darmstadt}
+Colon city
+\end{definition}
+Definition~\ref{def:darmstadt} transliterates Darmstadt.
+% Example usage of definition END
+
+\orfnote{should be a definition}
 The utility function $U_P(G)$ describes how much utility a physical good $G$ provides to a player $P$. The output of this function is a numerical value, which corresponds to the amount of coins that have equal value as $U_P(G)$.
+\orfnote{Mention that in this work, utility will always be a positive integer}
 \section{Entities}
 
-\minisec{Seller}An entity S that owns a specific physical good $G$. The seller has bigger utility in owning $P$ amount of coins in contrast to owning $G$. He therefore desires to exchange $G$ against coins of amount $P$.
+\orfnote{should be a definition}
+\orfnote{symbols $S$, $B$, etc.\ should be everywhere in math mode, that is
+between \$\$.}
+\orfnote{mention that $S$ is rational}
+\orfnote{repeat above for buyer}
+\minisec{Seller}An entity S that owns a specific physical good $G$. The seller
+has bigger utility in owning $P$ amount of coins in contrast to owning $G$
+\orfnote{add here "c.f.~\textbackslash{}ref\{eq:seller-utility\}" and
+corresponding \\label\{\} to the equation below, similar for buyer. The
+"Definition" example above shows how to use labels.}. He therefore desires to
+exchange $G$ against coins of amount $P$.
 
 %Insert Utility function distribution
 \begin{equation}
     U_S(G) + P > P > U_S(G) > 0
 \end{equation}
 
-\minisec{Buyer}An entity B that owns coins of at least amount of $P$. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins. He therefore desires to exchange coins of amount $P$ against $G$.
+\minisec{Buyer}An entity B that owns coins of at least amount of $P$
+\orfnote{"... that owns at least $P$ coins"}. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins. He therefore desires to exchange coins of amount $P$ against $G$.
 
 %Insert Utility function distribution
 \begin{equation}
     U_B(G) + P > U_B(G) > P > 0
 \end{equation}
 
+\orfnote{The SC is not really an escrow, as it doesn't hold on to the physical
+good, only the money}
+\orfnote{This definition is not detailed enough. You may introduce the exact
+SC code here (discussing collateral/handling of $P$ in case of
+disagreement as well), or at least refer to it TODO: rethink code location}
 \minisec{Escrow/Smart Contract} An entity that should ensure that the trade is successful. It acts as a fully trusted oracle.
 
 \section{The Game}
-
-\minisec{Start Point}
+\orfnote{I don't like \textbackslash{}minisec in general. It does not have a
+number so you cannot refer to it. It feels like a compromise between a new
+section and continuous prose. It is used in a way that turns the whole thesis
+into a list of short minisecs, almost like a bullet-point list. In order to look
+good and read like a story, it should be formatted into prose with correct
+paragraph breaks.}
+\minisec{Start Point} \orfnote{rename to Initial State}
+\orfnote{the word "want" is too vague. Also they don't want to trade
+successfully, they "want" to maximize their utility}
+\orfnote{how much money do they have? e.g. assume that they have at least
+enought to carry out protocol actions. In practice that will be $C_S$ for $S$
+and $C_B + P$ for $B$.}
+\orfnote{fix parties' capitalization}
 A Seller and a buyer want to trade successfully: Both have funds in the given cryptocurrency. The seller is in possession of the physical good.
 
-\minisec{End Point}
+\minisec{End Point} \orfnote{rename to Desired Final State}
 The buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the seller have increased by $P$.
 
 \minisec{Assumptions}
-Both entities have access to the Smart Contract and know the addresses of each other. The seller also knows the physical address to which the buyer wants the good to be shipped. Other than this information they know nothing about each other.\newline 
+Both \orfnote{"All" instead of "Both". Will cover Mediator as well} entities
+have access to the Smart Contract and know the addresses \orfnote{and public
+keys, for authenticated communication} of each other. The seller also knows the
+physical address to which the buyer wants the good to be shipped
+\orfnote{mention that this does not necessarily coincide with the buyer's real
+physical address, thus protecting the buyer's privacy}. Other than this
+information they know nothing about each other.\orfnote{never use
+\textbackslash{}newline without good reason, it messes up typesetting and
+disrespects paragraph formatting. You can instead list them using
+"itemize" or "enumerate"} \newline 
 Both parties can send funds in the given cryptocurrency to any address. The sender has the power to send/ship the physical good to any physical address he wants. Both the seller and the buyer know the code of the Smart Contract.\newline
 We assume both entities to behave rationally, meaning that they both want to maximise their expected payout.\newline
 Both $U_S(G)$ and $U_B(G)$ are positive. \newline
-Transaction Fees are not analysed.
-
-
+Transaction Fees are not analysed. \orfnote{Not considering fees is not an
+assumption. Mention it right after the list of assumptions.}
 
 \minisec{Success of the trade}
-The trade is considered successful if the situation transitions from the start point to the end point.
+The trade is considered successful if the situation transitions from the start
+point to the end point. \orfnote{Expand this into sth like: For parties starting
+from the Initial State, the Final State is a Nash Equilibrium}
 
 \minisec{Goal}
-The goal is to design a protocol in which behavior that results in a successful trade is a Nash Equilibrium.\newline
-No trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. A successful trade should be a Nash Equilibrium: If the other party behaves honestly, the best strategy will be to behave honestly as well.\newline
+The goal \orfnote{of this work} is to design a protocol in which behavior that results in a successful trade is a Nash Equilibrium.\newline
+No \orfnote{minimal} trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. A successful trade should be a Nash Equilibrium: If the other party behaves honestly, the best strategy will be to behave honestly as well.\newline
 %If the other party behaves rational it should be best to behave honest.
-Another goal is that the trade is incoercible against rational attacks. It should be unprofitable, but not necessarily impossible, to decrease the payout of the other party, if the other party is behaving honestly. 
+Another goal is that the trade is incoercible against rational attacks. It
+should be unprofitable, but not necessarily impossible, to decrease the payout
+of the other party, if the other party is behaving honestly. \orfnote{explain
+this last entry better}
 
+\orfnote{The "Success of the trade" seems a bit too mixed with the "goal". Try
+to express it in a clear way, maybe even merging the two concepts.}
 
 %\subsection{Implementation}
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
 
-\chapter{Proposed Possible Solutions}
-To analyse turn based games we will use game trees. 
-\minisec{Example Tree}
+\chapter{Proposed Possible Solutions} \orfnote{Rename chapter to "Candidate
+Two-Party Protocols" or similar}
+
+To analyse turn-based games we will use game trees. \orfnote{Game trees and
+examples should be introduced in the preliminaries. Mention that, in our work, a
+game is turn-based if only one party can play at a time and its move is revealed
+to all other parties before the next move. Mention that we can combine
+simultaneous and turn-based games if some moves are turn-based and some are
+simultaneous.}
+\minisec{Example Tree} \orfnote{for the example, prefer parties $A$, $B$ instead
+of $B$, $S$. For actions, you can e.g. use $L$, $R$, which is common in Game
+Theory literature for generic moves when every choice is binary. Do not use the
+same payouts everywhere. Better use specific numbers. Use numbers with a single
+Nash Equilibrium and walk the reader through the analysis of why it is a Nash
+Equilibrium.}
+\orfnote{use $B$, $S$ instead of B, S in the tikzpicture as well.}
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
@@ -160,6 +235,13 @@ To analyse turn based games we will use game trees.
 \minisec{Description}
 
 To analyse simultaneous games we will use a table.
+\orfnote{My favorite table format mentions the two parties' names at the
+top-left cell with a diagonal, as in the link:
+\url{https://www.jasss.org/12/4/7/Ohdaira-Table-01.jpg}. Each party has a color
+(e.g.\ S blue, B red). The actions can be full words; in the example use "be
+honest"/"lie" for one player and "report"/"hide" for the other, highlighting
+that the players need not be symmetric. The payouts are specific numbers,
+each colored with the respective player's color.}
 \minisec{Example table}
 
 \begin{center}
@@ -179,21 +261,37 @@ $-H_S$ & $P_S | P_B$ & $P_S | P_B$ \\
 On the left side are the strategies for the seller. Similar to the buyer, $H_S$ denotes the strategy where the seller behaves honestly and $-H_S$ denotes the strategy where the seller behaves dishonestly.\newline
 
 For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payout of the seller and $P_B$ denotes the payout of the buyer.
-\section{The naive approach}
-To examine any possible solutions, we begin with the simplest possible protocol.\newline
-The simplest protocol is without collateral and any third party. In this case there are 3 possibilities:
+\orfnote{Once again, in the examples (which will move to the Preliminaries)
+don't mention Seller/Buyer. Also I believe it will be confusing to mention
+honesty/dishonesty in the rationality-based games. In general for our games,
+prefer to use more specific terms for the actions and not use cryptographic
+(honest/dishonest) terms. More discussion below.}
+
+\section{The naive approach} \orfnote{change title to "First try: No Collateral"
+or simillar. Use the word "naive" in the text later.}
+To examine any possible solutions, we begin with the simplest possible
+protocol. \orfnote{Rephrase this sentence} \newline
+The simplest protocol is without collateral nor a third party. In this case there are 3 possibilities:
 \begin{itemize}
-	\item First the buyer sends coins of amount $P$ to the seller and then the seller ships the physical good $G$ to the provided address. 
-	\item First the seller ships the physical good $G$ to the provided address and then the buyer sends coins of amount $P$ to the seller. 
-	\item Both parties send the resources simultaneously
+	\item First the buyer sends coins of amount $P$ to the seller and then the seller ships the physical good $G$ to the provided address.
+	\item First the seller ships the physical good $G$ to the provided address and then the buyer sends coins of amount $P$ to the seller.
+	\item Both parties send the resources simultaneously.
 \end{itemize}
 
 %Here maybe a visualization
 
-\minisec{Possible strategies}
+\minisec{Possible strategies} \orfnote{Make the next 2 phrases more precise.
+What other strategies are there? Why do we disregard them? Are we sure they
+would not achieve our goal?}
 There are many possible strategies for the two players. We will only analyse the strategies where a player plays honestly and the strategies where a player intentionally behaves dishonest to gain an advantage.\newline
+\orfnote{I think the notation $(-)H_{B/S}$ is not helpful. Use full words
+"Send"/"Keep" for S and "Pay"/"Withhold" for B, even in the games. There's
+space.}
 In the above described protocols we analyse two strategies for each player. The Buyer can choose between strategy $H_B$ where he behaves honestly and sends the money and strategy $-H_B$ where the Buyer behaves dishonestly and does not send the money. The Seller can choose as well between strategy $H_S$ where he behaves honestly and sends the good $G$ and strategy $-H_S$ where the Buyer behaves dishonestly and does not send the $G$.
-\minisec{Payout: The Buyer sends first}
+\minisec{Payout: The Buyer sends first}\orfnote{E.g. here use
+\textbackslash{}subsection instead of \textbackslash{}minisec. Rename to "Game:
+Buyer acts first"}
+
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
@@ -206,11 +304,15 @@ In the above described protocols we analyse two strategies for each player. The 
 \end{figure}
 %\captionof{figure}{Naive approach, Buyer sends first}
 
-To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option which yields him the greatest payout, he chooses $-H_S$ (Because $P > P - U_S(G)$).\newline
+To analyze the payout \orfnote{payout $\rightarrow$ game}, we start at the bottom at the seller's decision. As he would choose the option which yields him the greatest payout, he chooses $-H_S$ (Because $P > P - U_S(G)$).\newline
 Therefore the Buyers has to choose between a payout of 0 (by choosing $-H_B$) and $-P$ (by choosing $H_B$). Since $0 > -P$, he chooses $-H_B$.\newline
 The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
+\orfnote{mention that this method of finding the Nash Equilibrium is called
+"iterated elimination of strictly dominated strategies".}
 
-\minisec{Payout: The Seller sends first}
+\minisec{Payout: The Sender sends first} \orfnote{apply here as well the notes
+from the previous game}
+
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{S}
@@ -227,7 +329,8 @@ The analysis is similar to the above case, but the roles are reversed. The Buyer
 The seller would choose $-H_S$ as $0 > -U_S(G)$.\newline
 The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
-\minisec{Payout: Both parties send simultaneous}
+\minisec{Payout: Both parties send simultaneously} \orfnote{Also apply notes
+here}
 
 \begin{table}[htb!]
     \centering
@@ -243,22 +346,37 @@ The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout 
     \caption{Naive approach: Both parties send simultaneously}
 \end{table}
 If we look at the payout table we can see that $-H_B$ dominates $H_B$ and $-H_S$ dominates $H_S$. This means that the dishonest strategy provides a bigger payout regardless of the strategy of the other party. \newline
-Since we assume the players to be rational, they would both chose the dishonest strategy. Both players choosing the dishonest strategy is the Nash Equilibrium of the game.\newline
+Since we assume the players to be rational, they would both choose the dishonest strategy. Both players choosing the dishonest strategy is the Nash Equilibrium of the game.\newline
 It is interesting to note that this table resembles the famous prisoner's dilemma.
 %TODO find literature to the prisoners dilemma
-The Nash Equilibrium is on both parties not sending anything, still it would be better for both parties if they just traded honestly. 
+The Nash Equilibrium is on both parties not sending anything, still it would be
+better for both parties if they just traded honestly. \orfnote{better
+$\rightarrow$ Pareto efficient}
+\orfnote{make sure that, instead of using the terms "honest/dishonest strategy",
+you instead call the actions by name. Mention that the Nash Equilibrium does not
+correspond to the Desired Final State, thus this game does not satisfy our goal.}
 
-\section{One Side collateral}
+\section{One Side collateral} \orfnote{rename to "Second Try: One-Sided
+Collateral"} \orfnote{apply earlier notes that also suit here}
 To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost if the entity does not behave honestly. In this section we will look at protocols where only one entity deposits a collateral. We introduce a Smart Contract which handles the collateral.
 
 \subsection{Buyer Collateral}
 Following protocol is proposed:
 \begin{enumerate}
     \item Buyer deposits collateral $C > P$ to the Smart Contract
-    \item Seller sends physical good $G$ to the seller 
-    \item After receiving $G$, the Buyer sends funds of amount $P$ to the seller 
+    \item Seller sends the physical good $G$ to the seller
+    \item After receiving $G$, the Buyer sends funds of amount $P$ to the seller
+    \orfnote{via the Smart Contract}
     \item The Smart Contract releases the collateral of the Buyer
-\end{enumerate}
+\end{enumerate} \orfnote{Mention that when the Buyer pays, she implicitly
+reports to SC that she received the good, so there is no need for a Buyer report
+to the SC. OTOH, the Seller could report to SC only in case he cannot send the
+good in order to release the Buyer's collateral, but this action is also
+useless: If it pays to the Seller more than $P$, he would always do it. If it
+pays him less than $P$, this option would be dominated by not sending and lying,
+so that the buyer chooses to pay} \orfnote{what if we swapped the order of 2 and
+3? Mention it (at least briefly) and that then the Seller could simply not send
+the good.}
 
 Because the Smart Contract has access to the blockchain, it can automatically release the collateral if the Buyer sends $P$  to the seller. The collateral should incentivize the Buyer to pay the seller after receiving the physical good $G$.
 
@@ -275,7 +393,7 @@ When the Seller does not send the physical good in step 2 (plays strategy $-H_S$
         child{node[draw]{S}
                 child[sibling distance = 7cm]{node[draw]{B}
                 		child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$H_B$}} 
-                		child[sibling distance = 4cm]{node[shape=rectangle]{-$U_S(G)|U_B(G)$-C}edge from parent node [right] {$-H_B$}} edge from parent node [left] {$H_S$}} 
+                		child[sibling distance = 4cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)-C$}edge from parent node [right] {$-H_B$}} edge from parent node [left] {$H_S$}} 
                 child[sibling distance = 7cm]{node[draw]{B}
                 child[sibling distance = 3cm]{node[shape = rectangle]{$P|-P$} edge from parent node [left] {$P_B$}} 
                 child[sibling distance = 3cm]{node[shape=rectangle]{$0|-C$}edge from parent node [right] {$-P_B$}}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
@@ -288,7 +406,7 @@ On the right branch the Buyer would choose P$_B$, as $-P > -C$.\newline
 Based on these decisions the Seller would choose $-H_S$, because $P > P - U_S(G)$.\newline
 This means that it is better for the seller to behave maliciously and not send the physical good $G$. The Buyer would send $P$ to get back his collateral but receive nothing more, leaving him with a payout of $-P$. \newline
 Since $-P < 0$, the Buyer would choose $-C_B$ and not even deposit the collateral.\newline
-The Nash Equilibrium is at \{-C$_B$\} and the trade is unsuccessful.
+The Nash Equilibrium is at \{$-C_B$\} and the trade is unsuccessful.
 
 
 \subsection{Seller Collateral}
@@ -300,7 +418,8 @@ Following protocol is proposed:
     \item Buyer receives the physical good and confirms it to the Smart Contract
     \item The Smart Contract releases the collateral of the Seller
 \end{enumerate}
-The collateral should incentivize the Seller to behave honestly and to ship the physical good to the buyer. The Buyer can report with a simple boolean input: 
+The collateral should incentivize the Seller to behave honestly and to ship the
+physical good to the buyer. The Buyer can report \orfnote{to the SC} with a simple boolean input:
 \begin{itemize}
     \item 0 denotes that $G$ was not received
     \item 1 denotes that $G$ was received
@@ -308,8 +427,18 @@ The collateral should incentivize the Seller to behave honestly and to ship the 
 %Because of the collateral, behaving honestly should be the best strategy for the seller.
 \subsubsection{Possible Strategies}
 There is still the honest strategy ($H_S$, $H_B$) for both players, where they behave according to the protocol description. With this strategy, the trade still unravels successfully.\newline
-The dishonest strategy is again not sending the resources. This strategy is still denoted as $-H_B$ (when the buyer does not send the coins) and $-H_S$ (when the seller does not send the physical good.\newline
-The Buyer also has a unique opportunity: Since he decides what happens to the collateral, he can coerce the Seller into sending him extra resources. This strategy will be denoted $C_B$.  After receiving the physical good he can tell the Seller: "Either you send me back my payment $P$ or I will tell the Smart Contract that you did not send me the physical good." In this case the Seller has two possible answers: He can comply and send back $P$ ($C_S$) or not comply and ignore the message ($-C_S$).\newline
+The dishonest strategy is again not sending the resources. This strategy is
+still denoted as $-H_B$ (when the buyer does not send the coins) and $-H_S$
+(when the seller does not send the physical good.)\newline
+The Buyer also has a unique opportunity: Since he decides what happens to the
+collateral, he can coerce the Seller into sending him extra resources. This
+strategy will be denoted $C_B$.  After receiving the physical good he can tell
+the Seller: "Either you send me back my payment $P$ or I will tell the Smart
+Contract that you did not send me the physical good." In this case the Seller
+has two possible answers: He can comply and send back $P$ ($C_S$) or not comply
+and ignore the message ($-C_S$). \orfnote{there is a problem: even if the Seller
+complies, the Buyer may still lie to the SC. The Buyer is indifferent to being
+honest or lying, as both choices give her the same payout.}\newline
 
 \minisec{Payout}
 \begin{figure}[htb!]
@@ -330,6 +459,7 @@ The Buyer also has a unique opportunity: Since he decides what happens to the co
 \end{tikzpicture}\newline
 \caption{Only the Seller deposits collateral}
 \end{figure}
+
 To analyze the payout, we again start at the bottom. Since $C>P$, the Seller would comply ($C_S$) on both instances.\newline
 On both branches the Buyer chooses $C_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
 Based on this information the Seller chooses $-H_S$: \[-U_S(G) < 0\]
@@ -343,15 +473,23 @@ What was designed to be an incentive for S to behave honestly, ended up as lever
 %Because not Sending ($-H_S$) is the best strategy for the seller, it is best for B to not even send P and therefore not engage in the trade at all ($-H_B$).\newline
 %The Nash Equilibrium would be in nobody sending anything and the trade not happening.
 
-
-
 \subsubsection{Both parties report}
-One Side Collateral on the Seller's side does not work if only the Buyer reports to the Smart Contract (5.2.2). If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.\newline
+\orfnote{Having "Both parties report" be at the same level as the previous
+"Possible strategies" is misleading.}
+One Side Collateral on the Seller's side does not work if only the Buyer reports
+to the Smart Contract (5.2.2) \orfnote{use label/reference}. If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.\newline
 Another option would be that both players report to the Smart Contract if the physical good $G$ was sent and received.\newline
-Also, instead of sending the Payment $P$ directly to the Seller, the Buyer will send the payment to the Smart Contract. The Smart Contract will then, if both parties behave honestly, forward the payment to the Seller. This hands more power to the Smart Contract. With control over the collateral and the payment it has more options to punish dishonest behaviour.\newline 
-If the two players report a different value, then the Smart Contract will slash the collateral, as one party has to be lying. If they both report 0 ($G$ was not sent), then the Smart Contract will send $P$ back to the Buyer, because $G$ was not shipped. If they both report 1 ($G$ was sent), then the Smart Contract will send $P$ to the Seller and the trade was successful.\newline
- 
-Following protocol is proposed:
+Also, instead of sending the Payment $P$ directly to the Seller, the Buyer will
+send the payment to the Smart Contract. \orfnote{Isn't the payment always routed
+through the smart contract anyway?} The Smart Contract will then, if both parties behave honestly, forward the payment to the Seller. This hands more power to the Smart Contract. With control over the collateral and the payment it has more options to punish dishonest behaviour.\newline 
+If the two players report a different value, then the Smart Contract will slash
+the collateral, as one party has to be lying \orfnote{whereas if the parties
+agree, their collateral is returned}. If they both report 0 ($G$ was not sent),
+then the Smart Contract will send $P$ back to the Buyer, because $G$ was not
+shipped. If they both report 1 ($G$ was sent), then the Smart Contract will send
+$P$ to the Seller and the trade was \orfnote{was $\rightarrow$ will be} successful.\newline
+
+\orfnote{The} Following protocol is proposed:
 \begin{enumerate}
     \item Seller deposits collateral $C > P$ to the Smart Contract
     \item Buyer sends funds of amount $P$ to the Smart Contract 
@@ -359,10 +497,17 @@ Following protocol is proposed:
     \item Buyer and Seller report the physical transaction to the Smart Contract
     \item The Smart Contract releases the collateral of the Seller
 \end{enumerate}
-There are multiple ways to implement step 4. Either the two parties report one after another or they report simultaneously.
-\subsubsection{The Seller reports first}
-As the Buyer reports last, this protocols still gives the Buyer the power of burning the collateral of the Seller by reporting exactly the opposite from the Sellers report.\newline
-Therefore he can still coerce the Seller into sending him back his payment. This strategy will be denoted as $C_B$. As we already have shown above, a rational seller will comply and send back the payment $P$ (this last decision will be omitted from the tree for better readability).\newline
+There are multiple ways to implement step 4: Either the two parties report one after another or they report simultaneously.
+\subsubsection{The Seller reports first} \orfnote{this should be an inner
+section to "Both parties report", not at the same level}
+As the Buyer reports last, this protocol still gives the Buyer the power of
+burning the collateral of the Seller by reporting exactly the opposite from the
+Seller's report.\newline
+Therefore he can still coerce the Seller into sending him back his payment. This
+strategy will be denoted as $C_B$. As we already have shown above, a rational
+seller will comply and send back the payment $P$ (this last decision will be
+omitted from the tree \orfnote{which leaf of the tree?} for better readability).\newline
+
 \minisec{Payout}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
@@ -510,17 +655,26 @@ The Buyer chooses:
     \item 5 over 8 ($0>-P$)
 \end{itemize}
 The Buyer always reports that he did not receive the item.\newline
-As \[0 > -U_S(G)\] the Seller chooses not to send the physical good ($-H_S$).\newline
+As \[0 > -U_S(G)\] \orfnote{use "\$" instead of "\textbackslash[" } the Seller
+chooses not to send the physical good ($-H_S$).\newline
 No matter which decision the Buyer takes at the top of the tree, the payout will be $0|0$ and the trade unsuccessful.
 
 
 \minisec{How to report simultaneously}
- Every transaction to the Smart Contract is public. As the players have to report to the Smart Contract by sending a public transaction, the other player also knows what the first player reported. By just demanding both to report at the same time, the player who reports second does always know what value the first player reported. Then the report is not really simultaneous.\newline
- 
- 
- We can fix this problem by using a (at least) computationally hiding and binding commitment scheme. Both players would commit to their decision and send the commitment to the SC. The second player sees the commitment of the first player. Because the commitment scheme is computationally hiding and we assume the players to be computationally bounded, the commitment does not reveal any information about the actual decision of the first player. \newline
- After both players sent the commitment to the SC, they both send the opening value for their commitment to the SC. As the commitment is computationally binding, the players can not change what they initially reported. When a player does not send an opening value after a predefined time, the SC can punish the player by sending all the funds to the other player.
-\minisec{Payout: Both parties reports simultaneously}
+ Every transaction to the Smart Contract is public. As the players have to
+ report to the Smart Contract by sending a public transaction, the other player
+ also knows what the first player reported. By just demanding both to report at
+ the same time, the player who reports second always knows what value the first player reported. Then the report is not really simultaneous.\newline
+
+ We can fix this problem by using a (at least) \orfnote{what do you mean "at
+ least"?} computationally hiding and binding commitment scheme. Both players would commit to their decision and send the commitment to the SC. The second player sees the commitment of the first player. Because the commitment scheme is computationally hiding and we assume the players to be computationally bounded, the commitment does not reveal any information about the actual decision of the first player. \newline
+ After both players send the commitment to the SC, they both send the opening
+ value for their commitment to the SC. As the commitment is computationally
+ binding, the players cannot change what they initially reported. If a player
+ does not send an opening value after a predefined time, the SC punishes the
+ player by sending all the funds to the other player.
+
+\subsubsection{Payout: Both parties report simultaneously}
 \begin{figure}[htb!]
     \centering
     \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -572,11 +726,12 @@ As both options lead to a payout of 0, B chooses an arbitrary option. The trade 
 
 
 \section{Two side collateral}
-One side collateral does not work. The party that does not deposit collateral always has an unfair advantage over the other party. \newline
+\orfnote{As we saw in the previous section,} One side collateral does
+\orfnote{not lead to a game that achieves our goal} not work. The party that does not deposit collateral always has an unfair advantage over the other party. \newline
 When only the Buyer deposits collateral, the Seller has no incentive to send $G$. \newline
 When only the Seller deposits collateral, the Buyer can coerce the Seller into sending back his payment $P$, because the Buyer can burn the collateral by reporting 0.\newline 
 
-We introduce another protocol that addresses this problems. In this protocol both parties deposit collateral. This should incentivize the parties to both behave honestly.\newline
+We introduce another protocol that addresses this \orfnote{these} problems. In this protocol both parties deposit collateral. This should incentivize the parties to both behave honestly.\newline
 If the two parties report something different, the Smart Contract will slash the collateral of both players, as it can not determine which party is lying. If both parties report 0, the Smart Contract will send the payment $P$ back to the Buyer. If both parties report 1, the Smart Contract will send the payment $P$ to the Seller.  \newline
 
 Again, there are three possible ways of handling the reports:
@@ -591,16 +746,20 @@ Following protocol is proposed:
 \begin{enumerate}
     \item Seller deposits collateral $C_S > P$ to the Smart Contract
     \item Buyer deposits collateral $C_B > P$ to the Smart Contract
-    \item Buyer sends Funds of amount $P$ to the Smart Contract
+    \item Buyer sends funds of amount $P$ \orfnote{sends $P$ coins} to the Smart
+    Contract \orfnote{this step could be combined with the previous one}
     \item Seller sends physical good $G$ to the seller and reports it to the Smart Contract
-    \item Buyer receives the physical good and confirms it to the Smart Contract
-    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
+    \item Buyer receives the physical good and confirms \orfnote{reports} it to the Smart Contract
+    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller
 \end{enumerate}
 \minisec{Possible strategies}
 As always, $H_S$ denotes the honest strategy, where the Seller sends $G$ and $-H_S$ denotes the dishonest strategy where the Seller does not send the $G$.
 
 \minisec{Payout}
-To increase readability, we do not plot the decisions from point 1 to point 3 of the protocol. If someone does not deposit the collateral, the Smart Contract aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step 3), he loses his collateral. The payout is $0|-C_B$.\newline
+To increase readability, we do not plot the decisions from point 1 to point 3 of
+the protocol. If someone does not deposit the collateral, the Smart Contract
+aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step
+3), he loses his collateral and the payout is $0|-C_B$.\newline
 \begin{figure}[htb!]
     \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
         \node[draw]{S}
@@ -822,12 +981,18 @@ If we compare these 4 possible payouts:
 Without any additional assumptions, it is unclear which is the better subgame for the Seller. He can not choose which subgame is beneficial for him. \newline
 We have created a situation where the players do not have all the information they need to choose the best option. That also means, that they are not motivated to behave honestly as they do not know if this is indeed the most beneficial behaviour. As the players are not motivated to behave honestly, they would not trade successfully in this protocol.
 
-\section{An extra input is needed}
+\section{An extra input is needed} \orfnote{I think this section is better
+suited in the next chapter. Did we have a reason for keeping it in this one?}
 The Smart Contract plays an important role in the two side collateral protocol. We want to create a Smart Contract that rewards honest behaviour and punishes dishonest behaviour.\newline 
 Problems arise, because the Smart Contract does not know if the physical good $G$ was actually sent to the Buyer. Because of this missing information, it is impossible for the Smart Contract to settle disputes.
 \subsection{Ideal Functionality}
-We can achieve the ideal functionality of our Smart Contract by giving it the information whether the good was actually shipped as an input. We model the ideal behaviour with a function taking 6 inputs and giving 2 outputs.
+We can achieve the ideal functionality of our Smart Contract by giving it the
+information whether the good was actually shipped as an input. We model the
+ideal behaviour with a function taking 6 inputs and giving 2 outputs.
+\orfnote{mention that this ideal functionality is unrealizable without some
+trusted party that always reports truthfully to SC}
 
+\orfnote{no need to repeat inputs and outputs before the code}
 \minisec{Inputs}
 \begin{itemize}
 \item{Int: Buyer Collateral}
@@ -849,9 +1014,10 @@ We can achieve the ideal functionality of our Smart Contract by giving it the in
 %\end{equation}
 
 \minisec{Functionality}
+\orfnote{"nonsensical" is a heavy word,
+prefer e.g. "irrational" and explain why it is weird.}
 \begin{figure}[htb!]
     \centering
-
 \begin{lstlisting}[language=java]
 function assign_coins(
   buyerCol: natural, sellerCol: natural, price: natural,
@@ -877,8 +1043,11 @@ function assign_coins(
 The honest and nonsensical case can be implemented without the last input. There are multiple possible solutions.\newline
 The important case is when the seller reports that he shipped the good and the Buyer reports that he did not receive it. Because the Smart Contract has the input 'shipped', it can determine which party is lying and which party is telling the truth.\newline
 The Smart Contract settles the disputes in such a way that the honest party has a payout greater than zero and the lying party has a payout smaller than zero. Therefore it is unfavorable for any party to report wrongfully.\newline
-It is important to see that the outputs of the function have to be implemented like this, to achieve the ideal functionality.\newline
+It is important to see that the outputs of the function have to be implemented
+like this, to achieve the ideal functionality. \orfnote{We will now see why the
+function outputs are defined in this way ...}\newline
 
+\orfnote{what is a "general payout"?}
 \minisec{Honest Seller}
 The honest Seller (line 11) ships the good to the Buyer and deposits collateral $C_S$. To have a positive general payout, his lowest possible payout from the smart Contract is $P + C_S$. His general payout is at least
 \[P + C_S - C_S - U_S(G) = P - U_S(G) > 0\]
@@ -926,7 +1095,7 @@ function assign_coins(
     buyerCoins =  0 //lying Buyer
   } else {
     sellerCoins = 0 // lying seller
-    buyerCoins = price + selleCol + buyerCol // honest buyer
+    buyerCoins = price + sellerCol + buyerCol // honest buyer
   }
   return (sellerCoins, buyerCoins)
 }
@@ -1000,10 +1169,13 @@ The Nash Equilibrium is at \{$H_S$, 1, 1\} and the trade would unravel successfu
 Such a smart contract solves the problem completely as the Nash Equilibrium lies in both parties behaving honestly.
 %TODO It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
 \subsection{Real World Functionality}
-In the real world, the smart contract does not have the last input (bool:shipped). Therefore the Smart Contract does not know if the physical good was actually shipped or not. \newline
-This poses the following problem: The last input is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract.\newline
+In the real world, the smart contract does not have the last input
+(bool:shipped) \orfnote{have the last input (bool:shipped) $\rightarrow$ know
+the ground truth}. Therefore the Smart Contract does not know if the physical good was actually shipped or not. \newline
+This poses the following problem: The last input \orfnote{ground truth} is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract.\newline
 For example, it is impossible to differentiate between a lying seller that did not send the good $G$ but says he did, and a lying Buyer that received the good but says he did not.\newline 
 Without the sixth input, it is impossible to design a Smart Contract that achieves the ideal functionality described in section 5.4.1.
+\orfnote{do not hardcode section numbers, use labels/references instead}
 
 \chapter{A redesigned game}
 As we have shown (8.1), it is not possible (under our Assumptions) to design a protocol that would create a successful game (as described in 4.2). The biggest problem is that we have no reliable way of telling the Smart Contract whether the physical good $G$ was actually shipped or not. If there is a dispute, the Smart Contract does not know which party is lying and has to be punished.\newline
