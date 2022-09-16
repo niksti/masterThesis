@@ -6,6 +6,9 @@
 \usepackage{amsfonts} 
 \usepackage{macros}
 \usepackage{biblatex}
+\usepackage{capt-of}
+
+
 \addbibresource{references.bib}
 
 \begin{document}
@@ -141,6 +144,7 @@ Another goal is that the trade is incoercible against rational attacks. It shoul
 \chapter{Proposed Possible Solutions}
 To analyse turn based games we will use game trees. 
 \minisec{Example Tree}
+\begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
@@ -150,10 +154,14 @@ To analyse turn based games we will use game trees.
             child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [left] {$H_S$}}
             child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$}edge from parent node [right] {$-H_S$}}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}
+    \centering
+    \caption{Example Tree}
+\end{figure}
 \minisec{Description}
 
 To analyse simultaneous games we will use a table.
 \minisec{Example table}
+
 \begin{center}
 \begin{tabular}{ c||c|c| }
 & $H_B$ & $-H_B$  \\
@@ -165,6 +173,7 @@ $-H_S$ & $P_S | P_B$ & $P_S | P_B$ \\
 \hline
 \end{tabular}
 \end{center}
+\captionof{table}{Example table}
 
 \minisec{Description} On the top are the possible strategies for the buyer: $H_B$ is the strategy where the buyer behaves honestly and $-H_B$ is the strategy where the Buyer behaves dishonestly.\newline
 On the left side are the strategies for the seller. Similar to the buyer, $H_S$ denotes the strategy where the seller behaves honestly and $-H_S$ denotes the strategy where the seller behaves dishonestly.\newline
@@ -185,6 +194,7 @@ The simplest protocol is without collateral and any third party. In this case th
 There are many possible strategies for the two players. We will only analyse the strategies where a player plays honestly and the strategies where a player intentionally behaves dishonest to gain an advantage.\newline
 In the above described protocols we analyse two strategies for each player. The Buyer can choose between strategy $H_B$ where he behaves honestly and sends the money and strategy $-H_B$ where the Buyer behaves dishonestly and does not send the money. The Seller can choose as well between strategy $H_S$ where he behaves honestly and sends the good $G$ and strategy $-H_S$ where the Buyer behaves dishonestly and does not send the $G$.
 \minisec{Payout: The Buyer sends first}
+\begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
@@ -192,12 +202,16 @@ In the above described protocols we analyse two strategies for each player. The 
                 child[sibling distance = 7cm]{node[shape=rectangle]{$P|-P$}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
         child{node{0$|$0} edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}\newline
+\caption{Naive approach, Buyer sends first}
+\end{figure}
+%\captionof{figure}{Naive approach, Buyer sends first}
 
 To analyze the payout, we start at the bottom at the seller's decision. As he would choose the option which yields him the greatest payout, he chooses $-H_S$ (Because $P > P - U_S(G)$).\newline
 Therefore the Buyers has to choose between a payout of 0 (by choosing $-H_B$) and $-P$ (by choosing $H_B$). Since $0 > -P$, he chooses $-H_B$.\newline
 The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
 
-\minisec{Payout: The Sender sends first}
+\minisec{Payout: The Seller sends first}
+\begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{S}
         child{node[draw]{B}
@@ -205,6 +219,9 @@ The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout 
                 child[sibling distance = 7cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)$}edge from parent node [right] {$-H_B$}} edge from parent node [left] {$H_S$}} 
         child{node{0$|$0} edge from parent node [right] {$-H_S$}};
 \end{tikzpicture}\newline
+\caption{Naive approach, Seller sends first}
+\end{figure}
+
 
 The analysis is similar to the above case, but the roles are reversed. The Buyer would choose $-H_B$ as $U_B(G) > U_B(G)-P$.\newline
 The seller would choose $-H_S$ as $0 > -U_S(G)$.\newline
@@ -212,18 +229,19 @@ The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout 
 
 \minisec{Payout: Both parties send simultaneous}
 
-\begin{center}
-\begin{tabular}{ c||c|c| }
-& $H_B$ & $-H_B$  \\
-\hline
-\hline
-$H_S$ & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
-\hline
-$-H_S$ & $P |-P$ & $0 | 0$ \\ 
-\hline
-\end{tabular}
-\end{center}
-
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{ c||c|c| }
+    & $H_B$ & $-H_B$  \\
+    \hline
+    \hline
+    $H_S$ & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
+    \hline
+    $-H_S$ & $P |-P$ & $0 | 0$ \\ 
+    \hline
+    \end{tabular}
+    \caption{Naive approach: Both parties send simultaneously}
+\end{table}
 If we look at the payout table we can see that $-H_B$ dominates $H_B$ and $-H_S$ dominates $H_S$. This means that the dishonest strategy provides a bigger payout regardless of the strategy of the other party. \newline
 Since we assume the players to be rational, they would both chose the dishonest strategy. Both players choosing the dishonest strategy is the Nash Equilibrium of the game.\newline
 It is interesting to note that this table resembles the famous prisoner's dilemma.
@@ -251,7 +269,7 @@ The Buyer can also refuse to pay the collateral to the Smart Contract. This beha
 When the Seller does not send the physical good in step 2 (plays strategy $-H_S$), the Buyer still has to decide if he wants to send $P$ to the seller in order to get back his collateral. Sending $P$ in this scenario is denoted as $P_B$ and not sending $P$ is denoted as $-P_B$.\newline
 
 \minisec{Payout}
-
+\begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child{node[draw]{S}
@@ -263,7 +281,8 @@ When the Seller does not send the physical good in step 2 (plays strategy $-H_S$
                 child[sibling distance = 3cm]{node[shape=rectangle]{$0|-C$}edge from parent node [right] {$-P_B$}}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
           child[sibling distance = 7cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {$-C_B$}};
 \end{tikzpicture}\newline
-
+    \caption{Only the Buyer deposits collateral}
+\end{figure}
 To analyze the Payout, we again start at the bottom at the Buyer's decision. On the left branch the Buyer would choose $H_B$, as $U_B(G) - P > U_B(G) - C$.\newline
 On the right branch the Buyer would choose P$_B$, as $-P > -C$.\newline
 Based on these decisions the Seller would choose $-H_S$, because $P > P - U_S(G)$.\newline
@@ -293,7 +312,7 @@ The dishonest strategy is again not sending the resources. This strategy is stil
 The Buyer also has a unique opportunity: Since he decides what happens to the collateral, he can coerce the Seller into sending him extra resources. This strategy will be denoted $C_B$.  After receiving the physical good he can tell the Seller: "Either you send me back my payment $P$ or I will tell the Smart Contract that you did not send me the physical good." In this case the Seller has two possible answers: He can comply and send back $P$ ($C_S$) or not comply and ignore the message ($-C_S$).\newline
 
 \minisec{Payout}
-
+\begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child[sibling distance = 9cm]{node[draw]{S}
@@ -309,7 +328,8 @@ The Buyer also has a unique opportunity: Since he decides what happens to the co
                         child[sibling distance = 3cm]{node[shape=rectangle]{$P-C|-P$} edge from parent node [right] {$-C_S$}}edge from parent node [right] {$C_B$}}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
           child[sibling distance = 8cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}\newline
-
+\caption{Only the Seller deposits collateral}
+\end{figure}
 To analyze the payout, we again start at the bottom. Since $C>P$, the Seller would comply ($C_S$) on both instances.\newline
 On both branches the Buyer chooses $C_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
 Based on this information the Seller chooses $-H_S$: \[-U_S(G) < 0\]
@@ -343,7 +363,7 @@ There are multiple ways to implement step 4. Either the two parties report one a
 \subsubsection{The Seller reports first}
 As the Buyer reports last, this protocols still gives the Buyer the power of burning the collateral of the Seller by reporting exactly the opposite from the Sellers report.\newline
 Therefore he can still coerce the Seller into sending him back his payment. This strategy will be denoted as $C_B$. As we already have shown above, a rational seller will comply and send back the payment $P$ (this last decision will be omitted from the tree for better readability).\newline
-
+\minisec{Payout}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{B}
         child[sibling distance = 8cm]{node[draw]{S}
@@ -373,39 +393,43 @@ Therefore he can still coerce the Seller into sending him back his payment. This
                 		     edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
           child[sibling distance = 8cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}
+\captionof{figure}{Only the Seller deposits collateral: the Buyer reports first}
+\begin{table}[htb!]
+\centering
+    \begin{tabular}{ |c|c| }
+    \hline
+    & Payout  \\
+    \hline
+    \hline
+    1& $-U_S(G)| U_B(G)$\\
+    \hline
+    2& $-C-U_S(G)|U_B(G) -P$\\
+    \hline
+    3&$-U_S(G)|U_B(G)$ \\
+    \hline
+    4& $-C-U_S(G)|U_B(G)-P$ \\
+    \hline
+    5& $P-U_S(G)| U_B(G) - P$\\
+    \hline 
+    6& $-U_S(G)|U_B(G)$\\
+    \hline
+    7& $0|0$\\
+    \hline
+    8& $-C | -P$\\
+    \hline
+    9& $0|0$\\
+    \hline
+    10& $-C|-P$\\
+    \hline
+    11& $P| -P$\\
+    \hline
+    12& $0| 0$\\
+    \hline
+    \end{tabular}
+\caption{The corresponding payout table of figure 5.6}
+\end{table}
+%\captionof{table}{The corresponding payout table of figure 5.6}
 
-\begin{center}
-\begin{tabular}{ |c|c| }
-\hline
-& Payout  \\
-\hline
-\hline
-1& $-U_S(G)| U_B(G)$\\
-\hline
-2& $-C-U_S(G)|U_B(G) -P$\\
-\hline
-3&$-U_S(G)|U_B(G)$ \\
-\hline
-4& $-C-U_S(G)|U_B(G)-P$ \\
-\hline
-5& $P-U_S(G)| U_B(G) - P$\\
-\hline 
-6& $-U_S(G)|U_B(G)$\\
-\hline
-7& $0|0$\\
-\hline
-8& $-C | -P$\\
-\hline
-9& $0|0$\\
-\hline
-10& $-C|-P$\\
-\hline
-11& $P| -P$\\
-\hline
-12& $0| 0$\\
-\hline
-\end{tabular}
-\end{center}
 To analyze the payout, we again start at the bottom. The Buyer chooses:
 \begin{itemize}
     \item 1 or 3 over 2 ($U_B(G) > U_B(G) - P$)
@@ -445,8 +469,9 @@ No matter which decision the Buyer takes at the top of the tree, the payout will
                 		     edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
           child[sibling distance = 9cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$-H_B$}};
 \end{tikzpicture}
-
-\begin{center}
+\captionof{figure}{Only the Seller deposits collateral: the Buyer reports first}
+\begin{table}[htb!]
+\centering
 \begin{tabular}{ |c|c| }
 \hline
 & Payout  \\
@@ -469,7 +494,8 @@ No matter which decision the Buyer takes at the top of the tree, the payout will
 8& $P| -P$\\
 \hline
 \end{tabular}
-\end{center}
+\caption{The corresponding payout table of figure 5.7}
+\end{table}
 To analyze the payout, we again start at the bottom. The seller chooses:
 \begin{itemize}
     \item 1 over 2 ($-U_S(G)>-C - U_S(G)$)
@@ -494,40 +520,50 @@ No matter which decision the Buyer takes at the top of the tree, the payout will
  
  We can fix this problem by using a (at least) computationally hiding and binding commitment scheme. Both players would commit to their decision and send the commitment to the SC. The second player sees the commitment of the first player. Because the commitment scheme is computationally hiding and we assume the players to be computationally bounded, the commitment does not reveal any information about the actual decision of the first player. \newline
  After both players sent the commitment to the SC, they both send the opening value for their commitment to the SC. As the commitment is computationally binding, the players can not change what they initially reported. When a player does not send an opening value after a predefined time, the SC can punish the player by sending all the funds to the other player.
-\subsubsection{Payout: Both parties reports simultaneously}
-\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-      \node[draw]{B}
-        child{node[draw]{S}
-                child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {$H_S$}} 
-                child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
-        child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$-H_B$}};
-\end{tikzpicture}
+\minisec{Payout: Both parties reports simultaneously}
+\begin{figure}[htb!]
+    \centering
+    \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+          \node[draw]{B}
+            child{node[draw]{S}
+                    child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {$H_S$}} 
+                    child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+            child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$-H_B$}};
+    \end{tikzpicture}
+    \caption{Only the Seller deposits collateral: Both players report simultaneously}
+\end{figure}
 
-\begin{center}
-\begin{tabular}{ c||c|c| }
-$T_1$& 0$_B$ & 1$_B$   \\
-\hline
-\hline
-0$_S$ & $-U_S(G) | U_B(G)$ & $-U_S(G) - C | U_B(G) - P$ \\
-\hline
-1$_S$ & $-U_S(G) - C | U_B(G) - P$ & $P - U_S(G) | U_B(G) - P$\\ 
-\hline
-\end{tabular}
-\end{center}
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{ c||c|c| }
+    $T_1$& 0$_B$ & 1$_B$   \\
+    \hline
+    \hline
+    0$_S$ & $-U_S(G) | U_B(G)$ & $-U_S(G) - C | U_B(G) - P$ \\
+    \hline
+    1$_S$ & $-U_S(G) - C | U_B(G) - P$ & $P - U_S(G) | U_B(G) - P$\\ 
+    \hline
+    \end{tabular}
+    \caption{Subgame T1: Both players report simultaneously}
+\end{table}
 
 The Nash Equilibrium of subgame $T_1$ is $\{0_B, 0_S\}$ and payout $-U_S(G) | U_B(G)$.
-
+%\begin{table}[htb!]
+%    \centering
 \begin{center}
-\begin{tabular}{ c||c|c| }
-$T_2$& 0$_B$ & 1$_B$   \\
-\hline
-\hline
-0$_S$ & $0 | 0$ & $-C|-P$ \\
-\hline
-1$_S$ & $-C|-P$ & $P | -P$\\ 
-\hline
-\end{tabular}
+    \begin{tabular}{ c||c|c| }
+    $T_2$& 0$_B$ & 1$_B$   \\
+    \hline
+    \hline
+    0$_S$ & $0 | 0$ & $-C|-P$ \\
+    \hline
+    1$_S$ & $-C|-P$ & $P | -P$\\ 
+    \hline
+    \end{tabular}
+%    \caption{Subgame T2: Both players report simultaneously}
+%\end{table}
 \end{center}
+\captionof{table}{Subgame T2: Both players report simultaneously}
 
 The Nash Equilibrium of subgame $T_2$ is $\{0_B, 0_S\}$ and payout $0 | 0$. \newline
 
@@ -565,49 +601,54 @@ As always, $H_S$ denotes the honest strategy, where the Seller sends $G$ and $-H
 
 \minisec{Payout}
 To increase readability, we do not plot the decisions from point 1 to point 3 of the protocol. If someone does not deposit the collateral, the Smart Contract aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step 3), he loses his collateral. The payout is $0|-C_B$.\newline
+\begin{figure}[htb!]
+    \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+        \node[draw]{S}
+            child[sibling distance = 9cm]{node[draw]{S}
+        		child[sibling distance = 5cm]{node[draw]{B}
+        		    child[sibling distance = 3cm]{node{1} edge from parent node [left] {0}}
+        		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
+        		child[sibling distance = 5cm]{node[draw]{B}
+        		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
+        		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$H_S$}} 
+            child[sibling distance = 9cm]{node[draw]{S}
+                child[sibling distance = 5cm]{node[draw]{B}
+                    child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
+        		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
+                child[sibling distance = 5cm]{node[draw]{B}
+                    child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
+        		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
+    \end{tikzpicture}
+    \centering
+    \caption{Two Side Collateral: The Seller reports first}
+\end{figure}
 
-\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-    \node[draw]{S}
-        child[sibling distance = 9cm]{node[draw]{S}
-    		child[sibling distance = 5cm]{node[draw]{B}
-    		    child[sibling distance = 3cm]{node{1} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
-    		child[sibling distance = 5cm]{node[draw]{B}
-    		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$H_S$}} 
-        child[sibling distance = 9cm]{node[draw]{S}
-            child[sibling distance = 5cm]{node[draw]{B}
-                child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
-            child[sibling distance = 5cm]{node[draw]{B}
-                child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
-\end{tikzpicture}
-
-\begin{center}
-\begin{tabular}{ |c|c| }
-\hline
-& Payout  \\
-\hline
-\hline
-1& $-U_S(G) | U_B(G)$\\
-\hline
-2& $-U_S(G) - C_S| U_B(G)- P - C_B $\\
-\hline
-3&$-U_S(G) - C_S | U_B(G) -P - C_B$ \\
-\hline
-4& $P-U_S(G)| U_B(G)-P$\\
-\hline
-5& $0|0$\\
-\hline 
-6& $-C_S |-P - C_B$\\
-\hline
-7& $-C_S| -P-C_B$\\
-\hline
-8& $P| -P$\\
-\hline
-\end{tabular}
-\end{center}
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{ |c|c| }
+    \hline
+    & Payout  \\
+    \hline
+    \hline
+    1& $-U_S(G) | U_B(G)$\\
+    \hline
+    2& $-U_S(G) - C_S| U_B(G)- P - C_B $\\
+    \hline
+    3&$-U_S(G) - C_S | U_B(G) -P - C_B$ \\
+    \hline
+    4& $P-U_S(G)| U_B(G)-P$\\
+    \hline
+    5& $0|0$\\
+    \hline 
+    6& $-C_S |-P - C_B$\\
+    \hline
+    7& $-C_S| -P-C_B$\\
+    \hline
+    8& $P| -P$\\
+    \hline
+    \end{tabular}
+    \caption{The corresponding payout table of figure 5.9}
+\end{table}
 
 To analyze the payout, we start at the bottom of the tree. The Buyer would choose:
 \begin{itemize}
@@ -636,49 +677,55 @@ As always, $H_S$ denotes the honest strategy, where the Seller sends $G$ and $-H
 
 \minisec{Payout}
 To increase readability, we again do not plot the decisions from point 1 to point 3 of the protocol.\newline
+\begin{figure}[htb!]
+    \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+        \node[draw]{S}
+            child[sibling distance = 9cm]{node[draw]{B}
+        		child[sibling distance = 5cm]{node[draw]{S}
+        		    child[sibling distance = 3cm]{node{1} edge from parent node [left] {0}}
+        		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
+        		child[sibling distance = 5cm]{node[draw]{S}
+        		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
+        		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$H_S$}} 
+            child[sibling distance = 9cm]{node[draw]{B}
+                child[sibling distance = 5cm]{node[draw]{S}
+                    child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
+        		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
+                child[sibling distance = 5cm]{node[draw]{S}
+                    child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
+        		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
+    \end{tikzpicture}
+    \centering
+    \caption{Two Side Collateral: The Buyer reports first}
+\end{figure}
 
-\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-    \node[draw]{S}
-        child[sibling distance = 9cm]{node[draw]{B}
-    		child[sibling distance = 5cm]{node[draw]{S}
-    		    child[sibling distance = 3cm]{node{1} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
-    		child[sibling distance = 5cm]{node[draw]{S}
-    		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$H_S$}} 
-        child[sibling distance = 9cm]{node[draw]{B}
-            child[sibling distance = 5cm]{node[draw]{S}
-                child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
-            child[sibling distance = 5cm]{node[draw]{S}
-                child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
-\end{tikzpicture}
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{ |c|c| }
+        \hline
+        & Payout  \\
+        \hline
+        \hline
+        1& $-U_S(G) | U_B(G)$\\
+        \hline
+        2&$-U_S(G) - C_S | U_B(G) -P - C_B$ \\
+        \hline
+        3& $-U_S(G) - C_S| U_B(G)- P - C_B $\\
+        \hline
+        4& $P-U_S(G)| U_B(G)-P$\\
+        \hline
+        5& $0|0$\\
+        \hline 
+        6& $-C_S |-P - C_B$\\
+        \hline
+        7& $-C_S| -P-C_B$\\
+        \hline
+        8& $P| -P$\\
+        \hline
+    \end{tabular}
+    \caption{The corresponding payout table of figure 5.10}
+\end{table}
 
-\begin{center}
-\begin{tabular}{ |c|c| }
-\hline
-& Payout  \\
-\hline
-\hline
-1& $-U_S(G) | U_B(G)$\\
-\hline
-2&$-U_S(G) - C_S | U_B(G) -P - C_B$ \\
-\hline
-3& $-U_S(G) - C_S| U_B(G)- P - C_B $\\
-\hline
-4& $P-U_S(G)| U_B(G)-P$\\
-\hline
-5& $0|0$\\
-\hline 
-6& $-C_S |-P - C_B$\\
-\hline
-7& $-C_S| -P-C_B$\\
-\hline
-8& $P| -P$\\
-\hline
-\end{tabular}
-\end{center}
 
 To analyze the payout, we start at the bottom of the tree. The Seller would choose:
 \begin{itemize}
@@ -712,40 +759,47 @@ As always, $H_S$ denotes the honest strategy, where the Seller sends $G$ and $-H
 
 \minisec{Payout}
 To increase readability, we do not plot the decisions from point 1 to point 3. If someone does not deposit the collateral, the Smart Contract aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step 3), he loses his collateral. The payout is $0|-C_B$.\newline
+\begin{figure}[htb!]
+    \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+          \node[draw]{S}
+                child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {$H_S$}} 
+                child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {$-H_S$}};
+    \end{tikzpicture}
+    \centering
+    \caption{Two Side Collateral: Both parties report simultaneously}
+\end{figure}
 
-\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-      \node[draw]{S}
-            child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {$H_S$}} 
-            child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {$-H_S$}};
-\end{tikzpicture}
 
-
-\begin{center}
-\begin{tabular}{ c||c|c| }
-$T_1$& 0$_B$ & 1$_B$   \\
-\hline
-\hline
-0$_S$ & $-U_S(G) | U_B(G)$ & $-U_S(G) - C_S | U_B(G) -  P - C_B$ \\
-\hline
-1$_S$ & $-U_S(G) - C_S | U_B(G) - P - C_B$& $P - U_S(G) | U_B(G) - P$\\ 
-\hline
-\end{tabular}
-\end{center}
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{ c||c|c| }
+        $T_1$& 0$_B$ & 1$_B$   \\
+        \hline
+        \hline
+        0$_S$ & $-U_S(G) | U_B(G)$ & $-U_S(G) - C_S | U_B(G) -  P - C_B$ \\
+        \hline
+        1$_S$ & $-U_S(G) - C_S | U_B(G) - P - C_B$& $P - U_S(G) | U_B(G) - P$\\ 
+        \hline
+    \end{tabular}
+    \caption{Subgame T1: Both parties report simultaneously}
+\end{table}
 
 The subgame $T_1$ has two Nash Equilibria: $\{0_B, 0_S\}$ and $\{1_B, 1_S\}$.\newline
 The payout of $\{0_B, 0_S\}$ is $-U_S(G)|U_B(G)$. The payout of $\{1_B, 1_S\}$ is $P-U_S(G)|U_B(G)-P$.
+\begin{table}[htb!]
+    \centering
+        \begin{tabular}{ c||c|c| }
+        $T_2$& 0$_B$ & 1$_B$   \\
+        \hline
+        \hline
+        0$_S$ & $0 | 0$ & $-C_S|-P-C_B$ \\
+        \hline
+        1$_S$ & $-C_S|-P-C_B$ & $P | -P$\\ 
+        \hline
+    \end{tabular}
+    \caption{Subgame T2: Both parties report simultaneously}
+\end{table}
 
-\begin{center}
-\begin{tabular}{ c||c|c| }
-$T_2$& 0$_B$ & 1$_B$   \\
-\hline
-\hline
-0$_S$ & $0 | 0$ & $-C_S|-P-C_B$ \\
-\hline
-1$_S$ & $-C_S|-P-C_B$ & $P | -P$\\ 
-\hline
-\end{tabular}
-\end{center}
 
 The subgame $T_2$ has the same two Nash Equilibria as well: $\{0_B, 0_S\}$ and $\{1_B, 1_S\}$.\newline
 The payout of $\{0_B, 0_S\}$ is $0|0$. The payout of $\{1_B, 1_S\}$ is $P|-P$.\newline
@@ -795,6 +849,9 @@ We can achieve the ideal functionality of our Smart Contract by giving it the in
 %\end{equation}
 
 \minisec{Functionality}
+\begin{figure}[htb!]
+    \centering
+
 \begin{lstlisting}[language=java]
 function assign_coins(
   buyerCol: natural, sellerCol: natural, price: natural,
@@ -815,6 +872,8 @@ function assign_coins(
   return (sellerCoins, buyerCoins)
 }
 \end{lstlisting}
+    \caption{General Code for the ideal functionality}
+\end{figure}
 The honest and nonsensical case can be implemented without the last input. There are multiple possible solutions.\newline
 The important case is when the seller reports that he shipped the good and the Buyer reports that he did not receive it. Because the Smart Contract has the input 'shipped', it can determine which party is lying and which party is telling the truth.\newline
 The Smart Contract settles the disputes in such a way that the honest party has a payout greater than zero and the lying party has a payout smaller than zero. Therefore it is unfavorable for any party to report wrongfully.\newline
@@ -843,6 +902,8 @@ The easiest implementation of the honest case is to give back their collateral. 
 In the nonsensical case the SC will not give any coins back.\newline
 In the case of a dispute the SC rewards all the coins to the honest party.
 
+\begin{figure}[htb!]
+    \centering
 \begin{lstlisting}[language=java]
 function assign_coins(
   buyerCol: natural, sellerCol: natural, price: natural,
@@ -870,7 +931,8 @@ function assign_coins(
   return (sellerCoins, buyerCoins)
 }
 \end{lstlisting}
-
+    \caption{Example Code for an implementation of the ideal Smart Contract}
+\end{figure}
 \subsubsection{Protocol}
 Similar to section 5.3, following protocol is proposed:
 \begin{enumerate}
@@ -882,6 +944,8 @@ Similar to section 5.3, following protocol is proposed:
     \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
 \end{enumerate}
 \subsubsection{Payout}
+\begin{figure}[htb!]
+    \centering
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
     \node[draw]{S}
         child[sibling distance = 9cm]{node[draw]{S}
@@ -899,31 +963,34 @@ Similar to section 5.3, following protocol is proposed:
                 child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
 \end{tikzpicture}
-
-\begin{center}
-\begin{tabular}{ |c|c| }
-\hline
-& Payout  \\
-\hline
-\hline
-1& $-U_S(G) | U_B(G)$\\
-\hline
-2& $-U_S(G) - C_S| U_B(G)-P - C_B  $\\
-\hline
-3&$P-U_S(G) + C_B | U_B(G)-P - C_B$ \\
-\hline
-4& $P-U_S(G)| U_B(G)-P$\\
-\hline
-5& $0|0$\\
-\hline 
-6& $P + C_B |-P - C_B$\\
-\hline
-7& $- C_S| C_S$\\
-\hline
-8& $P| -P$\\
-\hline
-\end{tabular}
-\end{center}
+    \caption{Payout with an ideal Smart Contract}
+\end{figure}
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{ |c|c| }
+    \hline
+    & Payout  \\
+    \hline
+    \hline
+    1& $-U_S(G) | U_B(G)$\\
+    \hline
+    2& $-U_S(G) - C_S| U_B(G)-P - C_B  $\\
+    \hline
+    3&$P-U_S(G) + C_B | U_B(G)-P - C_B$ \\
+    \hline
+    4& $P-U_S(G)| U_B(G)-P$\\
+    \hline
+    5& $0|0$\\
+    \hline 
+    6& $P + C_B |-P - C_B$\\
+    \hline
+    7& $- C_S| C_S$\\
+    \hline
+    8& $P| -P$\\
+    \hline
+    \end{tabular}
+    \caption{The corresponding payout table of figure 5.14}
+\end{table}
 
 Remark: If any party does not send the collateral, the Smart Contract will release the collateral of the the other party and it would result in a payout of $0|0$. This option is not analyzed in the Game tree but has to be considered as an option for each party.\newline
 
@@ -944,7 +1011,9 @@ We need to rework our Assumptions and requirements for the game we want to desig
 \subsubsection{Two Side Collateral with punishing Buyer}
 In this section we show that if the Buyer behaves punishing (and therefore not rationally), it is not beneficial for the Seller to behave dishonestly. The created game would have a successful trade as Nash Equilibrium.\newline
 
-\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+\begin{figure}[htb!]
+    \centering
+    \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
     \node[draw]{S}
         child[sibling distance = 9cm]{node[draw]{S}
     		child[sibling distance = 5cm]{node[draw]{B}
@@ -960,7 +1029,10 @@ In this section we show that if the Buyer behaves punishing (and therefore not r
             child[sibling distance = 5cm]{node[draw]{B}
                 child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
-\end{tikzpicture}
+    \end{tikzpicture}
+
+    \caption{Two Side Collateral with punishing Buyer}
+\end{figure}
 
 \begin{center}
 \begin{tabular}{ |c|c| }
@@ -986,6 +1058,7 @@ In this section we show that if the Buyer behaves punishing (and therefore not r
 \hline
 \end{tabular}
 \end{center}
+\captionof{table}{The corresponding payout table of figure 6.1}
 Now a punishing Buyer stops acting rational and chooses option 7 over 8.\newline
 The Buyer chooses:
 \begin{itemize}
@@ -1063,7 +1136,9 @@ As the Buyer does not longer report to the Smart Contract, he has fewer decision
 \subsubsection{Payout}
 We again start our analysis at point 5 of the protocol.\newline
 
-\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+\begin{figure}[htb!]
+    \centering
+    \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
     \node[draw]{S}
         child[sibling distance = 9cm]{node[draw]{S}
     		child[sibling distance = 5.5cm]{node[draw]{M}
@@ -1075,8 +1150,9 @@ We again start our analysis at point 5 of the protocol.\newline
     		    child[sibling distance = 3cm]{node[shape = rectangle]{$0|0$} edge from parent node [right] {0}}edge from parent node [left] {0}}
             child[sibling distance = 5cm]{node[draw]{M}
     		    child[sibling distance = 3cm]{node[shape = rectangle]{$- C_S| -P-C_B$} edge from parent node [right] {0}}edge from parent node [right] {1}}edge from parent node [right] {$-H_S$}};
-\end{tikzpicture}\newline
-
+    \end{tikzpicture}
+    \caption{Two Side Collateral with ideal Mediator}
+\end{figure}
 
 The Mediator is always behaving in the same way. Therefore the Seller can choose the one option, which yields him the biggest payout. This is sending the good ($H_S$) and reporting 1, as: 
 
