@@ -12,6 +12,16 @@
 \usepackage{capt-of}
 
 
+\usepackage [
+n, % or lambda
+advantage , operators ,
+sets ,
+adversary , landau , probability , notions ,
+logic ,
+ff, mm,
+primitives , events , complexity , oracles , asymptotics , keys
+]{ cryptocode}
+
 \addbibresource{references.bib}
 
 \newcommand{\authnote}[3]{{ \footnotesize \textbf{#1[#2: #3]~}}}
@@ -1639,12 +1649,34 @@ As we assume $U_S(G) > 0$, this strategy yields a bigger payout than the honest 
 \[P_S(dishonestSeller,Post\_Tx\_honest_B) = P_S(honest_S,honest_B) + U_S(G)\]
 
 This contradicts our assumption that $G$ is a successful Game as defined in 4.2, as the honest strategy is no longer the best strategy for the Seller when the buyer is acting rational.
- %\begin{figure}[!htbp]
-    %\begin{systembox}{A}
-%	ss
-    %\end{systembox}
- %\end{figure}
-	
+
+\chapter{test}
+
+\procedureblock{Protocol with Mediator}{
+\textbf{S} \<\< \textbf{SC} \<\<  \textbf{M} \<\< \textbf{B} \\
+%------------TELL THE MEDIATOR---------------
+\pcln \< \< \< \< \sendmessageleft{top=information,length=2cm} \>\>\pclb
+%-----------COLLATERAL-----------------
+\pcintertext [dotted] {Deposit Collateral} \\
+\pcln \< \sendmessageright{top = $C_S$,length=2cm} \< \<  \sendmessageleftx[5.5cm]{4}{C_B} \<   \pclb
+\pcintertext [dotted] {Send Resources} \\
+%-----------SEND P------------------
+\pcln \< \< \< \sendmessageleftx[5.5cm]{8}{P} \< \< \< \\
+%-----------SEND G------------------------
+\pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
+\pcintertext [dotted] {Report to the SC} \\
+%-----------SELLER REPORTS----------------------
+\pcln \< \sendmessageright{top=report 1,length=2cm} \< \< \< \< \< \\
+%---------------CHECK IF G IS RIGHT-------------
+\pcln \< \< \< \< \text{$G$ is right?} \< \< \\
+%-----------MEDIATOR REPORTS---------------
+\pcln \< \< \< \sendmessageleft{top=report 1,length=2cm} \< \< \< \\
+%------MEDIATOR SENDS G TO B-------------
+\pcln \< \< \< \< \sendmessageright{top=$G$,length=2cm} \>\>\pclb
+\pcintertext [dotted] {Pay back collateral} \\
+\pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\
+\pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
+}
 	%\bibliographystyle{}
 	
 	%\bibliography{references.bib}
