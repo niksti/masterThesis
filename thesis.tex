@@ -331,14 +331,18 @@ In the above described protocols we analyse two strategies for each player. The 
 \end{figure}
 %\captionof{figure}{Naive approach, Buyer sends first}
 
-To analyze the game, we start at the bottom at the seller's decision. As he would choose the option which yields him the greatest payout, he chooses $Keep$ (Because $P > P - U_S(G)$).\newline
-Therefore the Buyers has to choose between a payout of 0 (by choosing $Withhold$) and $-P$ (by choosing $Pay$). Since $0 > -P$, he chooses $Withhold$.\newline
+To analyze the game, we use the method "iterated elimination of strictly dominated strategies". We start at the bottom at the seller's decision.
+\begin{itemize}
+    \item The Seller chooses $Keep$ (Because $P > P - U_S(G)$).
+\end{itemize}
+    We then go one step towards the root and look at the Buyer's decision. He already knows that if he chooses $Pay$, the rational Seller will choose $Keep$. This would leave the Buyer with a payout of $-P$. If the Buyer chooses $Withhold$, his payout is $0$.
+\begin{itemize}
+    \item The Buyer chooses $Withhold$ (Because $0 > -P$)
+\end{itemize} 
+%Therefore the Buyer has to choose between a payout of 0 (by choosing $Withhold$) and $-P$ (by choosing $Pay$). Since $0 > -P$, he chooses $Withhold$.\newline
 The Nash Equilibrium of this game is \{$Keep$, $Withhold$\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
-\orfnote{mention that this method of finding the Nash Equilibrium is called
-"iterated elimination of strictly dominated strategies".}
 
-\subsection{Game: The Seller acts first} \orfnote{apply here as well the notes
-from the previous game}
+\subsection{Game: The Seller acts first} 
 
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -353,12 +357,14 @@ from the previous game}
 \end{figure}
 
 
-The analysis is similar to the above case, but the roles are reversed. The Buyer would choose $Withhold$ as $U_B(G) > U_B(G)-P$.\newline
-The seller would choose $Keep$ as $0 > -U_S(G)$.\newline
+The analysis is similar to the above case, but the roles are reversed. 
+\begin{itemize}
+    \item The Buyer would choose $Withhold$ as $U_B(G) > U_B(G)-P$
+    \item The seller would choose $Keep$ as $0 > -U_S(G)$
+\end{itemize}
 The Nash Equilibrium of this game is \{$Keep$, $Withhold$\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
-\subsection{Game: Both parties act simultaneously} \orfnote{Also apply notes
-here}
+\subsection{Game: Both parties act simultaneously} 
 
 \begin{table}[htb!]
     \centering
@@ -448,7 +454,7 @@ Following protocol is proposed:
     \item The Smart Contract releases the collateral of the Seller
 \end{enumerate}
 The collateral should incentivize the Seller to behave honestly and to ship the
-physical good to the buyer. The Buyer can report \orfnote{to the SC} with a simple boolean input:
+physical good to the buyer. The Buyer can report to the SC with a simple boolean input:
 \begin{itemize}
     \item 0 denotes that $G$ was not received
     \item 1 denotes that $G$ was received
