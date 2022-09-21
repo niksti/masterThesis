@@ -237,6 +237,7 @@ disagreement as well), or at least refer to it TODO: rethink code location}
 \minisec{Escrow/Smart Contract} An entity that should ensure that the trade is successful. It acts as a fully trusted oracle.
 
 \section{The Game}
+\label{sec:the-game}
 \orfnote{I don't like \textbackslash{}minisec in general. It does not have a
 number so you cannot refer to it. It feels like a compromise between a new
 section and continuous prose. It is used in a way that turns the whole thesis
@@ -765,6 +766,7 @@ As both options lead to a payout of 0, $B$ chooses an arbitrary option. The trad
 
 
 \section{Two side collateral}
+\label{sec:two-side-collateral}
 \orfnote{As we saw in the previous section,} One side collateral does
 \orfnote{not lead to a game that achieves our goal} not work. The party that does not deposit collateral always has an unfair advantage over the other party. \newline
 When only the Buyer deposits collateral, the Seller has no incentive to send $G$. \newline
@@ -1217,9 +1219,10 @@ Without the sixth input, it is impossible to design a Smart Contract that achiev
 \orfnote{I would really like to present this argument in a theorem-proof format}
 
 \chapter{A redesigned game}
-As we have shown (8.1) \orfnote{we have to discuss what will be the fate of the
-proof}, it is not possible (under our assumptions) to design a protocol that would create a successful game (as described in 4.2). The biggest problem is that we have no reliable way of telling the Smart Contract whether the physical good $G$ was actually shipped or not. If there is a dispute, the Smart Contract does not know which party is lying and has to be punished.\newline
-We need to rework our assumptions and requirements for the game we want to design. For that it is is interesting to see that the two side collateral protocol (5.3) is very close to achieving our goals. As already discussed, the problem is that the Seller is not actually incentivized to send the physical good $G$, because the Buyer is not incentivized to report his dishonest behaviour. The Buyer gets a bigger Payout when he lies to the Smart Contract instead of reporting the dishonest behaviour. Therefore a rational Buyer would never punish a dishonest Seller in this scenario. If a Seller thinks that the Buyer would punish him (the Buyer is not acting rational in this scenario), then the Seller is incentivized to send the physical good $G$.\newline
+As we have shown (c.f. \ref{sec:formal-proof}) \orfnote{we have to discuss what will be the fate of the
+proof}, it is not possible (under our assumptions) to design a protocol that would create a successful game (as described in \ref{sec:the-game}). The biggest problem is that we have no reliable way of telling the Smart Contract whether the physical good $G$ was actually shipped or not. If there is a dispute, the Smart Contract does not know which party is lying and has to be punished.\newline
+
+We need to rework our assumptions and requirements for the game we want to design. For that it is is interesting to see that the two side collateral protocol (c.f. \ref{sec:two-side-collateral}) is very close to achieving our goals. As already discussed, the problem is that the Seller is not actually incentivized to send the physical good $G$, because the Buyer is not incentivized to report his dishonest behaviour. The Buyer gets a bigger Payout when he lies to the Smart Contract instead of reporting the dishonest behaviour. Therefore a rational Buyer would never punish a dishonest Seller in this scenario. If a Seller thinks that the Buyer would punish him (the Buyer is not acting rational in this scenario), then the Seller is incentivized to send the physical good $G$.\newline
 \subsubsection{Two Side Collateral with punishing Buyer} \orfnote{instead of
 "punishing", I somewhat prefer "truthful". If you agree, change throughout the
 text}
@@ -1274,7 +1277,7 @@ In this section we show that if the Buyer behaves punishing (and therefore not r
 \end{tabular}
 \end{center}
 \captionof{table}{The corresponding payout table of figure 6.1}
-Now a punishing Buyer stops acting rational \orfnote{rationally} and chooses option 7 over 8.\newline
+Now a punishing Buyer stops acting rationally and chooses option 7 over 8.\newline
 The Buyer chooses:
 \begin{itemize}
     \item 1 over 2 ($U_B(G) > U_B(G) -P -C_B$)
@@ -1287,37 +1290,33 @@ The Seller would choose option 4, as
 The Seller now sends the good, because he the Buyer will punish him if he does not send it.
 The Nash Equilibrium would be the honest case and the trade would unravel successfully.\newline
 At first glance this seems counterintuitive: If the act of reporting benefits the Buyer, why would the rational Buyer not report the misbehaviour of the Seller? As the definition of a rational behaviour is maximizing the own Utility, would it not be rational to report the Seller?\newline
-The answer to this question is no. \orfnote{If the Seller has already misbehaved,} It is more profitable for the Buyer to not report the misbehaviour, as he at least receives back his collateral.\newline
+The answer to this question is no. If the Seller has already misbehaved, it is more profitable for the Buyer to not report the misbehaviour, as he at least receives back his collateral.\newline
 It is not the act of reporting that is profitable for the Buyer, rather it is
-the threat of reporting \orfnote{before the Seller chooses whether to misbehave}. If the Seller thinks that maybe the Buyer will report him, he is discouraged of trying to cheat and not sending $G$.\newline
-The problem lies in the way we laid the rules for the game: As we defined both players as always behaving rational \orfnote{rationally}, the Seller knows that the Buyer can not report him, because it is not the rational decision.\newline
+the threat of reporting. This thread has to be considered by the Seller before he chooses whether to misbehave. If the Seller thinks that maybe the Buyer will report him, he is discouraged of trying to cheat and not sending $G$.\newline
+The problem lies in the way we laid the rules for the game: As we defined both players as always behaving rationally, the Seller knows that the Buyer can not report him, because it is not the rational decision.\newline
 If the Seller did not know that the Buyer is always acting rational, he would be taking a great risk by not sending the physical good: the risk of being exposed and losing his collateral and his money $P$.\newline
 We want to create a situation where the Seller evaluates the situation as being too risky to try and cheat. In this situation the rational Seller will behave honestly and  send $G$.\newline
 To conclude: It is sufficient to turn the non credible threat of the Buyer (reporting 0 if $G$ is not shipped) into a credible threat for the double collateral protocol to succeed.
 
 \minisec{Redesigning the game}
-We redesign the game by adding another Entity. The \orfnote{Its} purpose of the newly added Entity is to assist the Buyer in convincing the Seller that he will be punished if he does not send $G$. We need this Entity to maintain the rationality of the Buyer, as a rational Buyer will not report any dishonest behaviour of the Seller.\newline
+We redesign the game by adding another Entity. Its purpose is to assist the Buyer in convincing the Seller that he will be punished if he does not send $G$. We need this Entity to maintain the rationality of the Buyer, as a rational Buyer will not report any dishonest behaviour of the Seller.\newline
+
 This new Entity is not modeled as a rational party. It rather wants
 \orfnote{don't use the word "wants", in general don't assign agency to the new
 Entity. Only rational parties have agency.} to achieve its goal, which is to turn the non credible threat of the Buyer to a credible threat. If this is achieved, a Seller knows that it is unprofitable to behave dishonestly.\newline
-The third Entity will be fully \orfnote{not fully, not with its money} trusted
+The third Entity will be \orfnote{not fully, not with its money} trusted
 by the Buyer. It has its own physical address and  the ability to receive the
-physical good $G$. It also has the ability to evaluate, \orfnote{remove the
-comma, this is german} whether the received item actually is the agreed upon item ($G$).\newline
-The third Entity also has its own wallet on the blockchain and \orfnote{don't
-refer to a wallet} can communicate with the Smart Contract and the Buyer.
+physical good $G$. It also has the ability to evaluate, whether the received item actually is the agreed upon item ($G$). In addition to that it has the ability to communicate with the Smart Contract and the Buyer.
 
 \section{Formal definition of the new Entity}
 \subsubsection{Adding an Entity}
-We introduce another entity, which we call Mediator M \orfnote{use math
-mode for $M$} and always has the same behaviour: \orfnote{has the following
-behaviour (without always, same)}
+We introduce another entity, which we call Mediator $M$ and has the following behaviour:
 \begin{enumerate}
     \item publish his public key and physical address \orfnote{remove this step,
     add as an assumption that the buyer knows this beforehand}
-    \item receive SC address and specifications that the \orfnote{remove "the"} describe $G$
+    \item receive SC address and specifications that \orfnote{remove "the"} describe $G$
     \item receive the physical good
-    \item check, \orfnote{comma} if the the physical good match the descriptions
+    \item check if the the physical good match the descriptions
     \orfnote{description in singular} for $G$
     \begin{itemize}
         \item YES \orfnote{if so}: report 1 to the SC and send the good to the Buyer
@@ -1329,7 +1328,7 @@ behaviour (without always, same)}
 repetition between here and just before 6.1}
 The new Entity always behaves in the described way. It has the power to receive physical items. Given the right specifications of $G$, the Mediator can distinguish $G$ from every other  physical item. The Mediator also has the power to communicate with the Smart Contract. 
 //TODO Maybe expand on that: What about trust
-\section{New proposed protocol} \orfnote{Rename to e.g. Mediated protocol}
+\section{Mediated protocol}
 We propose the following protocol:
 \begin{enumerate}
     \item Buyer gives SC address and specifications for $G$ to the Mediator
@@ -1340,6 +1339,33 @@ We propose the following protocol:
     \item Mediator receives the physical good, confirms it to the Smart Contract and sends $G$ to the Buyer
     \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
 \end{enumerate}
+
+\procedureblock{Mediated Protocol}{
+\textbf{$S$} \<\< \textbf{SC} \<\<  \textbf{M} \<\< \textbf{$B$} \\
+%------------TELL THE MEDIATOR---------------
+\pcln \< \< \< \< \sendmessageleft{top=information,length=2cm} \>\>\pclb
+%-----------COLLATERAL-----------------
+\pcintertext [dotted] {Deposit Collateral} \\
+\pcln \< \sendmessageright{top = $C_S$,length=2cm} \< \<  \sendmessageleftx[5.5cm]{4}{C_B} \<   \pclb
+\pcintertext [dotted] {Send Resources} \\
+%-----------SEND P------------------
+\pcln \< \< \< \sendmessageleftx[5.5cm]{8}{P} \< \< \< \\
+%-----------SEND G------------------------
+\pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
+\pcintertext [dotted] {Report to the SC} \\
+%-----------SELLER REPORTS----------------------
+\pcln \< \sendmessageright{top=report 1,length=2cm} \< \< \< \< \< \\
+%---------------CHECK IF G IS RIGHT-------------
+\pcln \< \< \< \< \text{$G$ is right?} \< \< \\
+%-----------MEDIATOR REPORTS---------------
+\pcln \< \< \< \sendmessageleft{top=report 1,length=2cm} \< \< \< \\
+%------MEDIATOR SENDS G TO $B$-------------
+\pcln \< \< \< \< \sendmessageright{top=$G$,length=2cm} \>\>\pclb
+\pcintertext [dotted] {Pay back collateral} \\
+\pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\
+\pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
+}
+
 \subsubsection{Honest behaviour}
 This new protocol does change the honest behaviour of the Buyer. His honest behaviour is now:
 \begin{enumerate}
@@ -1589,6 +1615,7 @@ How is the reporting entity different than an escrow?
 \chapter{Appendix}
 
 \section{Formal proof}
+\label{sec:formal-proof}
 In this section we provide a proof showing that (under our Assumptions) there can not exist  a successful game G as it is defined in 4.2.
 
 \minisec{Assumptions}
@@ -1706,6 +1733,31 @@ This contradicts our assumption that $G$ is a successful Game as defined in 4.2,
 \pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\
 \pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
 }
+
+
+
+\procedureblock{Two-Side-Collateral Protocol}{
+\textbf{$S$} \<\< \textbf{SC} \<\< \textbf{$B$} \pclb
+%-----------COLLATERAL-----------------
+\pcintertext [dotted] {Deposit Collateral} \\
+\pcln \< \sendmessageright{top = $C_S$} \< \<  \sendmessageleft{top = $C_B$} \<   \pclb
+\pcintertext [dotted] {Send Resources} \\
+%-----------SEND P------------------
+\pcln \< \< \< \sendmessageleft{top = $P$} \< \\
+%-----------SEND G------------------------
+\pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
+\pcintertext [dotted] {Report to the SC} \\
+%-----------SELLER REPORTS----------------------
+\pcln \< \sendmessageright{top=report 1} \< \< \< \\
+\pcln \< \< \< \sendmessageleft{top = report} \< \text{check, if $G$ correct} \\
+\pcln \<  \sendmessageleft{top=$P$} \<\<\< \pclb
+%---------------CHECK IF G IS RIGHT-------------
+%\pcln \< \< \< \< \text{$G$ is right?} \< \< \\
+\pcintertext [dotted] {Pay back collateral} \\
+\pcln \<  \sendmessageleft{top=$C_S$} \<\<\< \\
+\pcln \< \< \< \sendmessageright{top=$C_B$} \<  \\
+}
+
  %\begin{figure}[!htbp]
     %\begin{systembox}{A}
 %	ss
