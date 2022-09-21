@@ -26,7 +26,7 @@ primitives , events , complexity , oracles , asymptotics , keys
 
 \newcommand{\authnote}[3]{{ \footnotesize \textbf{#1[#2: #3]~}}}
 \newcommand{\orfnote}[1]{\authnote{\color{blue}}{Orfeas}{#1}}
-\newcommand{\niknote}[1]{\authnote{\color{red}}{Orfeas}{#1}}
+\newcommand{\niknote}[1]{\authnote{\color{red}}{Nikos}{#1}}
 
 \newtheorem{definition}{Definition}
 
@@ -244,7 +244,8 @@ into a list of short minisecs, almost like a bullet-point list. In order to look
 good and read like a story, it should be formatted into prose with correct
 paragraph breaks.}
 
-\minisec{Initial State} 
+\begin{definition}[Initial State]
+\label{def:initial-state}
 \orfnote{the word "want" is too vague. Also they don't want to trade
 successfully, they "want" to maximize their utility}
 \orfnote{how much money do they have? e.g. assume that they have at least
@@ -252,9 +253,14 @@ enought to carry out protocol actions. In practice that will be $C_S$ for $S$
 and $C_B + P$ for $B$.}
 \orfnote{fix parties' capitalization}
 A Seller and a buyer want to trade successfully: Both have funds in the given cryptocurrency. The seller is in possession of the physical good.
+\end{definition} 
 
-\minisec{Desired Final State} 
-The buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the seller have increased by $P$.\newline
+
+\begin{definition}[Desired Final State]
+\label{def:desired-final-state}
+The buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the seller have increased by $P$.
+\end{definition}
+
 
 We make the following assumptions:
 \begin{enumerate}
@@ -380,19 +386,17 @@ The Nash Equilibrium of this game is \{$Keep$, $Withhold$\} and results in a pay
     \label{fig:nocol-simultaneous}
     \caption{No collateral: Both parties send simultaneously}
 \end{table}
-If we look at the payout table we can see that $Withhold$ dominates $Pay$ and $Keep$ dominates $Send$. This means that the dishonest strategy provides a bigger payout regardless of the strategy of the other party. \newline
-Since we assume the players to be rational, they would both choose the dishonest strategy. Both players choosing the dishonest strategy is the Nash Equilibrium of the game.\newline
-It is interesting to note that this table resembles the famous prisoner's dilemma.
-%TODO find literature to the prisoners dilemma
-The Nash Equilibrium is on both parties not sending anything, still it would be
-better for both parties if they just traded honestly. \orfnote{better
-$\rightarrow$ Pareto efficient}
-\orfnote{make sure that, instead of using the terms "honest/dishonest strategy",
-you instead call the actions by name. Mention that the Nash Equilibrium does not
-correspond to the Desired Final State, thus this game does not satisfy our goal.}
+If we look at the payout table we can see that $Withhold$ dominates $Pay$ and $Keep$ dominates $Send$. These strategies provide a bigger payout regardless of the strategy of the other party.
+Since we assume the players to be rational, they would both choose the dominant strategy.
+Again, the Nash Equilibrium of this game is \{$Keep$, $Withhold$\} and results in a payout of $0|0$. As the Nash Equilibrium does not correspond to the Desired Final State (c.f. Definition \ref{def:desired-final-state}), this game does not satisfy our goal.\newline
 
-\section{Second Try: One-Sided collateral} \orfnote{rename to "Second Try: One-Sided
-Collateral"} \orfnote{apply earlier notes that also suit here}
+It is interesting to note that this table resembles the famous prisoner's dilemma, where the Nash Equilibrium is not Pareto efficient. We can see that \{$Keep$, $Withhold$\} is not the Pareto optimal case, because \{$Send$, $Pay\}$ increases the payout of both parties. 
+In other words, a successful trade would benefit both parties but is not happening in this game as it is not the Nash Equilibrium. \niknote{last sentence redundant?}
+%TODO explain Prisoners dilemma? Pareto Efficient
+%The Nash Equilibrium is on both parties not sending anything, still both parties would yield a bigger payout if they just traded successfully. 
+
+
+\section{Second Try: One-Sided collateral}  \orfnote{apply earlier notes that also suit here}
 To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost if the entity does not behave honestly. In this section we will look at protocols where only one entity deposits a collateral. We introduce a Smart Contract which handles the collateral.
 
 \subsection{Buyer Collateral}
