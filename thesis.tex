@@ -98,6 +98,87 @@ primitives , events , complexity , oracles , asymptotics , keys
 \chapter{Preliminaries}
 \section{Cryptography}
 \section{Game Theory}
+\subsection{Turn-based games}
+\begin{definition}[turn-based games]
+\label{def:turn-based-game}
+A game is turn-based if only one party can play at a time and its move is revealed
+to all other parties before the next move.
+\end{definition}
+To analyse turn-based games we will use game trees.\newline
+
+\orfnote{Game trees and
+examples should be introduced in the preliminaries. Mention that, in our work, a
+game is turn-based if only one party can play at a time and its move is revealed
+to all other parties before the next move. Mention that we can combine
+simultaneous and turn-based games if some moves are turn-based and some are
+simultaneous.}
+
+
+\orfnote{for the example, prefer parties $A$, $B$ instead
+of $B$, $S$. For actions, you can e.g. use $L$, $R$, which is common in Game
+Theory literature for generic moves when every choice is binary. Do not use the
+same payouts everywhere. Better use specific numbers. Use numbers with a single
+Nash Equilibrium and walk the reader through the analysis of why it is a Nash
+Equilibrium.}
+
+\orfnote{use $B$, $S$ instead of B, S in the tikzpicture as well.}
+
+\begin{figure}[htb!]
+\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
+      \node[draw]{$A$}
+        child{node[draw]{$B$}
+                child[sibling distance = 3cm]{node[shape = rectangle]{$1_A|6_B$} edge from parent node [left] {$L$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{$5_A | 5_B$}edge from parent node [right] {$R$}} edge from parent node [left] {$L$}} 
+        child{node[draw]{$B$}
+            child[sibling distance = 3cm]{node[shape=rectangle]{$4_A | 2_B$}edge from parent node [left] {$L$}}
+            child[sibling distance = 3cm]{node[shape = rectangle]{$3_A | 3_B$}edge from parent node [right] {$R$}}edge from parent node [right] {$R$}};
+\end{tikzpicture}
+    \centering
+    \caption{Example Tree}
+    \label{fig:example-tree}
+\end{figure}
+
+To find the Nash Equilibrium of this game we will use the method "iterated elimination of strictly dominated strategies".
+TODO look for paper,  more information here
+
+\subsection{Simultaneous games}
+\begin{definition}[Simultaneous games]
+\label{def:simultaneous-game}
+A game is simultaneous, if at least two parties play at a time. 
+\end{definition}
+
+To analyse simultaneous games we will use a table.
+\orfnote{My favorite table format mentions the two parties' names at the
+top-left cell with a diagonal, as in the link:
+\url{https://www.jasss.org/12/4/7/Ohdaira-Table-01.jpg}. Each party has a color
+(e.g.\ S blue, B red). The actions can be full words; in the example use "be
+honest"/"lie" for one player and "report"/"hide" for the other, highlighting
+that the players need not be symmetric. The payouts are specific numbers,
+each colored with the respective player's color.}
+\begin{center}
+\begin{tabular}{ c||c|c| }
+& $H_B$ & $-H_B$  \\
+\hline
+\hline
+$H_S$ & $P_S | P_B$ & $P_S | P_B$ \\
+\hline
+$-H_S$ & $P_S | P_B$ & $P_S | P_B$ \\ 
+\hline
+\label{tab:example-table}
+\end{tabular}
+\end{center}
+\captionof{table}{Example table}
+
+\minisec{Description} On the top are the possible strategies for the buyer: $H_B$ is the strategy where the buyer behaves honestly and $-H_B$ is the strategy where the Buyer behaves dishonestly.\newline
+On the left side are the strategies for the seller. Similar to the buyer, $H_S$ denotes the strategy where the seller behaves honestly and $-H_S$ denotes the strategy where the seller behaves dishonestly.\newline
+
+For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payout of the seller and $P_B$ denotes the payout of the buyer.
+\orfnote{Once again, in the examples (which will move to the Preliminaries)
+don't mention Seller/Buyer. Also I believe it will be confusing to mention
+honesty/dishonesty in the rationality-based games. In general for our games,
+prefer to use more specific terms for the actions and not use cryptographic
+(honest/dishonest) terms. More discussion below.}
+
 \section{Blockchains}
 \section{Smart Contracts}
 \section{Escrows}
@@ -110,43 +191,41 @@ auch die analyse erwähnen
 Hier unbedingt Asganokar sein paper erwähnen (sale of digital goods)
 
 \chapter{Formalization}
-\minisec{Utility function}
-
 % Example usage of definition START
-\begin{definition}[Darmstadt]
-\label{def:darmstadt}
-Colon city
-\end{definition}
-Definition~\ref{def:darmstadt} transliterates Darmstadt.
+%begin{definition}[Darmstadt]
+%\label{def:darmstadt}
+%Colon city
+%\end{definition}
+%Definition~\ref{def:darmstadt} transliterates Darmstadt.
 % Example usage of definition END
 
-\orfnote{should be a definition}
-The utility function $U_P(G)$ describes how much utility a physical good $G$ provides to a player $P$. The output of this function is a numerical value, which corresponds to the amount of coins that have equal value as $U_P(G)$.
-\orfnote{Mention that in this work, utility will always be a positive integer}
+\begin{definition}[Utility Function]
+\label{def:utility-function}
+The utility function $U_P(G)$ describes how much utility a physical good $G$ provides to a player $P$. The output of this function is a numerical value, which corresponds to the amount of coins that have equal value as $U_P(G)$. In this work, utility will always be a positive integer.
+\end{definition}
+
 \section{Entities}
 
-\orfnote{should be a definition}
-\orfnote{symbols $S$, $B$, etc.\ should be everywhere in math mode, that is
-between \$\$.}
-\orfnote{mention that $S$ is rational}
-\orfnote{repeat above for buyer}
-\minisec{Seller}An entity S that owns a specific physical good $G$. The seller
-has bigger utility in owning $P$ amount of coins in contrast to owning $G$
-\orfnote{add here "c.f.~\textbackslash{}ref\{eq:seller-utility\}" and
-corresponding \\label\{\} to the equation below, similar for buyer. The
-"Definition" example above shows how to use labels.}. He therefore desires to
-exchange $G$ against coins of amount $P$.
+\begin{definition}[Seller]
+\label{def:seller}
+A rational entity $S$ that owns a specific physical good $G$. The seller
+has bigger utility in owning $P$ amount of coins in contrast to owning $G$ (c.f.\ref{eq:seller-utility}) He therefore desires to exchange $G$ against coins of amount $P$.
+\end{definition}
 
 %Insert Utility function distribution
 \begin{equation}
+\label{eq:seller-utility}
     U_S(G) + P > P > U_S(G) > 0
 \end{equation}
 
-\minisec{Buyer}An entity B that owns coins of at least amount of $P$
-\orfnote{"... that owns at least $P$ coins"}. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins. He therefore desires to exchange coins of amount $P$ against $G$.
+\begin{definition}[Buyer]
+\label{def:buyer}
+A rational entity $B$ that owns at least $P$ coins. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins (c.f. \ref{eq:buyer-utility}). He therefore desires to exchange coins of amount $P$ against $G$.
+\end{definition}
 
 %Insert Utility function distribution
 \begin{equation}
+\label{eq:buyer-utility}
     U_B(G) + P > U_B(G) > P > 0
 \end{equation}
 
@@ -164,7 +243,8 @@ section and continuous prose. It is used in a way that turns the whole thesis
 into a list of short minisecs, almost like a bullet-point list. In order to look
 good and read like a story, it should be formatted into prose with correct
 paragraph breaks.}
-\minisec{Start Point} \orfnote{rename to Initial State}
+
+\minisec{Initial State} 
 \orfnote{the word "want" is too vague. Also they don't want to trade
 successfully, they "want" to maximize their utility}
 \orfnote{how much money do they have? e.g. assume that they have at least
@@ -173,25 +253,28 @@ and $C_B + P$ for $B$.}
 \orfnote{fix parties' capitalization}
 A Seller and a buyer want to trade successfully: Both have funds in the given cryptocurrency. The seller is in possession of the physical good.
 
-\minisec{End Point} \orfnote{rename to Desired Final State}
-The buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the seller have increased by $P$.
+\minisec{Desired Final State} 
+The buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the seller have increased by $P$.\newline
 
-\minisec{Assumptions}
-Both \orfnote{"All" instead of "Both". Will cover Mediator as well} entities
-have access to the Smart Contract and know the addresses \orfnote{and public
-keys, for authenticated communication} of each other. The seller also knows the
-physical address to which the buyer wants the good to be shipped
-\orfnote{mention that this does not necessarily coincide with the buyer's real
-physical address, thus protecting the buyer's privacy}. Other than this
-information they know nothing about each other.\orfnote{never use
-\textbackslash{}newline without good reason, it messes up typesetting and
-disrespects paragraph formatting. You can instead list them using
-"itemize" or "enumerate"} \newline 
-Both parties can send funds in the given cryptocurrency to any address. The sender has the power to send/ship the physical good to any physical address he wants. Both the seller and the buyer know the code of the Smart Contract.\newline
-We assume both entities to behave rationally, meaning that they both want to maximise their expected payout.\newline
-Both $U_S(G)$ and $U_B(G)$ are positive. \newline
-Transaction Fees are not analysed. \orfnote{Not considering fees is not an
-assumption. Mention it right after the list of assumptions.}
+We make the following assumptions:
+\begin{enumerate}
+    \item All entities have access to the Smart Contract and know the addresses and public keys of each other.
+    \label{ass:1}
+    \item The seller knows the physical address to which the buyer wants the good to be shipped. This address is not necessarily the buyer's real physical address, he can choose any physical address he wants to protect his privacy.
+    \label{ass:2}
+    \item Other than the information of assumption \ref{ass:1} and \ref{ass:2}, the buyer and the seller know nothing about each other.
+    \label{ass:3}
+    \item Both parties can send funds in the given cryptocurrency to any address.
+    \label{ass:4}
+    \item The sender has the power to send/ship the physical good to any physical address he wants.
+    \label{ass:5}
+    \item Both the seller and the buyer know the code of the Smart Contract.
+    \label{ass:6}
+    \item The seller and the buyer behave rationally, meaning that they both want to maximise their expected payout.
+    \item Both $U_S(G)$ and $U_B(G)$ are positive. 
+\end{enumerate}
+
+We do not analyse transaction fees. 
 
 \minisec{Success of the trade}
 The trade is considered successful if the situation transitions from the start
@@ -199,8 +282,8 @@ point to the end point. \orfnote{Expand this into sth like: For parties starting
 from the Initial State, the Final State is a Nash Equilibrium}
 
 \minisec{Goal}
-The goal \orfnote{of this work} is to design a protocol in which behaviour that results in a successful trade is a Nash Equilibrium.\newline
-No \orfnote{minimal} trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. A successful trade should be a Nash Equilibrium: If the other party behaves honestly, the best strategy will be to behave honestly as well.\newline
+The goal of this work is to design a protocol in which behaviour that results in a successful trade is a Nash Equilibrium.\newline
+No minimal trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. A successful trade should be a Nash Equilibrium: If the other party behaves honestly, the best strategy will be to behave honestly as well.\newline
 %If the other party behaves rational it should be best to behave honest.
 Another goal is that the trade is incoercible against rational attacks. It
 should be unprofitable, but not necessarily impossible, to decrease the payout
@@ -213,74 +296,13 @@ to express it in a clear way, maybe even merging the two concepts.}
 %\subsection{Implementation}
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
 
-\chapter{Proposed Possible Solutions} \orfnote{Rename chapter to "Candidate
-Two-Party Protocols" or similar}
+\chapter{Candidate Two-Party Protocols}
 
-To analyse turn-based games we will use game trees. \orfnote{Game trees and
-examples should be introduced in the preliminaries. Mention that, in our work, a
-game is turn-based if only one party can play at a time and its move is revealed
-to all other parties before the next move. Mention that we can combine
-simultaneous and turn-based games if some moves are turn-based and some are
-simultaneous.}
-\minisec{Example Tree} \orfnote{for the example, prefer parties $A$, $B$ instead
-of $B$, $S$. For actions, you can e.g. use $L$, $R$, which is common in Game
-Theory literature for generic moves when every choice is binary. Do not use the
-same payouts everywhere. Better use specific numbers. Use numbers with a single
-Nash Equilibrium and walk the reader through the analysis of why it is a Nash
-Equilibrium.}
-\orfnote{use $B$, $S$ instead of B, S in the tikzpicture as well.}
-\begin{figure}[htb!]
-\begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-      \node[draw]{B}
-        child{node[draw]{S}
-                child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$} edge from parent node [left] {$H_S$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
-        child{node[draw]{S}
-            child[sibling distance = 3cm]{node[shape=rectangle]{$P_S | P_B$}edge from parent node [left] {$H_S$}}
-            child[sibling distance = 3cm]{node[shape = rectangle]{$P_S | P_B$}edge from parent node [right] {$-H_S$}}edge from parent node [right] {$-H_B$}};
-\end{tikzpicture}
-    \centering
-    \caption{Example Tree}
-\end{figure}
-\minisec{Description}
 
-To analyse simultaneous games we will use a table.
-\orfnote{My favorite table format mentions the two parties' names at the
-top-left cell with a diagonal, as in the link:
-\url{https://www.jasss.org/12/4/7/Ohdaira-Table-01.jpg}. Each party has a color
-(e.g.\ S blue, B red). The actions can be full words; in the example use "be
-honest"/"lie" for one player and "report"/"hide" for the other, highlighting
-that the players need not be symmetric. The payouts are specific numbers,
-each colored with the respective player's color.}
-\minisec{Example table}
-
-\begin{center}
-\begin{tabular}{ c||c|c| }
-& $H_B$ & $-H_B$  \\
-\hline
-\hline
-$H_S$ & $P_S | P_B$ & $P_S | P_B$ \\
-\hline
-$-H_S$ & $P_S | P_B$ & $P_S | P_B$ \\ 
-\hline
-\end{tabular}
-\end{center}
-\captionof{table}{Example table}
-
-\minisec{Description} On the top are the possible strategies for the buyer: $H_B$ is the strategy where the buyer behaves honestly and $-H_B$ is the strategy where the Buyer behaves dishonestly.\newline
-On the left side are the strategies for the seller. Similar to the buyer, $H_S$ denotes the strategy where the seller behaves honestly and $-H_S$ denotes the strategy where the seller behaves dishonestly.\newline
-
-For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payout of the seller and $P_B$ denotes the payout of the buyer.
-\orfnote{Once again, in the examples (which will move to the Preliminaries)
-don't mention Seller/Buyer. Also I believe it will be confusing to mention
-honesty/dishonesty in the rationality-based games. In general for our games,
-prefer to use more specific terms for the actions and not use cryptographic
-(honest/dishonest) terms. More discussion below.}
-
-\section{The naive approach} \orfnote{change title to "First try: No Collateral"
-or simillar. Use the word "naive" in the text later.}
+\section{First try: no collateral} \orfnote{ Use the word "naive" in the text later.}
 To examine any possible solutions, we begin with the simplest possible
-protocol. \orfnote{Rephrase this sentence} \newline
+protocol. \orfnote{Rephrase this sentence}\newline
+
 The simplest protocol is without collateral nor a third party. In this case there are 3 possibilities:
 \begin{itemize}
 	\item First the buyer sends coins of amount $P$ to the seller and then the seller ships the physical good $G$ to the provided address.
@@ -294,68 +316,62 @@ The simplest protocol is without collateral nor a third party. In this case ther
 What other strategies are there? Why do we disregard them? Are we sure they
 would not achieve our goal?}
 There are many possible strategies for the two players. We will only analyse the strategies where a player plays honestly and the strategies where a player intentionally behaves dishonest to gain an advantage.\newline
-\orfnote{I think the notation $(-)H_{B/S}$ is not helpful. Use full words
-"Send"/"Keep" for S and "Pay"/"Withhold" for B, even in the games. There's
-space.}
 In the above described protocols we analyse two strategies for each player. The Buyer can choose between strategy $H_B$ where he behaves honestly and sends the money and strategy $-H_B$ where the Buyer behaves dishonestly and does not send the money. The Seller can choose as well between strategy $H_S$ where he behaves honestly and sends the good $G$ and strategy $-H_S$ where the Buyer behaves dishonestly and does not send the $G$.
-\minisec{Payout: The Buyer sends first}\orfnote{E.g. here use
-\textbackslash{}subsection instead of \textbackslash{}minisec. Rename to "Game:
-Buyer acts first"}
-
+\subsection{Game: The Buyer acts first}
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-      \node[draw]{B}
-        child{node[draw]{S}
-                child[sibling distance = 7cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$H_S$}} 
-                child[sibling distance = 7cm]{node[shape=rectangle]{$P|-P$}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
-        child{node{0$|$0} edge from parent node [right] {$-H_B$}};
+      \node[draw]{$B$}
+        child{node[draw]{$S$}
+                child[sibling distance = 7cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$Send$}} 
+                child[sibling distance = 7cm]{node[shape=rectangle]{$P|-P$}edge from parent node [right] {Keep}} edge from parent node [left] {$Pay$}} 
+        child{node{0$|$0} edge from parent node [right] {$Withhold$}};
 \end{tikzpicture}\newline
 \caption{Naive approach, Buyer sends first}
 \end{figure}
 %\captionof{figure}{Naive approach, Buyer sends first}
 
-To analyze the payout \orfnote{payout $\rightarrow$ game}, we start at the bottom at the seller's decision. As he would choose the option which yields him the greatest payout, he chooses $-H_S$ (Because $P > P - U_S(G)$).\newline
+To analyze the game, we start at the bottom at the seller's decision. As he would choose the option which yields him the greatest payout, he chooses $-H_S$ (Because $P > P - U_S(G)$).\newline
 Therefore the Buyers has to choose between a payout of 0 (by choosing $-H_B$) and $-P$ (by choosing $H_B$). Since $0 > -P$, he chooses $-H_B$.\newline
 The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
 \orfnote{mention that this method of finding the Nash Equilibrium is called
 "iterated elimination of strictly dominated strategies".}
 
-\minisec{Payout: The Sender sends first} \orfnote{apply here as well the notes
+\subsection{Game: The Seller acts first} \orfnote{apply here as well the notes
 from the previous game}
 
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
-      \node[draw]{S}
-        child{node[draw]{B}
-                child[sibling distance = 7cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$H_B$}} 
-                child[sibling distance = 7cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)$}edge from parent node [right] {$-H_B$}} edge from parent node [left] {$H_S$}} 
-        child{node{0$|$0} edge from parent node [right] {$-H_S$}};
+      \node[draw]{$S$}
+        child{node[draw]{$B$}
+                child[sibling distance = 7cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$Pay$}} 
+                child[sibling distance = 7cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)$}edge from parent node [right] {$Withhold$}} edge from parent node [left] {$Send$}} 
+        child{node{0$|$0} edge from parent node [right] {$Keep$}};
 \end{tikzpicture}\newline
 \caption{Naive approach, Seller sends first}
 \end{figure}
 
 
-The analysis is similar to the above case, but the roles are reversed. The Buyer would choose $-H_B$ as $U_B(G) > U_B(G)-P$.\newline
+The analysis is similar to the above case, but the roles are reversed. The Buyer would choose $Withhold$ as $U_B(G) > U_B(G)-P$.\newline
 The seller would choose $-H_S$ as $0 > -U_S(G)$.\newline
-The Nash Equilibrium of this game is \{$-H_S$, $-H_B$\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
+The Nash Equilibrium of this game is \{$-H_S$, $Withhold$\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
-\minisec{Payout: Both parties send simultaneously} \orfnote{Also apply notes
+\subsection{Game: Both parties act simultaneously} \orfnote{Also apply notes
 here}
 
 \begin{table}[htb!]
     \centering
     \begin{tabular}{ c||c|c| }
-    & $H_B$ & $-H_B$  \\
+    & $H_B$ & $Withhold$  \\
     \hline
     \hline
-    $H_S$ & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
+    $Send$ & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
     \hline
     $-H_S$ & $P |-P$ & $0 | 0$ \\ 
     \hline
     \end{tabular}
     \caption{Naive approach: Both parties send simultaneously}
 \end{table}
-If we look at the payout table we can see that $-H_B$ dominates $H_B$ and $-H_S$ dominates $H_S$. This means that the dishonest strategy provides a bigger payout regardless of the strategy of the other party. \newline
+If we look at the payout table we can see that $Withhold$ dominates $H_B$ and $-H_S$ dominates $H_S$. This means that the dishonest strategy provides a bigger payout regardless of the strategy of the other party. \newline
 Since we assume the players to be rational, they would both choose the dishonest strategy. Both players choosing the dishonest strategy is the Nash Equilibrium of the game.\newline
 It is interesting to note that this table resembles the famous prisoner's dilemma.
 %TODO find literature to the prisoners dilemma
@@ -366,7 +382,7 @@ $\rightarrow$ Pareto efficient}
 you instead call the actions by name. Mention that the Nash Equilibrium does not
 correspond to the Desired Final State, thus this game does not satisfy our goal.}
 
-\section{One Side collateral} \orfnote{rename to "Second Try: One-Sided
+\section{Second Try: One-Sided collateral} \orfnote{rename to "Second Try: One-Sided
 Collateral"} \orfnote{apply earlier notes that also suit here}
 To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost if the entity does not behave honestly. In this section we will look at protocols where only one entity deposits a collateral. We introduce a Smart Contract which handles the collateral.
 
@@ -402,11 +418,11 @@ When the Seller does not send the physical good in step 2 (plays strategy $-H_S$
       \node[draw]{B}
         child{node[draw]{S}
                 child[sibling distance = 7cm]{node[draw]{B}
-                		child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$H_B$}} 
+                		child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$Pay$}} 
                 		child[sibling distance = 4cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)-C$}edge from parent node [right] {$-H_B$}} edge from parent node [left] {$H_S$}} 
                 child[sibling distance = 7cm]{node[draw]{B}
                 child[sibling distance = 3cm]{node[shape = rectangle]{$P|-P$} edge from parent node [left] {$P_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{$0|-C$}edge from parent node [right] {$-P_B$}}edge from parent node [right] {$-H_S$}} edge from parent node [left] {$H_B$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{$0|-C$}edge from parent node [right] {$-P_B$}}edge from parent node [right] {$Keep$}} edge from parent node [left] {$Pay$}} 
           child[sibling distance = 7cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {$-C_B$}};
 \end{tikzpicture}\newline
     \caption{Only the Buyer deposits collateral}
@@ -1677,6 +1693,12 @@ This contradicts our assumption that $G$ is a successful Game as defined in 4.2,
 \pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\
 \pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
 }
+ %\begin{figure}[!htbp]
+    %\begin{systembox}{A}
+%	ss
+    %\end{systembox}
+ %\end{figure}
+	
 	%\bibliographystyle{}
 	
 	%\bibliography{references.bib}
