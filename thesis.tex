@@ -652,7 +652,7 @@ No matter which decision the Buyer takes at the top of the tree, the payout will
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{8} edge from parent node [right] {1}}
                 		     edge from parent node [right] {1}}
                 		     edge from parent node [right] {$Keep$}} edge from parent node [left] {$Pay$}} 
-          child[sibling distance = 9cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$Withhold$}};
+          child[sibling distance = 8cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$Withhold$}};
 \end{tikzpicture}
 \captionof{figure}{Only the Seller deposits collateral: the Buyer reports first}
 \begin{table}[htb!]
@@ -695,8 +695,7 @@ The Buyer chooses:
     \item 5 over 8 ($0>-P$)
 \end{itemize}
 The Buyer always reports that he did not receive the item.\newline
-As \[0 > -U_S(G)\] \orfnote{use "\$" instead of "\textbackslash[" } the Seller
-chooses not to send the physical good ($Keep$).\newline
+As $0 > -U_S(G)$ the Seller chooses not to send the physical good ($Keep$).\newline
 No matter which decision the Buyer takes at the top of the tree, the payout will be $0|0$ and the trade unsuccessful.
 
 
@@ -820,6 +819,7 @@ aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step
         		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$Keep$}};
     \end{tikzpicture}
     \centering
+    \label{fig:two-side-collateral}
     \caption{Two Side Collateral: The Seller reports first}
 \end{figure}
 
@@ -1223,33 +1223,29 @@ As we have shown (c.f. \ref{sec:formal-proof}) \orfnote{we have to discuss what 
 proof}, it is not possible (under our assumptions) to design a protocol that would create a successful game (as described in \ref{sec:the-game}). The biggest problem is that we have no reliable way of telling the Smart Contract whether the physical good $G$ was actually shipped or not. If there is a dispute, the Smart Contract does not know which party is lying and has to be punished.\newline
 
 We need to rework our assumptions and requirements for the game we want to design. For that it is is interesting to see that the two side collateral protocol (c.f. \ref{sec:two-side-collateral}) is very close to achieving our goals. As already discussed, the problem is that the Seller is not actually incentivized to send the physical good $G$, because the Buyer is not incentivized to report his dishonest behaviour. The Buyer gets a bigger Payout when he lies to the Smart Contract instead of reporting the dishonest behaviour. Therefore a rational Buyer would never punish a dishonest Seller in this scenario. If a Seller thinks that the Buyer would punish him (the Buyer is not acting rational in this scenario), then the Seller is incentivized to send the physical good $G$.\newline
-\subsubsection{Two Side Collateral with punishing Buyer} \orfnote{instead of
-"punishing", I somewhat prefer "truthful". If you agree, change throughout the
-text}
-In this section we show that if the Buyer behaves punishing (and therefore not rationally), it is not beneficial for the Seller to behave dishonestly. The created game would have a successful trade as Nash Equilibrium.\newline
-
-\orfnote{this figure is too wide to the right.}
+\section{Two Side Collateral with truthful Buyer} 
+In this section we show that if the Buyer behaves truthful (and therefore not rationally), it is not beneficial for the Seller to behave dishonestly. The created game would have a successful trade as Nash Equilibrium.\newline
 \begin{figure}[htb!]
     \centering
     \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
     \node[draw]{$S$}
-        child[sibling distance = 9cm]{node[draw]{$S$}
-    		child[sibling distance = 5cm]{node[draw]{$B$}
+        child[sibling distance = 8cm]{node[draw]{$S$}
+    		child[sibling distance = 4cm]{node[draw]{$B$}
     		    child[sibling distance = 3cm]{node{1} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
-    		child[sibling distance = 5cm]{node[draw]{$B$}
+    		child[sibling distance = 4cm]{node[draw]{$B$}
     		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$Send$}} 
-        child[sibling distance = 9cm]{node[draw]{$S$}
-            child[sibling distance = 5cm]{node[draw]{$B$}
-                child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
+        child[sibling distance = 8cm]{node[draw]{$S$}
+            child[sibling distance = 4cm]{node[draw]{$B$}
+                child[sibling distance= 3cm]{node{5} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
-            child[sibling distance = 5cm]{node[draw]{$B$}
+            child[sibling distance = 4cm]{node[draw]{$B$}
                 child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$Keep$}};
     \end{tikzpicture}
 
-    \caption{Two Side Collateral with punishing Buyer}
+    \caption{Two Side Collateral with truthful Buyer}
 \end{figure}
 
 \begin{center}
@@ -1277,7 +1273,7 @@ In this section we show that if the Buyer behaves punishing (and therefore not r
 \end{tabular}
 \end{center}
 \captionof{table}{The corresponding payout table of figure 6.1}
-Now a punishing Buyer stops acting rationally and chooses option 7 over 8.\newline
+Now a truthful Buyer stops acting rationally and chooses option 7 over 8.\newline
 The Buyer chooses:
 \begin{itemize}
     \item 1 over 2 ($U_B(G) > U_B(G) -P -C_B$)
@@ -1289,44 +1285,39 @@ The Seller would choose option 4, as
 \[P-U_S(G)>0>-U_S(G)>-C_S\]
 The Seller now sends the good, because he the Buyer will punish him if he does not send it.
 The Nash Equilibrium would be the honest case and the trade would unravel successfully.\newline
-At first glance this seems counterintuitive: If the act of reporting benefits the Buyer, why would the rational Buyer not report the misbehaviour of the Seller? As the definition of a rational behaviour is maximizing the own Utility, would it not be rational to report the Seller?\newline
-The answer to this question is no. If the Seller has already misbehaved, it is more profitable for the Buyer to not report the misbehaviour, as he at least receives back his collateral.\newline
+
+At first glance this seems counterintuitive: If the act of reporting benefits the Buyer, why would the rational Buyer not report the misbehaviour of the Seller? As the definition of a rational behaviour is maximizing the own Utility, would it not be rational to report the Seller?
+The answer to this question is no. If the Seller has already misbehaved, it is more profitable for the Buyer to not report the misbehaviour, as he at least receives back his collateral.
 It is not the act of reporting that is profitable for the Buyer, rather it is
 the threat of reporting. This thread has to be considered by the Seller before he chooses whether to misbehave. If the Seller thinks that maybe the Buyer will report him, he is discouraged of trying to cheat and not sending $G$.\newline
-The problem lies in the way we laid the rules for the game: As we defined both players as always behaving rationally, the Seller knows that the Buyer can not report him, because it is not the rational decision.\newline
-If the Seller did not know that the Buyer is always acting rational, he would be taking a great risk by not sending the physical good: the risk of being exposed and losing his collateral and his money $P$.\newline
-We want to create a situation where the Seller evaluates the situation as being too risky to try and cheat. In this situation the rational Seller will behave honestly and  send $G$.\newline
-To conclude: It is sufficient to turn the non credible threat of the Buyer (reporting 0 if $G$ is not shipped) into a credible threat for the double collateral protocol to succeed.
 
-\minisec{Redesigning the game}
-We redesign the game by adding another Entity. Its purpose is to assist the Buyer in convincing the Seller that he will be punished if he does not send $G$. We need this Entity to maintain the rationality of the Buyer, as a rational Buyer will not report any dishonest behaviour of the Seller.\newline
+The problem lies in the way we laid the rules for the game: As we defined both players as always behaving rationally, the Seller knows that the Buyer can not report him, because it is not the rational decision.
+If the Seller did not know that the Buyer is always acting rational, he would be taking a great risk by not sending the physical good: the risk of being exposed and losing his collateral and his money $P$.
+We want to create a situation where the Seller evaluates the situation as being too risky to cheat. In this situation the rational Seller will behave honestly and  send $G$.
+To conclude: It is sufficient to turn the non credible threat of the Buyer (reporting 0 if $G$ is not shipped) into a credible threat for the double collateral protocol to succeed.\newline
 
-This new Entity is not modeled as a rational party. It rather wants
-\orfnote{don't use the word "wants", in general don't assign agency to the new
-Entity. Only rational parties have agency.} to achieve its goal, which is to turn the non credible threat of the Buyer to a credible threat. If this is achieved, a Seller knows that it is unprofitable to behave dishonestly.\newline
-The third Entity will be \orfnote{not fully, not with its money} trusted
-by the Buyer. It has its own physical address and  the ability to receive the
-physical good $G$. It also has the ability to evaluate, whether the received item actually is the agreed upon item ($G$). In addition to that it has the ability to communicate with the Smart Contract and the Buyer.
+We redesign the game by adding another Entity. Its purpose is to assist the Buyer in convincing the Seller that he will be punished if he does not send $G$. It turns the non credible threat of the Seller's misbehaviour being reported into a credible threat. We need this Entity to maintain the rationality of the Buyer, as a rational Buyer will not report any misbehaviour of the Seller.
+If this is achieved, a Seller knows that it is unprofitable to not send $G$.\newline
+
 
 \section{Formal definition of the new Entity}
-\subsubsection{Adding an Entity}
-We introduce another entity, which we call Mediator $M$ and has the following behaviour:
+\niknote{Maybe change title to "formally redesigning the game"}
+We introduce another entity, which we call Mediator $M$: and has the following behaviour:
+\begin{definition}[Mediator]
+\label{def:mediator}
+An Entity $M$ that has the purpose to protect the Buyer from an misbehaving Seller. $M$ has the following behaviour:
 \begin{enumerate}
-    \item publish his public key and physical address \orfnote{remove this step,
-    add as an assumption that the buyer knows this beforehand}
-    \item receive SC address and specifications that \orfnote{remove "the"} describe $G$
+    \item receive SC address and specifications that describe $G$
     \item receive the physical good
-    \item check if the the physical good match the descriptions
-    \orfnote{description in singular} for $G$
+    \item check if the the physical good match the description for $G$
     \begin{itemize}
-        \item YES \orfnote{if so}: report 1 to the SC and send the good to the Buyer
-        \item NO \orfnote{else}: destroy the good and report 0 to the SC
+        \item if so: report 1 to the SC and send the good to the Buyer
+        \item else: destroy the good and report 0 to the SC
     \end{itemize}
 \end{enumerate}
+\end{definition}
 
-\subsubsection{Assumptions for the new entity} \orfnote{there is a bit of
-repetition between here and just before 6.1}
-The new Entity always behaves in the described way. It has the power to receive physical items. Given the right specifications of $G$, the Mediator can distinguish $G$ from every other  physical item. The Mediator also has the power to communicate with the Smart Contract. 
+The new Entity is not modeled as a rational party. It always behaves in the described way. It has its own physical address and the power to receive physical items. Given the right specifications of $G$, the Mediator can distinguish $G$ from every other  physical item. The Mediator also has the power to communicate with the Smart Contract and the Buyer. It is trusted by the Buyer to evaluate if the good sent by the Seller is indeed $G$.
 //TODO Maybe expand on that: What about trust
 \section{Mediated protocol}
 We propose the following protocol:
@@ -1340,6 +1331,7 @@ We propose the following protocol:
     \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
 \end{enumerate}
 
+\begin{figure}[htb!]
 \procedureblock{Mediated Protocol}{
 \textbf{$S$} \<\< \textbf{SC} \<\<  \textbf{M} \<\< \textbf{$B$} \\
 %------------TELL THE MEDIATOR---------------
@@ -1365,8 +1357,11 @@ We propose the following protocol:
 \pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\
 \pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
 }
-
-\subsubsection{Honest behaviour}
+    \centering
+    \caption{Mediated Protocol}
+    \label{fig:mediated-protocol}
+\end{figure}
+\subsection{Honest behaviour}
 This new protocol does change the honest behaviour of the Buyer. His honest behaviour is now:
 \begin{enumerate}
     \item Tell the right SC address and the right specifications for $G$ to the Mediator
@@ -1410,10 +1405,10 @@ We again start our analysis at point 5 of the protocol.\newline
 \orfnote{Why does $S$ report before $M$? Discuss. Mention that, at the end of
 the day, since this game works and we achieved our goal, we don't really care
 about small differences like this.}
-The Mediator is always behaving \orfnote{always behaves} in the same way
+The Mediator always behaves in the same way
 \orfnote{this sentence is confusing: it could be interpreted as "the Mediator
 always sends the same bit to SC", which is wrong}. Therefore the Seller can
-choose the one option, \orfnote{comma} which yields him the biggest payout. This is sending the good ($Send$) and reporting 1, as: 
+choose the one option which yields him the biggest payout. This is sending the good ($Send$) and reporting 1, as: 
 
 \[P-U_S(G)>0>-C_S>-U_S(G) - C_S\]
 
@@ -1427,8 +1422,7 @@ The Mediator, as it is defined in 6.1, is a theoretical Entity. In the following
 As the Buyer has to trust the Mediator, one possible approach is choosing a loyal friend of the Buyer to be the Mediator. It is important that he is loyal to the Buyer, meaning that he will not betray the Buyer and keep the physical good $G$ to himself. The Buyer fully trusts his loyal friend. 
 \minisec{Modeling the Friend}
 The friend will not act rational, as he does not want to maximize his own Utility. He rather wants to maximize the Buyer's utility. Therefore he will always choose the option that maximizes the payout of the Buyer.\newline
-The Friend(F) will receive the physical good $G$ and check if it
-\orfnote{matches} the agreed good. After that, he reports 0 (received the good successfully) or 1 (did not receive the good successfully) to the Smart Contract. After that he will send the $G$ to the Buyer.
+The Friend(F) will receive the physical good $G$ and check if it matches the agreed good. After that, he reports 0 (received the good successfully) or 1 (did not receive the good successfully) to the Smart Contract. After that he will send the $G$ to the Buyer.
 
 \minisec{Protocol}
 \begin{enumerate}
@@ -1452,21 +1446,20 @@ If someone does not deposit the collateral, the Smart Contract aborts the trade
 and the payout is $0|0$. If the Buyer refuses to pay $P$ (step 3), he loses his
 collateral. The payout is $0|-C_B$.\newline
 
-\orfnote{figure exceeds right margin}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
     \node[draw]{$S$}
-        child[sibling distance = 9cm]{node[draw]{$S$}
-    		child[sibling distance = 5cm]{node[draw]{F}
+        child[sibling distance = 8cm]{node[draw]{$S$}
+    		child[sibling distance = 4cm]{node[draw]{F}
     		    child[sibling distance = 3cm]{node{1} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
-    		child[sibling distance = 5cm]{node[draw]{F}
+    		child[sibling distance = 4cm]{node[draw]{F}
     		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$Send$}} 
-        child[sibling distance = 9cm]{node[draw]{$S$}
-            child[sibling distance = 5cm]{node[draw]{F}
+        child[sibling distance = 8cm]{node[draw]{$S$}
+            child[sibling distance = 4cm]{node[draw]{F}
                 child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
-            child[sibling distance = 5cm]{node[draw]{F}
+            child[sibling distance = 4cm]{node[draw]{F}
                 child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$Keep$}};
 \end{tikzpicture}
@@ -1504,30 +1497,25 @@ We again start at the bottom of the tree to analyze the payout. As F wants to ma
 \end{itemize}
 The Seller would choose option 8, as 
 \[P>P-U_S(G)>0>-U_S(G)\]
-Because the payout of the Buyer is $-P<0$, he would not engage in this trade and therefore refuse to pay the collateral in step 1. The trade is still unsuccessful. \newline
+Because the payout of the Buyer is $-P<0$, he would not engage in this trade and therefore refuse to pay the collateral in step 1. The trade is still unsuccessful.\newline
+
 Introducing a friend as the Mediator does not solve the problem. The tree and
-the payout are exactly the same as in the two-sided collateral protocol \orfnote{add
-reference to figure}. As the Seller knows that F will act in the best interest of the Buyer, he can still misbehave without being punished.\newline
+the payout are exactly the same as in the two-sided collateral protocol (c.f. \ref{fig:two-side-collateral}). As the Seller knows that F will act in the best interest of the Buyer, he can still misbehave without being punished.
 To solve the problem we need to come up with a Mediator that is fully trusted by
-the Buyer, but is not acting in his best interest \orfnote{"acting in the
-buyer's best interest" is a contentious way to put it, better change it. In a
-sense, the Mediator acts more in the buyer's best interest than the friend.}.
-Every entity that is acting in the best interest for the Buyer will not be a
+the Buyer, but is not trying to maximize the Buyer's payout.
+Every entity that maximizing the payout for the Buyer will not be a
 credible threat to the Seller.
 
 
 \subsection{Postal Office reports}
-In our formal analysis we assumed that there is a way for the physical item $G$ to be reliably shipped. In practice physical goods are usually shipped by a another party (Post office/shipping company). \newline
+In our formal analysis we assumed that there is a way for the physical item $G$ to be reliably shipped. In practice physical goods are usually shipped by a another party (Post office/shipping company).
 Therefore the parties have to trust the Postal Office (PO) to actually deliver the good. Because the parties already trust the PO, the PO can also report to the Smart Contract and thereby act as the Mediator.
 \minisec{Protocol}
 \begin{enumerate}
-    \item MAYBE: Postal Office releases Public Key \orfnote{remove this as discussed}
     \item Buyer gives SC address and specifications for $G$ to the Postal Office
     \item Seller and Buyer deposit Collateral to the SC
     \item Buyer sends $P$ to the SC
-    \item Seller hands $G$ to the Postal Office and reports 1/0 \orfnote{up to
-    now the protocols were described following the honest scenario, so putting
-    1/0 here is inconsistent.} to the SC
+    \item Seller hands $G$ to the Postal Office and reports to the SC
     \item Postal Office checks if the good is correct and reports 1/0 to the SC
     \item Postal Office ships $G$ to the Buyer
 \end{enumerate}
@@ -1574,13 +1562,12 @@ easily believe that the buyer can have such a machine, thus eliminating trust}\n
 
 \subsubsection{Behaviour of the Machine}
 \begin{enumerate}
-    \item it releases the its Pk \orfnote{remove this as discussed}
     \item It receives the SC address and specifications that describe G
     \item It receives the physical good from the Seller
     \item It checks, if the received good matches the specifications for $G$
         \begin{itemize}
-            \item YES \orfnote{if/else}: it reports 1 and sends the good to the Buyer
-            \item NO: it reports 0 and destroys the good
+            \item if so: it reports 1 and sends the good to the Buyer
+            \item else: it reports 0 and destroys the good
         \end{itemize}
 \end{enumerate}
 A Machine with this behaviour is realising the ideal Mediator from 6.1. 
@@ -1591,15 +1578,14 @@ A Machine with this behaviour is realising the ideal Mediator from 6.1.
     \item Buyer gives SC address and specifications for G to the Machine
     \item Seller and Buyer deposit Collateral to the SC
     \item Buyer sends $P$ to the SC
-    \item Seller hands $G$ to the Machine and reports 1/0 \orfnote{inconsistent} to the SC
-    \item Machine checks if the good is correct and reports 1/0 to the SC
+    \item Seller hands $G$ to the Machine and reports to the SC
+    \item Machine checks if the good is correct and reports to the SC
     \item Machine ships $G$ to the Buyer
 \end{enumerate}
 As the machine realises an ideal ideal Mediator (6.1), this protocol achieves an incoercible sale of $G$.\newline
 In addition to that, no trust is needed as the Mediator is not able to behave differently. It will always behave as it was programmed to behave. Therefore it is not able to perform any kind of scam.
 
-\subsubsection{Technology of the machine} \orfnote{Technology $\rightarrow$
-realizability}
+\subsubsection{Realizability of the machine} 
 The biggest challenge for the machine is to determine if the provided good actually matches the specifications.\newline
 We believe that a machine which behaves exactly as we described is could be
 realised using artificial intelligence. \orfnote{expand a bit. Mention image/3d
