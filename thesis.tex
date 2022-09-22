@@ -10,7 +10,7 @@
 \usepackage{macros}
 \usepackage{biblatex}
 \usepackage{capt-of}
-
+\usepackage{dashbox}
 
 \usepackage [
 n, % or lambda
@@ -1693,7 +1693,7 @@ As we assume $U_S(G) > 0$, this strategy yields a bigger payout than the honest 
 This contradicts our assumption that $G$ is a successful Game as defined in 4.2, as the honest strategy is no longer the best strategy for the Seller when the buyer is acting rational.
 
 \chapter{test}
-
+\subsection{without subprocedure}
 \procedureblock{Protocol with Mediator}{
 \textbf{$S$} \<\< \textbf{SC} \<\<  \textbf{M} \<\< \textbf{$B$} \\
 %------------TELL THE MEDIATOR---------------
@@ -1719,9 +1719,54 @@ This contradicts our assumption that $G$ is a successful Game as defined in 4.2,
 \pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\
 \pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
 }
+\subsection{with subprocedure}
+\newpage
+\procedureblock{Protocol with Mediator}{
+\textbf{$S$} \<\< \textbf{SC} \<\<  \textbf{M} \<\< \textbf{$B$} \\
+%------------TELL THE MEDIATOR---------------
+\pcln \< \< \< \< \sendmessageleft{top=information,length=2cm} \>\>\pclb
+%-----------COLLATERAL-----------------
+\pcintertext [dotted] {Deposit Collateral} \\
+\pcln \< \sendmessageright{top = $C_S$,length=2cm} \< \<  \sendmessageleftx[5.5cm]{4}{C_B} \<   \pclb
+\pcintertext [dotted] {Send Resources} \\
+%-----------SEND P------------------
+\pcln \< \< \< \sendmessageleftx[5.5cm]{8}{P} \< \< \< \\
+%-----------SEND G------------------------
+\pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
+\pcintertext [dotted] {Report to the SC} \\
+%-----------SELLER REPORTS----------------------
+\pcln \< \sendmessageright{top=report 1,length=2cm} \< \< \< \< \< \\
+%---------------CHECK IF G IS RIGHT-------------
+\pcln \< \< \< \< 
+\dbox{\begin{subprocedure}
+\pseudocodeblock[linenumbering]{
+\pcif \text{G matches instructions}\\
+\pcthen \text{report 1 and send $G$ to Buyer} \\
+\pcelse \text{report 0 and destroy $G$}
+}
+\end{subprocedure}}
+\< \< \\
+%-----------MEDIATOR REPORTS---------------
+\pcln \< \< \< \sendmessageleft{top=report ,length=2cm} \< \< \< \\
+%------MEDIATOR SENDS G TO $B$-------------
+\pcln \< \< \< \< \sendmessageright{top=$G$,length=2cm} \>\>\pclb
+\pcintertext [dotted] {Pay back collateral} \\
+\pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\
+\pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
+}
 
-
-
+\section{two-Side collateral}
+\minisec{How it is now}
+\begin{enumerate}
+    \item Seller deposits collateral $C_S > P$ to the Smart Contract
+    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
+    \item Buyer sends funds of amount $P$ \orfnote{sends $P$ coins} to the Smart
+    Contract \orfnote{this step could be combined with the previous one}
+    \item Seller sends physical good $G$ to the seller and reports it to the Smart Contract
+    \item Buyer receives the physical good and confirms \orfnote{reports} it to the Smart Contract
+    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller
+\end{enumerate}
+\minisec{cryptocode figure}
 \procedureblock{Two-Side-Collateral Protocol}{
 \textbf{$S$} \<\< \textbf{SC} \<\< \textbf{$B$} \pclb
 %-----------COLLATERAL-----------------
@@ -1743,6 +1788,22 @@ This contradicts our assumption that $G$ is a successful Game as defined in 4.2,
 \pcln \<  \sendmessageleft{top=$C_S$} \<\<\< \\
 \pcln \< \< \< \sendmessageright{top=$C_B$} \<  \\
 }
+
+\minisec{cryptocode proocedure}
+\begin{figure}[htb!]
+\fbox{
+\item \procedureblock[linenumbering]{Protocol}{
+    \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
+    \text{Buyer deposits collateral $C_B > P$ and $P$ coins to the Smart Contract}\\
+    \text{Seller sends physical good $G$ to the seller and reports it to the Smart Contract}\\
+    \text{Buyer receives the physical good and reports it to the Smart Contract}\\
+    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}
+}
+}
+    \centering
+    \caption{Double collateral protocol}
+    \label{pro:double-collateral-protocol}
+\end{figure}
 
  %\begin{figure}[!htbp]
     %\begin{systembox}{A}
