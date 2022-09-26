@@ -37,8 +37,8 @@ primitives , events , complexity , oracles , asymptotics , keys
 	%%%%%%%%%%%%%
 	%% Title page
 	%%%%%%%%%%%%%
-	\title{Incoercible Sale}
-	\subtitle{Longer subtitle (if required)}	%Delete subtitle if not required
+	\title{Trustless incoercible sale of a physical good over a blockchain}
+	%\subtitle{Longer subtitle (if required)}	%Delete subtitle if not required
 	\author{Nikolaos Stivaktakis}
 	\date{September 26, 2019}
 	\subject{Master Thesis}
@@ -157,20 +157,20 @@ that the players need not be symmetric. The payouts are specific numbers,
 each colored with the respective player's color.}
 \begin{center}
 \begin{tabular}{ c||c|c| }
-& $Pay$ & $Withhold$  \\
+& \emph{Pay} & \emph{Withhold}  \\
 \hline
 \hline
-$Send$ & $P_S | P_B$ & $P_S | P_B$ \\
+\emph{Send} & $P_S | P_B$ & $P_S | P_B$ \\
 \hline
-$Keep$ & $P_S | P_B$ & $P_S | P_B$ \\ 
+\emph{Keep} & $P_S | P_B$ & $P_S | P_B$ \\ 
 \hline
 \label{tab:example-table}
 \end{tabular}
 \end{center}
 \captionof{table}{Example table}
 
-\minisec{Description} On the top are the possible strategies for the buyer: $Pay$ is the strategy where the buyer behaves honestly and $Withhold$ is the strategy where the Buyer behaves dishonestly.\newline
-On the left side are the strategies for the seller. Similar to the buyer, $Send$ denotes the strategy where the seller behaves honestly and $Keep$ denotes the strategy where the seller behaves dishonestly.\newline
+\minisec{Description}On the top are the possible strategies for the buyer: \emph{Pay} is the strategy where the buyer behaves honestly and \emph{Withhold} is the strategy where the Buyer behaves dishonestly.\newline
+On the left side are the strategies for the seller. Similar to the buyer, \emph{Send} denotes the strategy where the seller behaves honestly and \emph{Keep} denotes the strategy where the seller behaves dishonestly.\newline
 
 For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payout of the seller and $P_B$ denotes the payout of the buyer.
 \orfnote{Once again, in the examples (which will move to the Preliminaries)
@@ -209,7 +209,7 @@ The utility function $U_P(G)$ describes how much utility a physical good $G$ pro
 \begin{definition}[Seller]
 \label{def:seller}
 A rational entity $S$ that owns a specific physical good $G$. The seller
-has bigger utility in owning $P$ amount of coins in contrast to owning $G$ (c.f.\ref{eq:seller-utility}) He therefore desires to exchange $G$ against coins of amount $P$.
+has bigger utility in owning $P$ amount of coins in contrast to owning $G$ (c.f.~Equation~\ref{eq:seller-utility}) He therefore desires to exchange $G$ against coins of amount $P$.
 \end{definition}
 
 %Insert Utility function distribution
@@ -220,7 +220,7 @@ has bigger utility in owning $P$ amount of coins in contrast to owning $G$ (c.f.
 
 \begin{definition}[Buyer]
 \label{def:buyer}
-A rational entity $B$ that owns at least $P$ coins. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins (c.f. \ref{eq:buyer-utility}). He therefore desires to exchange coins of amount $P$ against $G$.
+A rational entity $B$ that owns at least $P$ coins. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins (c.f.~Equation~\ref{eq:buyer-utility}). He therefore desires to exchange coins of amount $P$ against $G$.
 \end{definition}
 
 %Insert Utility function distribution
@@ -319,19 +319,19 @@ The simplest protocol is without collateral nor a third party. In this case ther
 
 %Here maybe a visualization
 
-\minisec{Possible strategies} \orfnote{Make the next 2 phrases more precise.
+\subsection{Possible strategies} \orfnote{Make the next 2 phrases more precise.
 What other strategies are there? Why do we disregard them? Are we sure they
 would not achieve our goal?}
 There are many possible strategies for the two players. We will only analyse the strategies where a player plays honestly and the strategies where a player intentionally behaves dishonest to gain an advantage.\newline
-In the above described protocols we analyse two strategies for each player. The Buyer can choose between strategy $Pay$ where he behaves honestly and sends the money and strategy $Withhold$ where the Buyer behaves dishonestly and does not send the money. The Seller can choose as well between strategy $Send$ where he sends the good $G$ and strategy $Keep$ where the Buyer does not send the $G$.
+In the above described protocols we analyse two strategies for each player. The Buyer can choose between strategy \emph{Pay} where he behaves honestly and sends the money and strategy \emph{Withhold} where the Buyer behaves dishonestly and does not send the money. The Seller can choose as well between strategy \emph{Send} where he sends the good $G$ and strategy \emph{Keep} where the Buyer does not send the $G$.
 \subsection{Game: The Buyer acts first}
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{$B$}
         child{node[draw]{$S$}
-                child[sibling distance = 7cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$Send$}} 
-                child[sibling distance = 7cm]{node[shape=rectangle]{$P|-P$}edge from parent node [right] {Keep}} edge from parent node [left] {$Pay$}} 
-        child{node{0$|$0} edge from parent node [right] {$Withhold$}};
+                child[sibling distance = 7cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {\emph{Send}}} 
+                child[sibling distance = 7cm]{node[shape=rectangle]{$P|-P$}edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
+        child{node{0$|$0} edge from parent node [right] {\emph{Withhold}}};
 \end{tikzpicture}\newline
 \caption{No collateral, Buyer acts first}
 \label{fig:nocol-buyer-first}
@@ -340,14 +340,14 @@ In the above described protocols we analyse two strategies for each player. The 
 
 To analyze the game, we use the method "iterated elimination of strictly dominated strategies". We start at the bottom at the seller's decision.
 \begin{itemize}
-    \item The Seller chooses $Keep$ (Because $P > P - U_S(G)$).
+    \item The Seller chooses \emph{Keep} (Because $P > P - U_S(G)$).
 \end{itemize}
-    We then go one step towards the root and look at the Buyer's decision. He already knows that if he chooses $Pay$, the rational Seller will choose $Keep$. This would leave the Buyer with a payout of $-P$. If the Buyer chooses $Withhold$, his payout is $0$.
+    We then go one step towards the root and look at the Buyer's decision. He already knows that if he chooses \emph{Pay}, the rational Seller will choose \emph{Keep}. This would leave the Buyer with a payout of $-P$. If the Buyer chooses \emph{Withhold}, his payout is $0$.
 \begin{itemize}
-    \item The Buyer chooses $Withhold$ (Because $0 > -P$)
+    \item The Buyer chooses \emph{Withhold} (Because $0 > -P$)
 \end{itemize} 
-%Therefore the Buyer has to choose between a payout of 0 (by choosing $Withhold$) and $-P$ (by choosing $Pay$). Since $0 > -P$, he chooses $Withhold$.\newline
-The Nash Equilibrium of this game is \{$Keep$, $Withhold$\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
+%Therefore the Buyer has to choose between a payout of 0 (by choosing \emph{Withhold}) and $-P$ (by choosing \emph{Pay}). Since $0 > -P$, he chooses \emph{Withhold}.\newline
+The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
 
 \subsection{Game: The Seller acts first} 
 
@@ -355,9 +355,9 @@ The Nash Equilibrium of this game is \{$Keep$, $Withhold$\} and results in a pay
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{$S$}
         child{node[draw]{$B$}
-                child[sibling distance = 7cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$Pay$}} 
-                child[sibling distance = 7cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)$}edge from parent node [right] {$Withhold$}} edge from parent node [left] {$Send$}} 
-        child{node{0$|$0} edge from parent node [right] {$Keep$}};
+                child[sibling distance = 7cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {\emph{Pay}}} 
+                child[sibling distance = 7cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)$}edge from parent node [right] {\emph{Withhold}}} edge from parent node [left] {\emph{Send}}} 
+        child{node{0$|$0} edge from parent node [right] {\emph{Keep}}};
 \end{tikzpicture}
 \label{fig:nocol-seller-first}
 \caption{No collateral, Seller acts first}
@@ -366,49 +366,59 @@ The Nash Equilibrium of this game is \{$Keep$, $Withhold$\} and results in a pay
 
 The analysis is similar to the above case, but the roles are reversed. 
 \begin{itemize}
-    \item The Buyer would choose $Withhold$ as $U_B(G) > U_B(G)-P$
-    \item The seller would choose $Keep$ as $0 > -U_S(G)$
+    \item The Buyer would choose \emph{Withhold} as $U_B(G) > U_B(G)-P$
+    \item The seller would choose \emph{Keep} as $0 > -U_S(G)$
 \end{itemize}
-The Nash Equilibrium of this game is \{$Keep$, $Withhold$\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
+The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
 \subsection{Game: Both parties act simultaneously} 
 
 \begin{table}[htb!]
     \centering
     \begin{tabular}{ c||c|c| }
-    & $Pay$ & $Withhold$  \\
+    & \emph{Pay} & \emph{Withhold}  \\
     \hline
     \hline
-    $Send$ & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
+    \emph{Send} & $P - U_S(G)|U_B(G) - P$ & $-U_S(G) | U_B(G)$ \\
     \hline
-    $Keep$ & $P |-P$ & $0 | 0$ \\ 
+    \emph{Keep} & $P |-P$ & $0 | 0$ \\ 
     \hline
     \end{tabular}
     \label{fig:nocol-simultaneous}
     \caption{No collateral: Both parties send simultaneously}
 \end{table}
-If we look at the payout table we can see that $Withhold$ dominates $Pay$ and $Keep$ dominates $Send$. These strategies provide a bigger payout regardless of the strategy of the other party.
+If we look at the payout table we can see that \emph{Withhold} dominates \emph{Pay} and \emph{Keep} dominates \emph{Send}. These strategies provide a bigger payout regardless of the strategy of the other party.
 Since we assume the players to be rational, they would both choose the dominant strategy.
-Again, the Nash Equilibrium of this game is \{$Keep$, $Withhold$\} and results in a payout of $0|0$. As the Nash Equilibrium does not correspond to the Desired Final State (c.f. Definition \ref{def:desired-final-state}), this game does not satisfy our goal.\newline
+Again, the Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and results in a payout of $0|0$. As the Nash Equilibrium does not correspond to the Desired Final State (c.f.~Definition \ref{def:desired-final-state}), this game does not satisfy our goal.\newline
 
-It is interesting to note that this table resembles the famous prisoner's dilemma, where the Nash Equilibrium is not Pareto efficient. We can see that \{$Keep$, $Withhold$\} is not the Pareto optimal case, because \{$Send$, $Pay\}$ increases the payout of both parties. 
+It is interesting to note that this table resembles the famous prisoner's dilemma, where the Nash Equilibrium is not Pareto efficient. We can see that \{\emph{Keep}, \emph{Withhold}\} is not the Pareto optimal case, because \{\emph{Send}, $Pay\}$ increases the payout of both parties. 
 In other words, a successful trade would benefit both parties but is not happening in this game as it is not the Nash Equilibrium. \niknote{last sentence redundant?}
 %TODO explain Prisoners dilemma? Pareto Efficient
 %The Nash Equilibrium is on both parties not sending anything, still both parties would yield a bigger payout if they just traded successfully. 
 
 
-\section{Second Try: One-Sided collateral}  \orfnote{apply earlier notes that also suit here}
-To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost if the entity does not behave honestly. In this section we will look at protocols where only one entity deposits a collateral. We introduce a Smart Contract which handles the collateral.
+%\section{Second Try: One-Sided collateral}  \orfnote{apply earlier notes that also suit here}
 
-\subsection{Buyer Collateral}
+\section{Second Try: Buyer Collateral}
+\label{sec:buyer-collateral}
+To incentivize an entity to behave honestly we introduce collateral. The collateral will be lost if the entity does not behave honestly. In this section we will look at a protocol where only one the Buyer deposits collateral. We introduce a Smart Contract which handles the collateral.\newline
+
 Following protocol is proposed:
-\begin{enumerate}
-    \item Buyer deposits collateral $C > P$ to the Smart Contract
-    \item Seller sends the physical good $G$ to the seller
-    \item After receiving $G$, the Buyer sends funds of amount $P$ to the seller
-    \orfnote{via the Smart Contract}
-    \item The Smart Contract releases the collateral of the Buyer
-\end{enumerate} \orfnote{Mention that when the Buyer pays, she implicitly
+\begin{figure}[htb!]
+\fbox{
+ \procedureblock[linenumbering]{Buyer Collateral protocol}{
+     \text{Buyer deposits collateral $C > P$ to the Smart Contract}\\
+    \text{Seller sends the physical good $G$ to the seller}\\
+    \text{After receiving $G$, the Buyer sends funds of amount $P$ to the seller \orfnote{via the Smart Contract}}\\
+    \text{The Smart Contract releases the collateral of the Buyer}
+}
+}
+
+    \centering
+    \caption{Buyer Collateral protocol}
+    \label{pro:buyer-col}
+\end{figure}
+\orfnote{Mention that when the Buyer pays, she implicitly
 reports to SC that she received the good, so there is no need for a Buyer report
 to the SC. OTOH, the Seller could report to SC only in case he cannot send the
 good in order to release the Buyer's collateral, but this action is also
@@ -421,10 +431,10 @@ the good.}
 Because the Smart Contract has access to the blockchain, it can automatically release the collateral if the Buyer sends $P$  to the seller. The collateral should incentivize the Buyer to pay the seller after receiving the physical good $G$.
 
 \subsubsection{Possible Strategies}
-With this new protocol there are new possible strategies. Of course there is still the honest strategy for both players ($Send$ and $Pay$), where they behave according to the protocol description. With this strategy the trade unravels successfully.\newline
-But there exist other strategies: The dishonest strategy is again not sending the resources. This strategy is again denoted as $Withhold$ (when the buyer does not send the coins) and $Keep$ (when the seller does not send the physical good.\newline
+With this new protocol there are new possible strategies. Of course there is still the honest strategy for both players (\emph{Send} and \emph{Pay}), where they behave according to the protocol description. With this strategy the trade unravels successfully.\newline
+But there exist other strategies: The dishonest strategy is again not sending the resources. This strategy is again denoted as \emph{Withhold} (when the buyer does not send the coins) and \emph{Keep} (when the seller does not send the physical good.\newline
 The Buyer can also refuse to pay the collateral to the Smart Contract. This behaviour is denoted as $-C_B$.\newline
-When the Seller does not send the physical good in step 2 (plays strategy $Keep$), the Buyer still has to decide if he wants to send $P$ to the seller in order to get back his collateral. Sending $P$ in this scenario is denoted as $P_B$ and not sending $P$ is denoted as $-P_B$.\newline
+When the Seller does not send the physical good in step 2 (plays strategy \emph{Keep}), the Buyer still has to decide if he wants to send $P$ to the seller in order to get back his collateral. Sending $P$ in this scenario is denoted as $P_B$ and not sending $P$ is denoted as $-P_B$.\newline
 
 \minisec{Payout}
 \begin{figure}[htb!]
@@ -432,32 +442,43 @@ When the Seller does not send the physical good in step 2 (plays strategy $Keep$
       \node[draw]{$B$}
         child{node[draw]{$S$}
                 child[sibling distance = 7cm]{node[draw]{$B$}
-                		child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$Pay$}} 
-                		child[sibling distance = 4cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)-C$}edge from parent node [right] {$Withhold$}} edge from parent node [left] {$Send$}} 
+                		child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {\emph{Pay}}} 
+                		child[sibling distance = 4cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)-C$}edge from parent node [right] {\emph{Withhold}}} edge from parent node [left] {\emph{Send}}} 
                 child[sibling distance = 7cm]{node[draw]{$B$}
                 child[sibling distance = 3cm]{node[shape = rectangle]{$P|-P$} edge from parent node [left] {$P_B$}} 
-                child[sibling distance = 3cm]{node[shape=rectangle]{$0|-C$}edge from parent node [right] {$-P_B$}}edge from parent node [right] {$Keep$}} edge from parent node [left] {$Pay$}} 
+                child[sibling distance = 3cm]{node[shape=rectangle]{$0|-C$}edge from parent node [right] {$-P_B$}}edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
           child[sibling distance = 7cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {$-C_B$}};
 \end{tikzpicture}\newline
     \caption{Only the Buyer deposits collateral}
 \end{figure}
-To analyze the Payout, we again start at the bottom at the Buyer's decision. On the left branch the Buyer would choose $Pay$, as $U_B(G) - P > U_B(G) - C$.\newline
+To analyze the Payout, we again start at the bottom at the Buyer's decision. On the left branch the Buyer would choose \emph{Pay}, as $U_B(G) - P > U_B(G) - C$.\newline
 On the right branch the Buyer would choose P$_B$, as $-P > -C$.\newline
-Based on these decisions the Seller would choose $Keep$, because $P > P - U_S(G)$.\newline
+Based on these decisions the Seller would choose \emph{Keep}, because $P > P - U_S(G)$.\newline
 This means that it is better for the seller to behave maliciously and not send the physical good $G$. The Buyer would send $P$ to get back his collateral but receive nothing more, leaving him with a payout of $-P$. \newline
 Since $-P < 0$, the Buyer would choose $-C_B$ and not even deposit the collateral.\newline
 The Nash Equilibrium is at \{$-C_B$\} and the trade is unsuccessful.
 
 
-\subsection{Seller Collateral}
+\section{Third Try: Seller Collateral}
+\label{sec:seller-col}
+In this section we will look into protocols where only the Seller deposits collateral.\newline
+
 Following protocol is proposed:
-\begin{enumerate}
-    \item Seller deposits collateral $C > P$ to the Smart Contract
-    \item Buyer sends funds of amount $P$ to the seller 
-    \item Seller sends the physical good to the Buyer
-    \item Buyer receives the physical good and confirms it to the Smart Contract
-    \item The Smart Contract releases the collateral of the Seller
-\end{enumerate}
+\begin{figure}[htb!]
+\fbox{
+ \procedureblock[linenumbering]{Seller collateral protocol}{
+    \text{Seller deposits collateral $C > P$ to the Smart Contract}\\
+    \text{Buyer sends funds of amount $P$ to the seller}\\
+    \text{Seller sends the physical good to the Buyer}\\
+    \text{Buyer receives the physical good and confirms it to the Smart Contract}\\
+    \text{The Smart Contract releases the collateral of the Seller}
+}
+}
+    \centering
+    \caption{Seller collateral protocol}
+    \label{pro:seller-col}
+\end{figure}
+
 The collateral should incentivize the Seller to behave honestly and to ship the
 physical good to the buyer. The Buyer can report to the SC with a simple boolean input:
 \begin{itemize}
@@ -465,10 +486,10 @@ physical good to the buyer. The Buyer can report to the SC with a simple boolean
     \item 1 denotes that $G$ was received
 \end{itemize}
 %Because of the collateral, behaving honestly should be the best strategy for the seller.
-\subsubsection{Possible Strategies}
-There is still the honest strategy ($Send$, $Pay$) for both players, where they behave according to the protocol description. With this strategy, the trade still unravels successfully.\newline
+\subsection{Possible Strategies}
+There is still the honest strategy (\emph{Send}, \emph{Pay}) for both players, where they behave according to the protocol description. With this strategy, the trade still unravels successfully.\newline
 The dishonest strategy is again not sending the resources. This strategy is
-still denoted as $Withhold$ (when the buyer does not send the coins) and $Keep$
+still denoted as \emph{Withhold} (when the buyer does not send the coins) and \emph{Keep}
 (when the seller does not send the physical good.)\newline
 The Buyer also has a unique opportunity: Since he decides what happens to the
 collateral, he can coerce the Seller into sending him extra resources. This
@@ -486,59 +507,67 @@ honest or lying, as both choices give her the same payout.}\newline
       \node[draw]{$B$}
         child[sibling distance = 9cm]{node[draw]{$S$}
                 child[sibling distance = 8cm]{node[draw]{$B$}
-                		child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {$Pay$}} 
+                		child[sibling distance = 4cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {\emph{Pay}}} 
                 		child[sibling distance = 4cm]{node[draw]{$S$}
                 		    child[sibling distance = 4cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)$} edge from parent node [left] {$C_S$}}
-                		    child[sibling distance = 4cm]{node[shape=rectangle]{$P-C-U_S(G)|U_B($B$)-P$} edge from parent node [right] {$-C_S$}}edge from parent node [right] {$C_B$}} edge from parent node [left] {$Send$}} 
+                		    child[sibling distance = 4cm]{node[shape=rectangle]{$P-C-U_S(G)|U_B($B$)-P$} edge from parent node [right] {$-C_S$}}edge from parent node [right] {$C_B$}} edge from parent node [left] {\emph{Send}}} 
                 child[sibling distance = 8cm]{node[draw]{$B$}
-                    child[sibling distance = 3cm]{node[shape = rectangle]{$P-C|-P$} edge from parent node [left] {$Pay$}} 
+                    child[sibling distance = 3cm]{node[shape = rectangle]{$P-C|-P$} edge from parent node [left] {\emph{Pay}}} 
                     child[sibling distance = 3cm]{node[draw]{$S$}
                         child[sibling distance = 3cm]{node[shape=rectangle]{0$|$0} edge from parent node [left] {$C_S$}}
-                        child[sibling distance = 3cm]{node[shape=rectangle]{$P-C|-P$} edge from parent node [right] {$-C_S$}}edge from parent node [right] {$C_B$}}edge from parent node [right] {$Keep$}} edge from parent node [left] {$Pay$}} 
-          child[sibling distance = 8cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {$Withhold$}};
+                        child[sibling distance = 3cm]{node[shape=rectangle]{$P-C|-P$} edge from parent node [right] {$-C_S$}}edge from parent node [right] {$C_B$}}edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
+          child[sibling distance = 8cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {\emph{Withhold}}};
 \end{tikzpicture}\newline
 \caption{Only the Seller deposits collateral}
 \end{figure}
 
 To analyze the payout, we again start at the bottom. Since $C>P$, the Seller would comply ($C_S$) on both instances.\newline
 On both branches the Buyer chooses $C_B$: \[U_B(G)-P < U_B(G)\] \[-P < 0\]
-Based on this information the Seller chooses $Keep$: \[-U_S(G) < 0\]
+Based on this information the Seller chooses \emph{Keep}: \[-U_S(G) < 0\]
 That means that both options for the Buyer would result in a payout of $0|0$. It does not matter which option he chooses.\newline
 The Nash Equilibrium is again at $0|0$ and the trade not successful.\newline
-%If $B$ sends the coins (does not choose strategy $Withhold$), $S$ has to make the following decision: Does he send the good ($Send$) or not ($Keep$)? We have to take into account, that $B$ decides what happens with the collateral. \newline
+%If $B$ sends the coins (does not choose strategy \emph{Withhold}), $S$ has to make the following decision: Does he send the good (\emph{Send}) or not (\emph{Keep})? We have to take into account, that $B$ decides what happens with the collateral. \newline
 %If $S$ does not behave honestly (does not send the good), $B$ can punish $S$ by reporting 0 to the Smart contract. This means, that the collateral would not be given back to $S$.
 What was designed to be an incentive for $S$ to behave honestly, ended up as leverage for $B$ over $S$. $B$ can report 0 (and burn the collateral) even if $S$ behaves honestly. 
 %Therefore $B$ can use this leverage to coerce $S$ into giving him extra resources: “Give me C/2 coins or I will report 0 to the Smart Contract and burn your collateral.“
-%Since sending the good has no impact on the collateral (the rational buyer will always play strategy $C_B$ over $Pay$), it is best for $S$ to not send the physical good ($Withhold$).
-%Because not Sending ($Keep$) is the best strategy for the seller, it is best for $B$ to not even send P and therefore not engage in the trade at all ($Withhold$).\newline
+%Since sending the good has no impact on the collateral (the rational buyer will always play strategy $C_B$ over \emph{Pay}), it is best for $S$ to not send the physical good (\emph{Withhold}).
+%Because not Sending (\emph{Keep}) is the best strategy for the seller, it is best for $B$ to not even send P and therefore not engage in the trade at all (\emph{Withhold}).\newline
 %The Nash Equilibrium would be in nobody sending anything and the trade not happening.
 
-\subsubsection{Both parties report}
+\subsection{Both parties report}
 \orfnote{Having "Both parties report" be at the same level as the previous
 "Possible strategies" is misleading.}
 One Side Collateral on the Seller's side does not work if only the Buyer reports
-to the Smart Contract (5.2.2) \orfnote{use label/reference}. If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.\newline
-Another option would be that both players report to the Smart Contract if the physical good $G$ was sent and received.\newline
+to the Smart Contract (c.f.~\ref{sec:seller-col}). If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.
+Another option would be that both players report to the Smart Contract if the physical good $G$ was sent and received.
 Also, instead of sending the Payment $P$ directly to the Seller, the Buyer will
 send the payment to the Smart Contract. \orfnote{Isn't the payment always routed
-through the smart contract anyway?} The Smart Contract will then, if both parties behave honestly, forward the payment to the Seller. This hands more power to the Smart Contract. With control over the collateral and the payment it has more options to punish dishonest behaviour.\newline 
+through the smart contract anyway?} The Smart Contract will then, if both parties behave honestly, forward the payment to the Seller. This hands more power to the Smart Contract. With control over the collateral and the payment it has more options to punish dishonest behaviour. 
 If the two players report a different value, then the Smart Contract will slash
-the collateral, as one party has to be lying \orfnote{whereas if the parties
-agree, their collateral is returned}. If they both report 0 ($G$ was not sent),
+the collateral, as one party has to be lying,whereas if the parties
+agree, their collateral is returned. If they both report 0 ($G$ was not sent),
 then the Smart Contract will send $P$ back to the Buyer, because $G$ was not
 shipped. If they both report 1 ($G$ was sent), then the Smart Contract will send
-$P$ to the Seller and the trade was \orfnote{was $\rightarrow$ will be} successful.\newline
+$P$ to the Seller and the trade will be successful.\newline
 
-\orfnote{The} Following protocol is proposed:
-\begin{enumerate}
-    \item Seller deposits collateral $C > P$ to the Smart Contract
-    \item Buyer sends funds of amount $P$ to the Smart Contract 
-    \item Seller sends the physical good to the Buyer and the Buyer receives it
-    \item Buyer and Seller report the physical transaction to the Smart Contract
-    \item The Smart Contract releases the collateral of the Seller
-\end{enumerate}
+The Following protocol is proposed:
+\begin{figure}[htb!]
+\fbox{
+ \procedureblock[linenumbering]{Seller collateral protocol: Both parties report}{
+    \text{Seller deposits collateral $C > P$ to the Smart Contract}\\
+    \text{Buyer sends funds of amount $P$ to the Smart Contract}\\
+    \text{Seller sends the physical good to the Buyer and the Buyer receives it}\\
+    \text{Buyer and Seller report the physical transaction to the Smart Contract}\\
+    \text{The Smart Contract releases the collateral of the Seller and sends $P$ to the Seller}
+}
+}
+    \centering
+    \caption{Seller collateral protocol: Both parties report}
+    \label{pro:seller-col-both-report}
+\end{figure}
+
 There are multiple ways to implement step 4: Either the two parties report one after another or they report simultaneously.
-\subsubsection{The Seller reports first} \orfnote{this should be an inner
+\subsection{The Seller reports first} \orfnote{this should be an inner
 section to "Both parties report", not at the same level}
 As the Buyer reports last, this protocol still gives the Buyer the power of
 burning the collateral of the Seller by reporting exactly the opposite from the
@@ -546,7 +575,7 @@ Seller's report.\newline
 Therefore he can still coerce the Seller into sending him back his payment. This
 strategy will be denoted as $C_B$. As we already have shown above, a rational
 seller will comply and send back the payment $P$ (this last decision will be
-omitted from the tree \orfnote{which leaf of the tree?} for better readability).\newline
+omitted from the tree \orfnote{which leaf of the tree?} for better readability).\niknote{non credible threat??}\newline
 
 \minisec{Payout}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -563,7 +592,7 @@ omitted from the tree \orfnote{which leaf of the tree?} for better readability).
                 		    child[sibling distance = 1.5cm]{node[shape = rectangle]{5} edge from parent node [right] {1}}
                 		    child[sibling distance = 1.5cm]{node[shape = rectangle]{6} edge from parent node [right] {$C_B$}}
                 		     edge from parent node [right] {1}}
-                		     edge from parent node [left] {$Send$}} 
+                		     edge from parent node [left] {\emph{Send}}} 
                 child[sibling distance = 9cm]{node[draw]{$S$}
                 child[sibling distance = 4.5cm]{node[draw]{$B$} 
                 		    child[sibling distance = 1.5cm]{node[shape = rectangle]{7} edge from parent node [left] {0}}
@@ -575,8 +604,8 @@ omitted from the tree \orfnote{which leaf of the tree?} for better readability).
                 		    child[sibling distance = 1.5cm]{node[shape = rectangle]{11} edge from parent node [right] {1}}
                 		    child[sibling distance = 1.5cm]{node[shape = rectangle]{12} edge from parent node [right] {$C_B$}}
                 		     edge from parent node [right] {1}}
-                		     edge from parent node [right] {$Keep$}} edge from parent node [left] {$Pay$}} 
-          child[sibling distance = 8cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$Withhold$}};
+                		     edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
+          child[sibling distance = 8cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {\emph{Withhold}}};
 \end{tikzpicture}
 \captionof{figure}{Only the Seller deposits collateral: the Buyer reports first}
 \begin{table}[htb!]
@@ -628,7 +657,7 @@ The Buyer chooses:
 \end{itemize}
 No matter which decision the Buyer takes at the top of the tree, the payout will be $0|0$ and the trade unsuccessful.
 
-\subsubsection{Payout: The Buyer reports first}
+\subsection{Payout: The Buyer reports first}
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{$B$}
         child[sibling distance = 9cm]{node[draw]{$S$}
@@ -641,7 +670,7 @@ No matter which decision the Buyer takes at the top of the tree, the payout will
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{3} edge from parent node [left] {0}}
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{4} edge from parent node [right] {1}}
                 		     edge from parent node [right] {1}}
-                		     edge from parent node [left] {$Send$}} 
+                		     edge from parent node [left] {\emph{Send}}} 
                 child[sibling distance = 9cm]{node[draw]{$B$}
                 child[sibling distance = 5cm]{node[draw]{$S$} 
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{5} edge from parent node [left] {0}}
@@ -651,8 +680,8 @@ No matter which decision the Buyer takes at the top of the tree, the payout will
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{7} edge from parent node [left] {0}}
                 		    child[sibling distance = 2cm]{node[shape = rectangle]{8} edge from parent node [right] {1}}
                 		     edge from parent node [right] {1}}
-                		     edge from parent node [right] {$Keep$}} edge from parent node [left] {$Pay$}} 
-          child[sibling distance = 8cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$Withhold$}};
+                		     edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
+          child[sibling distance = 8cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {\emph{Withhold}}};
 \end{tikzpicture}
 \captionof{figure}{Only the Seller deposits collateral: the Buyer reports first}
 \begin{table}[htb!]
@@ -695,7 +724,7 @@ The Buyer chooses:
     \item 5 over 8 ($0>-P$)
 \end{itemize}
 The Buyer always reports that he did not receive the item.\newline
-As $0 > -U_S(G)$ the Seller chooses not to send the physical good ($Keep$).\newline
+As $0 > -U_S(G)$ the Seller chooses not to send the physical good (\emph{Keep}).\newline
 No matter which decision the Buyer takes at the top of the tree, the payout will be $0|0$ and the trade unsuccessful.
 
 
@@ -705,23 +734,22 @@ No matter which decision the Buyer takes at the top of the tree, the payout will
  also knows what the first player reported. By just demanding both to report at
  the same time, the player who reports second always knows what value the first player reported. Then the report is not really simultaneous.\newline
 
- We can fix this problem by using a (at least) \orfnote{what do you mean "at
- least"?} computationally hiding and binding commitment scheme. Both players would commit to their decision and send the commitment to the SC. The second player sees the commitment of the first player. Because the commitment scheme is computationally hiding and we assume the players to be computationally bounded, the commitment does not reveal any information about the actual decision of the first player. \newline
+ We can fix this problem by using a computationally hiding and binding commitment scheme. Both players would commit to their decision and send the commitment to the SC. The second player sees the commitment of the first player. Because the commitment scheme is computationally hiding and we assume the players to be computationally bounded, the commitment does not reveal any information about the actual decision of the first player.
  After both players send the commitment to the SC, they both send the opening
  value for their commitment to the SC. As the commitment is computationally
  binding, the players cannot change what they initially reported. If a player
  does not send an opening value after a predefined time, the SC punishes the
  player by sending all the funds to the other player.
 
-\subsubsection{Payout: Both parties report simultaneously}
+\subsection{Payout: Both parties report simultaneously}
 \begin{figure}[htb!]
     \centering
     \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
           \node[draw]{$B$}
             child{node[draw]{$S$}
-                    child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {$Send$}} 
-                    child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {$Keep$}} edge from parent node [left] {$Pay$}} 
-            child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {$Withhold$}};
+                    child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {\emph{Send}}} 
+                    child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
+            child[sibling distance = 10cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {\emph{Withhold}}};
     \end{tikzpicture}
     \caption{Only the Seller deposits collateral: Both players report simultaneously}
 \end{figure}
@@ -760,18 +788,17 @@ The Nash Equilibrium of subgame $T_1$ is $\{0_B, 0_S\}$ and payout $-U_S(G) | U_
 
 The Nash Equilibrium of subgame $T_2$ is $\{0_B, 0_S\}$ and payout $0 | 0$. \newline
 
-$S$ would choose $Keep$, because $0>-U_S(G)$.\newline
+$S$ would choose \emph{Keep}, because $0>-U_S(G)$.\newline
 As both options lead to a payout of 0, $B$ chooses an arbitrary option. The trade is unsuccessful again.
 
 
-\section{Two side collateral}
+\section{Fourth Try: Two side collateral}
 \label{sec:two-side-collateral}
-\orfnote{As we saw in the previous section,} One side collateral does
-\orfnote{not lead to a game that achieves our goal} not work. The party that does not deposit collateral always has an unfair advantage over the other party. \newline
-When only the Buyer deposits collateral, the Seller has no incentive to send $G$. \newline
+As we saw in the previous two sections, one side collateral does not lead to a game that achieves our goal. The party that does not deposit collateral always has an unfair advantage over the other party.
+When only the Buyer deposits collateral, the Seller has no incentive to send $G$.
 When only the Seller deposits collateral, the Buyer can coerce the Seller into sending back his payment $P$, because the Buyer can burn the collateral by reporting 0.\newline 
 
-We introduce another protocol that addresses this \orfnote{these} problems. In this protocol both parties deposit collateral. This should incentivize the parties to both behave honestly.\newline
+We introduce another protocol that addresses these problems. In this protocol both parties deposit collateral. This should incentivize the parties to both behave honestly.
 If the two parties report something different, the Smart Contract will slash the collateral of both players, as it can not determine which party is lying. If both parties report 0, the Smart Contract will send the payment $P$ back to the Buyer. If both parties report 1, the Smart Contract will send the payment $P$ to the Seller.  \newline
 
 Again, there are three possible ways of handling the reports:
@@ -782,18 +809,23 @@ Again, there are three possible ways of handling the reports:
 \end{itemize}
 
 \subsection{The Seller reports first}
-Following protocol is proposed:
-\begin{enumerate}
-    \item Seller deposits collateral $C_S > P$ to the Smart Contract
-    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
-    \item Buyer sends funds of amount $P$ \orfnote{sends $P$ coins} to the Smart
-    Contract \orfnote{this step could be combined with the previous one}
-    \item Seller sends physical good $G$ to the seller and reports it to the Smart Contract
-    \item Buyer receives the physical good and confirms \orfnote{reports} it to the Smart Contract
-    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller
-\end{enumerate}
+The following protocol is proposed:
+\begin{figure}[htb!]
+\fbox{
+ \procedureblock[linenumbering]{Two side collateral: The seller reports first}{
+    \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
+    \text{Buyer deposits collateral $C_B > P$ and $P$ to the Smart Contract}\\
+    \text{Seller sends physical good $G$ to the Buyer and reports it to the Smart Contract}\\
+    \text{Buyer receives the physical good and reports it to the Smart Contract}\\
+    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}
+}
+}
+    \centering
+    \caption{Two side collateral protocol: Seller reports first}
+    \label{pro:two-side-collateral-seller-first}
+\end{figure}
 \minisec{Possible strategies}
-As always, $Send$ denotes the honest strategy, where the Seller sends $G$ and $Keep$ denotes the dishonest strategy where the Seller does not send the $G$.
+As always, \emph{Send} denotes the honest strategy, where the Seller sends $G$ and \emph{Keep} denotes the dishonest strategy where the Seller does not send the $G$.
 
 \minisec{Payout}
 To increase readability, we do not plot the decisions from point 1 to point 3 of
@@ -809,18 +841,18 @@ aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step
         		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
         		child[sibling distance = 5cm]{node[draw]{$B$}
         		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
-        		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$Send$}} 
+        		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {\emph{Send}}} 
             child[sibling distance = 9cm]{node[draw]{$S$}
                 child[sibling distance = 5cm]{node[draw]{$B$}
                     child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
         		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
                 child[sibling distance = 5cm]{node[draw]{$B$}
                     child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
-        		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$Keep$}};
+        		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {\emph{Keep}}};
     \end{tikzpicture}
     \centering
-    \label{fig:two-side-collateral}
     \caption{Two Side Collateral: The Seller reports first}
+    \label{fig:two-side-collateral}
 \end{figure}
 
 \begin{table}[htb!]
@@ -862,18 +894,25 @@ The Seller would choose option 8, as
 Because the payout of the Buyer is $-P<0$, he would not engage in this trade and therefore refuse to pay the collateral in step 1. The trade is still unsuccessful.
 
 \subsection{The Buyer reports first}
-Following protocol is proposed:
-\begin{enumerate}
-    \item Seller deposits collateral $C_S > P$ to the Smart Contract
-    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
-    \item Buyer sends Funds of amount $P$ to the Smart Contract
-    \item Seller sends physical good $G$ to the seller
-    \item Buyer receives the physical good and confirms it to the Smart Contract
-    \item Seller reports to the Smart Contract that he did send $G$
-    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
-\end{enumerate}
+The following protocol is proposed:
+\begin{figure}[htb!]
+\fbox{
+ \procedureblock[linenumbering]{Two side collateral: The Buyer reports first}{
+    \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
+    \text{Buyer deposits collateral $C_B > P$ and price $P$ to the Smart Contract}\\
+    \text{Seller sends physical good $G$ to the Buyer}\\
+    \text{Buyer receives the physical good and reports it to the Smart Contract}\\
+    \text{Seller reports to the Smart Contract that he did send $G$}\\
+    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}
+}
+}
+    \centering
+    \caption{Two side collateral protocol: Buyer reports first}
+    \label{pro:two-side-collateral-buyer-first}
+\end{figure}
+
 \minisec{Possible strategies}
-As always, $Send$ denotes the honest strategy, where the Seller sends $G$ and $Keep$ denotes the dishonest strategy where the Seller does not send the $G$.
+As always, \emph{Send} denotes the honest strategy, where the Seller sends $G$ and \emph{Keep} denotes the dishonest strategy where the Seller does not send the $G$.
 
 \minisec{Payout}
 To increase readability, we again do not plot the decisions from point 1 to point 3 of the protocol.\newline
@@ -886,17 +925,18 @@ To increase readability, we again do not plot the decisions from point 1 to poin
         		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
         		child[sibling distance = 5cm]{node[draw]{$S$}
         		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
-        		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$Send$}} 
+        		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {\emph{Send}}} 
             child[sibling distance = 9cm]{node[draw]{$B$}
                 child[sibling distance = 5cm]{node[draw]{$S$}
                     child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
         		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
                 child[sibling distance = 5cm]{node[draw]{$S$}
                     child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
-        		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$Keep$}};
+        		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {\emph{Keep}}};
     \end{tikzpicture}
     \centering
     \caption{Two Side Collateral: The Buyer reports first}
+    \label{fig:payout-twocol-buyer-first}
 \end{figure}
 
 \begin{table}[htb!]
@@ -923,7 +963,7 @@ To increase readability, we again do not plot the decisions from point 1 to poin
         8& $P| -P$\\
         \hline
     \end{tabular}
-    \caption{The corresponding payout table of figure 5.10}
+    \caption{The corresponding payout table of figure \ref{fig:payout-twocol-buyer-first}}
 \end{table}
 
 
@@ -940,30 +980,37 @@ The Buyer would choose:
     \item 5 over 8 ($0 > -P$)
 \end{itemize}
 The Buyer would always report 0, no matter if the Seller was honest or not.\newline
-The Seller chooses $Keep$, as 
+The Seller chooses \emph{Keep}, as 
 \[0>-U_S(G)\]
 The Seller will never send $G$ in this game and the trade is unsuccessful.
 
 \subsection{Simultaneous report}
-Following protocol is proposed:
-\begin{enumerate}
-    \item Seller deposits collateral $C_S > P$ to the Smart Contract
-    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
-    \item Buyer sends Funds of amount $P$ to the Smart Contract
-    \item Seller sends physical good $G$ to the seller
-    \item Both players report whether $G$ was shipped
-    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
-\end{enumerate}
+The following protocol is proposed:
+\begin{figure}[htb!]
+\fbox{
+ \procedureblock[linenumbering]{Two side collateral: Simultaneous report}{
+    \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
+    \text{Buyer deposits collateral $C_B > P$ and price $P$ to the Smart Contract}\\
+    \text{Seller sends physical good $G$ to the Buyer}\\
+    \text{Both players report whether $G$ was shipped}\\
+    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}
+}
+}
+    \centering
+    \caption{Two side collateral protocol: Simultaneous report}
+    \label{pro:two-side-collateral-simultaneous}
+\end{figure}
+
 \minisec{Possible strategies}
-As always, $Send$ denotes the honest strategy, where the Seller sends $G$ and $Keep$ denotes the dishonest strategy where the Seller does not send the $G$.
+As always, \emph{Send} denotes the honest strategy, where the Seller sends $G$ and \emph{Keep} denotes the dishonest strategy where the Seller does not send the $G$.
 
 \minisec{Payout}
 To increase readability, we do not plot the decisions from point 1 to point 3. If someone does not deposit the collateral, the Smart Contract aborts the trade and the payout is $0|0$. If the Buyer refuses to pay $P$ (step 3), he loses his collateral. The payout is $0|-C_B$.\newline
 \begin{figure}[htb!]
     \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
           \node[draw]{$S$}
-                child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {$Send$}} 
-                child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {$Keep$}};
+                child[sibling distance = 7cm]{node[draw]{$T_1$} edge from parent node [left] {\emph{Send}}} 
+                child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {\emph{Keep}}};
     \end{tikzpicture}
     \centering
     \caption{Two Side Collateral: Both parties report simultaneously}
@@ -1065,7 +1112,7 @@ function assign_coins(
   shipped: bool /* ground truth */
 ) -> (int /* seller coins */, int /* buyer coins */) {
   if sellerSent == buyerRecv { /* honest case, multiple possible solutions  */ }
-  if (not sellerSent) and buyerRecv { /* nonsensical case, multiple possible solutions */ }
+  if (not sellerSent) and buyerRecv { /* irrational case, multiple possible solutions */ }
 
   // both claim they went through and the other player failed
   if shipped {
@@ -1080,35 +1127,34 @@ function assign_coins(
 \end{lstlisting}
     \caption{General Code for the ideal functionality}
 \end{figure}
-The honest and nonsensical case can be implemented without the last input. There are multiple possible solutions.\newline
+The honest and irrational case can be implemented without the last input. There are multiple possible solutions.\newline
 The important case is when the seller reports that he shipped the good and the Buyer reports that he did not receive it. Because the Smart Contract has the input 'shipped', it can determine which party is lying and which party is telling the truth.\newline
 The Smart Contract settles the disputes in such a way that the honest party has a payout greater than zero and the lying party has a payout smaller than zero. Therefore it is unfavorable for any party to report wrongfully.\newline
 It is important to see that the outputs of the function have to be implemented
 like this, to achieve the ideal functionality. \orfnote{We will now see why the
 function outputs are defined in this way ...}\newline
 
-\orfnote{what is a "general payout"?}
 \minisec{Honest Seller}
-The honest Seller (line 11) ships the good to the Buyer and deposits collateral $C_S$. To have a positive general payout, his lowest possible payout from the smart Contract is $P + C_S$. His general payout is at least
+The honest Seller (line 11) ships the good to the Buyer and deposits collateral $C_S$. To have a positive payout, his lowest possible return from the smart Contract is $P + C_S$. His payout is at least
 \[P + C_S - C_S - U_S(G) = P - U_S(G) > 0\]
 
 \minisec{Lying Buyer}
-The Lying Buyer (line 12) receives $G$ and deposits collateral $C_S$ and Price $P$ to the Smart Contract. To have a negative general payout, his payout from the smart Contract has to be less than $P + Col_B - U_B(G)$. His general payout is less than
+The Lying Buyer (line 12) receives $G$ and deposits collateral $C_S$ and Price $P$ to the Smart Contract. To have a negative payout, his return from the smart Contract has to be less than $P + Col_B - U_B(G)$. His payout is less than
 \[P + C_B - U_B(G) + U_B(G) - C_B -P = 0\]
 
 \minisec{Dishonest Seller}
-The dishonest Seller deposits collateral $C_S$ but does not ship the good $G$. To have a negative general payout, payout from the smart Contract has to be less than $C_S$. His general payout is less than
+The dishonest Seller deposits collateral $C_S$ but does not ship the good $G$. To have a negative payout, his return from the smart Contract has to be less than $C_S$. His payout is less than
 \[C_S - C_S = 0\]
 
 \minisec{Honest Buyer}
-The honest Buyer deposits collateral $C_S$ and Price $P$. To have a positive general payout, his payout from the smart Contract has to be greater than $P + C_S$. His general payout is greater than
+The honest Buyer deposits collateral $C_B$ and Price $P$. To have a positive payout, his return from the smart Contract has to be greater than $P + C_S$. His payout is greater than
 \[P + C_S - C_S - P = 0\]
 
 \subsection{Ideal Smart Contract solves the proposed problem}
 In the following section we will show that an implementation of the ideal functionality of the Smart Contract indeed creates a game where a successful trade is the Nash Equilibrium. We first write an easy implementation of the ideal SC and then determine the Nash Equilibrium of the created game.
 \subsubsection{Implementation of ideal Smart Contract}
 The easiest implementation of the honest case is to give back their collateral. If the good was actually shipped, the Seller will be awarded coins of amount $P$, otherwise those coins go back to the Buyer.\newline
-In the nonsensical case the SC will not give any coins back.\newline
+In the irrational case the SC will not give any coins back.\newline
 In the case of a dispute the SC rewards all the coins to the honest party.
 
 \begin{figure}[htb!]
@@ -1125,7 +1171,7 @@ function assign_coins(
     else {buyerCoins += price}// G was not shipped, Buyer gets price
     }
   if (not sellerSent) and buyerRecv { 
-    sellerCoins = 0 //nonsensical case, give both parties no coins
+    sellerCoins = 0 //irrational case, give both parties no coins
     buyerCoins = 0
   }
 
@@ -1143,11 +1189,10 @@ function assign_coins(
     \caption{Example Code for an implementation of the ideal Smart Contract}
 \end{figure}
 \subsubsection{Protocol}
-Similar to section 5.3, following protocol is proposed:
+Similar to section 5.3\niknote{reference, maybe ommit because it is the same}, following protocol is proposed:
 \begin{enumerate}
     \item Seller deposits collateral $C_S > P$ to the Smart Contract
-    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
-    \item Buyer sends Funds of amount $P$ to the Smart Contract
+    \item Buyer deposits collateral $C_B > P$ and price $P$ to the Smart Contract
     \item Seller sends physical good $G$ to the seller and reports it to the Smart Contract
     \item Buyer receives the physical good and confirms it to the Smart Contract
     \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
@@ -1163,16 +1208,17 @@ Similar to section 5.3, following protocol is proposed:
     		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
     		child[sibling distance = 5cm]{node[draw]{$B$}
     		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$Send$}} 
+    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {\emph{Send}}} 
         child[sibling distance = 9cm]{node[draw]{$S$}
             child[sibling distance = 5cm]{node[draw]{$B$}
                 child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
             child[sibling distance = 5cm]{node[draw]{$B$}
                 child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$Keep$}};
+    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {\emph{Keep}}};
 \end{tikzpicture}
     \caption{Payout with an ideal Smart Contract}
+    \label{fig:payout-ideal-sc}
 \end{figure}
 \begin{table}[htb!]
     \centering
@@ -1198,31 +1244,31 @@ Similar to section 5.3, following protocol is proposed:
     8& $P| -P$\\
     \hline
     \end{tabular}
-    \caption{The corresponding payout table of figure 5.14}
+    \caption{The corresponding payout table of figure \ref{fig:payout-ideal-sc}}
 \end{table}
 
 Remark: If any party does not send the collateral, the Smart Contract will release the collateral of the the other party and it would result in a payout of $0|0$. This option is not analyzed in the Game tree but has to be considered as an option for each party.\newline
 
 We again start at the bottom of the tree at the Buyer's decision. A rational Buyer would choose 2,4,5,7. Out of these options the Seller would choose outcome 4 ($Send,1$), as this is the best outcome for him.\newline
-The Nash Equilibrium is at \{$Send$, 1, 1\} and the trade would unravel successfully.\newline
+The Nash Equilibrium is at \{\emph{Send}, 1, 1\} and the trade would unravel successfully.\newline
 
 Such a smart contract solves the problem completely as the Nash Equilibrium lies in both parties behaving honestly.
 %TODO It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
 \subsection{Real World Functionality}
-In the real world, the smart contract does not have the last input
-(bool:shipped) \orfnote{have the last input (bool:shipped) $\rightarrow$ know
-the ground truth}. Therefore the Smart Contract does not know if the physical good was actually shipped or not. \newline
-This poses the following problem: The last input \orfnote{ground truth} is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract.\newline
-For example, it is impossible to differentiate between a lying seller that did not send the good $G$ but says he did, and a lying Buyer that received the good but says he did not.\newline 
+In the real world, the smart contract does not have the last input (bool:shipped) know
+the ground truth.
+This poses the following problem: The ground truth is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract.\newline
+
+For example, it is impossible to differentiate between a lying seller that did not send the good $G$ but says he did, and a lying Buyer that received the good but says he did not. 
 Without the sixth input, it is impossible to design a Smart Contract that achieves the ideal functionality described in section 5.4.1.
 \orfnote{do not hardcode section numbers, use labels/references instead}
 \orfnote{I would really like to present this argument in a theorem-proof format}
 
 \chapter{A redesigned game}
-As we have shown (c.f. \ref{sec:formal-proof}) \orfnote{we have to discuss what will be the fate of the
+As we have shown (c.f.~\ref{sec:formal-proof}) \orfnote{we have to discuss what will be the fate of the
 proof}, it is not possible (under our assumptions) to design a protocol that would create a successful game (as described in \ref{sec:the-game}). The biggest problem is that we have no reliable way of telling the Smart Contract whether the physical good $G$ was actually shipped or not. If there is a dispute, the Smart Contract does not know which party is lying and has to be punished.\newline
 
-We need to rework our assumptions and requirements for the game we want to design. For that it is is interesting to see that the two side collateral protocol (c.f. \ref{sec:two-side-collateral}) is very close to achieving our goals. As already discussed, the problem is that the Seller is not actually incentivized to send the physical good $G$, because the Buyer is not incentivized to report his dishonest behaviour. The Buyer gets a bigger Payout when he lies to the Smart Contract instead of reporting the dishonest behaviour. Therefore a rational Buyer would never punish a dishonest Seller in this scenario. If a Seller thinks that the Buyer would punish him (the Buyer is not acting rational in this scenario), then the Seller is incentivized to send the physical good $G$.\newline
+We need to rework our assumptions and requirements for the game we want to design. For that it is is interesting to see that the two side collateral protocol (c.f.~\ref{sec:two-side-collateral}) is very close to achieving our goals. As already discussed, the problem is that the Seller is not actually incentivized to send the physical good $G$, because the Buyer is not incentivized to report his dishonest behaviour. The Buyer gets a bigger Payout when he lies to the Smart Contract instead of reporting the dishonest behaviour. Therefore a rational Buyer would never punish a dishonest Seller in this scenario. If a Seller thinks that the Buyer would punish him (the Buyer is not acting rational in this scenario), then the Seller is incentivized to send the physical good $G$.\newline
 \section{Two Side Collateral with truthful Buyer} 
 In this section we show that if the Buyer behaves truthful (and therefore not rationally), it is not beneficial for the Seller to behave dishonestly. The created game would have a successful trade as Nash Equilibrium.\newline
 \begin{figure}[htb!]
@@ -1235,16 +1281,16 @@ In this section we show that if the Buyer behaves truthful (and therefore not ra
     		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
     		child[sibling distance = 4cm]{node[draw]{$B$}
     		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$Send$}} 
+    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {\emph{Send}}} 
         child[sibling distance = 8cm]{node[draw]{$S$}
             child[sibling distance = 4cm]{node[draw]{$B$}
                 child[sibling distance= 3cm]{node{5} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
             child[sibling distance = 4cm]{node[draw]{$B$}
                 child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$Keep$}};
+    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {\emph{Keep}}};
     \end{tikzpicture}
-
+    \label{fig:payout-truthful-buyer}
     \caption{Two Side Collateral with truthful Buyer}
 \end{figure}
 
@@ -1272,7 +1318,7 @@ In this section we show that if the Buyer behaves truthful (and therefore not ra
 \hline
 \end{tabular}
 \end{center}
-\captionof{table}{The corresponding payout table of figure 6.1}
+\captionof{table}{The corresponding payout table of figure \ref{fig:payout-truthful-buyer}}
 Now a truthful Buyer stops acting rationally and chooses option 7 over 8.\newline
 The Buyer chooses:
 \begin{itemize}
@@ -1321,15 +1367,21 @@ The new Entity is not modeled as a rational party. It always behaves in the desc
 //TODO Maybe expand on that: What about trust
 \section{Mediated protocol}
 We propose the following protocol:
-\begin{enumerate}
-    \item Buyer gives SC address and specifications for $G$ to the Mediator
-    \item Seller deposits collateral $C_S > P$ to the Smart Contract
-    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
-    \item Buyer sends Funds of amount $P$ to the Smart Contract
-    \item Seller sends physical good $G$ to the Mediator and reports it to the Smart Contract
-    \item Mediator receives the physical good, confirms it to the Smart Contract and sends $G$ to the Buyer
-    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller
-\end{enumerate}
+\begin{figure}[htb!]
+\fbox{
+ \procedureblock[linenumbering]{Mediated protocol}{
+    \text{Buyer gives SC address and specifications for $G$ to the Mediator}\\
+    \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
+    \text{Buyer deposits collateral $C_B > P$ and price $P$ to the Smart Contract}\\
+    \text{Seller sends physical good $G$ to the Mediator and reports it to the Smart Contract}\\
+    \text{Mediator receives the physical good, confirms it to the Smart Contract and sends $G$ to the Buyer}\\
+    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller}
+}
+}
+    \centering
+    \caption{Mediated protocol description}
+    \label{pro:mediated-protocol}
+\end{figure}
 
 \begin{figure}[htb!]
 \procedureblock{Mediated Protocol}{
@@ -1378,7 +1430,7 @@ The honest behaviour of the Seller remains unchanged by the new protocol. It sti
 \end{enumerate}
 
 \subsubsection{Possible Strategies}
-The new protocol has no impact on the possible strategies for the Seller. He still has the option to either send ($Send$) or not send ($Keep$) the physical good. After that, he has the option to report 0 or 1 to the Smart Contract.\newline
+The new protocol has no impact on the possible strategies for the Seller. He still has the option to either send (\emph{Send}) or not send (\emph{Keep}) the physical good. After that, he has the option to report 0 or 1 to the Smart Contract.\newline
 As the Buyer does not longer report to the Smart Contract, he has fewer decisions to make. As soon as he enters the trade (pays the collateral and $P$ to the SC), he no longer has any decision to make. The Mediator will take care of reporting to the Smart Contract.
 
 \subsubsection{Payout}
@@ -1388,16 +1440,16 @@ We again start our analysis at point 5 of the protocol.\newline
     \centering
     \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
     \node[draw]{$S$}
-        child[sibling distance = 9cm]{node[draw]{$S$}
+        child[sibling distance = 8cm]{node[draw]{$S$}
     		child[sibling distance = 5.5cm]{node[draw]{M}
     		    child[sibling distance = 5cm]{node[shape = rectangle]{$-U_S(G) - C_S| - P - C_B $} edge from parent node [right] {1}}edge from parent node [left] {0}}
     		child[sibling distance = 5.5cm]{node[draw]{M}
-    		    child[sibling distance = 3cm]{node[shape = rectangle]{$P-U_S(G)| U_B(G)-P$} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$Send$}} 
-        child[sibling distance = 9cm]{node[draw]{$S$}
-            child[sibling distance = 5cm]{node[draw]{M}
+    		    child[sibling distance = 3cm]{node[shape = rectangle]{$P-U_S(G)| U_B(G)-P$} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {\emph{Send}}} 
+        child[sibling distance = 8cm]{node[draw]{$S$}
+            child[sibling distance = 4cm]{node[draw]{M}
     		    child[sibling distance = 3cm]{node[shape = rectangle]{$0|0$} edge from parent node [right] {0}}edge from parent node [left] {0}}
-            child[sibling distance = 5cm]{node[draw]{M}
-    		    child[sibling distance = 3cm]{node[shape = rectangle]{$- C_S| -P-C_B$} edge from parent node [right] {0}}edge from parent node [right] {1}}edge from parent node [right] {$Keep$}};
+            child[sibling distance = 4cm]{node[draw]{M}
+    		    child[sibling distance = 3cm]{node[shape = rectangle]{$- C_S| -P-C_B$} edge from parent node [right] {0}}edge from parent node [right] {1}}edge from parent node [right] {\emph{Keep}}};
     \end{tikzpicture}
     \caption{Two Side Collateral with ideal Mediator}
 \end{figure}
@@ -1408,7 +1460,7 @@ about small differences like this.}
 The Mediator always behaves in the same way
 \orfnote{this sentence is confusing: it could be interpreted as "the Mediator
 always sends the same bit to SC", which is wrong}. Therefore the Seller can
-choose the one option which yields him the biggest payout. This is sending the good ($Send$) and reporting 1, as: 
+choose the one option which yields him the biggest payout. This is sending the good (\emph{Send}) and reporting 1, as: 
 
 \[P-U_S(G)>0>-C_S>-U_S(G) - C_S\]
 
@@ -1425,13 +1477,21 @@ The friend will not act rational, as he does not want to maximize his own Utilit
 The Friend(F) will receive the physical good $G$ and check if it matches the agreed good. After that, he reports 0 (received the good successfully) or 1 (did not receive the good successfully) to the Smart Contract. After that he will send the $G$ to the Buyer.
 
 \minisec{Protocol}
-\begin{enumerate}
-    \item Seller and Buyer deposit Collateral to the SC
-    \item Buyer sends $P$ to the SC
-    \item Seller ships $G$ to the Friend of the Buyer and reports 1/0 to the SC
-    \item Friend of the Seller reports 1/0 to the SC
-    \item Friend sends $G$ to the Buyer
-\end{enumerate}
+\begin{figure}[htb!]
+\fbox{
+ \procedureblock[linenumbering]{Two side collateral: Friend reports}{
+    \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
+    \text{Buyer deposits collateral $C_B > P$ and price $P$ to the Smart Contract}\\
+    \text{Seller sends physical good $G$ to the Friend of the Buyer and reports it to the Smart Contract}\\
+    \text{Friend of the Buyer receives the physical good and reports it to the Smart Contract}\\
+    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}\\
+    \text{Friend sends $G$ to the Buyer}
+}
+}
+    \centering
+    \caption{Two side collateral protocol: Friend of Buyer reports}
+    \label{pro:two-side-collateral-friend}
+\end{figure}
 
 \minisec{Friend is not the ideal Mediator} \orfnote{Walk the reader through the
 friend's behaviour in case the seller doesn't send $G$ but lies to $SC$. Mention
@@ -1454,14 +1514,14 @@ collateral. The payout is $0|-C_B$.\newline
     		    child[sibling distance = 3cm]{node{2} edge from parent node [right] {1}}edge from parent node [left] {0}}
     		child[sibling distance = 4cm]{node[draw]{F}
     		    child[sibling distance = 3cm]{node{3} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {$Send$}} 
+    		    child[sibling distance = 3cm]{node{4} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [left] {\emph{Send}}} 
         child[sibling distance = 8cm]{node[draw]{$S$}
             child[sibling distance = 4cm]{node[draw]{F}
                 child[sibling distance = 3cm]{node{5} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{6} edge from parent node [right] {1}}edge from parent node [left] {0}}
             child[sibling distance = 4cm]{node[draw]{F}
                 child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
-    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {$Keep$}};
+    		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {\emph{Keep}}};
 \end{tikzpicture}
 
 \begin{center}
@@ -1500,7 +1560,7 @@ The Seller would choose option 8, as
 Because the payout of the Buyer is $-P<0$, he would not engage in this trade and therefore refuse to pay the collateral in step 1. The trade is still unsuccessful.\newline
 
 Introducing a friend as the Mediator does not solve the problem. The tree and
-the payout are exactly the same as in the two-sided collateral protocol (c.f. \ref{fig:two-side-collateral}). As the Seller knows that F will act in the best interest of the Buyer, he can still misbehave without being punished.
+the payout are exactly the same as in the two-sided collateral protocol (c.f.~\ref{fig:two-side-collateral}). As the Seller knows that F will act in the best interest of the Buyer, he can still misbehave without being punished.
 To solve the problem we need to come up with a Mediator that is fully trusted by
 the Buyer, but is not trying to maximize the Buyer's payout.
 Every entity that maximizing the payout for the Buyer will not be a
@@ -1511,14 +1571,24 @@ credible threat to the Seller.
 In our formal analysis we assumed that there is a way for the physical item $G$ to be reliably shipped. In practice physical goods are usually shipped by a another party (Post office/shipping company).
 Therefore the parties have to trust the Postal Office (PO) to actually deliver the good. Because the parties already trust the PO, the PO can also report to the Smart Contract and thereby act as the Mediator.
 \minisec{Protocol}
-\begin{enumerate}
-    \item Buyer gives SC address and specifications for $G$ to the Postal Office
-    \item Seller and Buyer deposit Collateral to the SC
-    \item Buyer sends $P$ to the SC
-    \item Seller hands $G$ to the Postal Office and reports to the SC
-    \item Postal Office checks if the good is correct and reports 1/0 to the SC
-    \item Postal Office ships $G$ to the Buyer
-\end{enumerate}
+We propose the following protocol:
+\begin{figure}[htb!]
+%\fbox{
+ \procedureblock[linenumbering]{Two side collateral: Postal Office as Mediator}{
+ \text{Buyer gives SC address and specifications for $G$ to the Postal Office}\\
+    \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
+    \text{Buyer deposits collateral $C_B > P$ and price $P$ to the Smart Contract}\\
+    \text{Seller sends physical good $G$ to the Postal Office and reports it to the Smart Contract}\\
+    \text{Postal Office receives the physical good and reports it to the Smart Contract}\\
+    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}\\
+    \text{Postal Office sends $G$ to the Buyer}
+}
+%}
+    \centering
+    \caption{Two side collateral protocol: Postal Office as Mediator}
+    \label{pro:two-side-collateral-postal}
+\end{figure}
+
 \subsubsection{Postal Office realises ideal Mediator}
 An honest Postal Office realises the ideal Mediator as defined in 6.1:
 \begin{enumerate}
@@ -1526,8 +1596,8 @@ An honest Postal Office realises the ideal Mediator as defined in 6.1:
     \item It receives the physical good from the Seller
     \item It checks, if the received good matches the specifications for $G$
         \begin{itemize}
-            \item YES: \orfnote{if so,} it reports 1 and sends the good to the Buyer
-            \item NO: \orfnote{else} it reports 0 and destroys the good
+            \item if so, it reports 1 and sends the good to the Buyer
+            \item else it reports 0 and destroys the good
         \end{itemize}
 \end{enumerate}
 As the Postal Office has to be trusted by the Buyer, it meets the requirements to being the ideal mediator. We have already shown (6.2) that a practical implementation of the ideal Mediator would solve our problem. Therefore the Postal Office reporting to the Smart Contract and thereby acting as Mediator is a viable solution to the problem.
@@ -1573,15 +1643,23 @@ easily believe that the buyer can have such a machine, thus eliminating trust}\n
 A Machine with this behaviour is realising the ideal Mediator from 6.1. 
 
 \subsubsection{Protocol}
-\begin{enumerate}
-    \item Machine releases PK and physical address
-    \item Buyer gives SC address and specifications for G to the Machine
-    \item Seller and Buyer deposit Collateral to the SC
-    \item Buyer sends $P$ to the SC
-    \item Seller hands $G$ to the Machine and reports to the SC
-    \item Machine checks if the good is correct and reports to the SC
-    \item Machine ships $G$ to the Buyer
-\end{enumerate}
+\begin{figure}[htb!]
+%\fbox{
+ \procedureblock[linenumbering]{Two side collateral: Machine as Mediator}{
+ \text{Buyer gives SC address and specifications for $G$ to the Machine}\\
+    \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
+    \text{Buyer deposits collateral $C_B > P$ and price $P$ to the Smart Contract}\\
+    \text{Seller sends physical good $G$ to the Machine and reports it to the Smart Contract}\\
+    \text{Machine receives the physical good and reports it to the Smart Contract}\\
+    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}\\
+    \text{Machine sends $G$ to the Buyer}
+}
+%}
+    \centering
+    \caption{Two side collateral protocol: Machine as Mediator}
+    \label{pro:two-side-collateral-machine}
+\end{figure}
+
 As the machine realises an ideal ideal Mediator (6.1), this protocol achieves an incoercible sale of $G$.\newline
 In addition to that, no trust is needed as the Mediator is not able to behave differently. It will always behave as it was programmed to behave. Therefore it is not able to perform any kind of scam.
 
@@ -1738,8 +1816,7 @@ This contradicts our assumption that $G$ is a successful Game as defined in 4.2,
 \pcln \< \sendmessageright{top=report 1,length=2cm} \< \< \< \< \< \\
 %---------------CHECK IF G IS RIGHT-------------
 \pcln \< \< \< \< 
-\dbox{\begin{subprocedure}
-\pseudocodeblock[linenumbering]{
+\dbox{ \begin{subprocedure} \pseudocodeblock[linenumbering]{
 \pcif \text{G matches instructions}\\
 \pcthen \text{report 1 and send $G$ to Buyer} \\
 \pcelse \text{report 0 and destroy $G$}
@@ -1750,8 +1827,8 @@ This contradicts our assumption that $G$ is a successful Game as defined in 4.2,
 \pcln \< \< \< \sendmessageleft{top=report ,length=2cm} \< \< \< \\
 %------MEDIATOR SENDS G TO $B$-------------
 \pcln \< \< \< \< \sendmessageright{top=$G$,length=2cm} \>\>\pclb
-\pcintertext [dotted] {Pay back collateral} \\
-\pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\
+\pcintertext [center] {Pay back collateral} \\
+\pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\[][\hline]
 \pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
 }
 
@@ -1791,15 +1868,16 @@ This contradicts our assumption that $G$ is a successful Game as defined in 4.2,
 
 \minisec{cryptocode proocedure}
 \begin{figure}[htb!]
-\fbox{
-\item \procedureblock[linenumbering]{Protocol}{
+%\fbox{
+ \procedureblock[linenumbering]{Protocol}{
     \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
     \text{Buyer deposits collateral $C_B > P$ and $P$ coins to the Smart Contract}\\
     \text{Seller sends physical good $G$ to the seller and reports it to the Smart Contract}\\
     \text{Buyer receives the physical good and reports it to the Smart Contract}\\
     \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}
 }
-}
+%}
+
     \centering
     \caption{Double collateral protocol}
     \label{pro:double-collateral-protocol}
