@@ -98,6 +98,7 @@ primitives , events , complexity , oracles , asymptotics , keys
 	\chapter{Introduction}
 	HERE GENERAL Introduction
 	\section{contributions?}
+	\section{methodology?}
 \section{Related work?}
 \chapter{Preliminaries}
 \section{Cryptography}
@@ -213,7 +214,7 @@ The utility function $U_P(G)$ describes how much utility a physical good $G$ pro
 \begin{definition}[Seller]
 \label{def:seller}
 A rational entity $S$ that owns a specific physical good $G$. The seller
-has bigger utility in owning $P$ amount of coins in contrast to owning $G$ (c.f.~Equation~\ref{eq:seller-utility}) He therefore desires to exchange $G$ against coins of amount $P$.
+has bigger utility in owning $P$ coins in contrast to owning $G$ (c.f.~equation~\ref{eq:seller-utility}) He therefore desires to exchange $G$ against $P$ coins.
 \end{definition}
 
 %Insert Utility function distribution
@@ -224,7 +225,7 @@ has bigger utility in owning $P$ amount of coins in contrast to owning $G$ (c.f.
 
 \begin{definition}[Buyer]
 \label{def:buyer}
-A rational entity $B$ that owns at least $P$ coins. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ amount of coins (c.f.~Equation~\ref{eq:buyer-utility}). He therefore desires to exchange coins of amount $P$ against $G$.
+A rational entity $B$ that owns at least $P$ coins. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ coins (c.f.~equation~\ref{eq:buyer-utility}). He therefore desires to exchange $P$ coins against $G$.
 \end{definition}
 
 %Insert Utility function distribution
@@ -242,30 +243,22 @@ disagreement as well), or at least refer to it TODO: rethink code location}
 
 \section{The Game}
 \label{sec:the-game}
-\orfnote{I don't like \textbackslash{}minisec in general. It does not have a
-number so you cannot refer to it. It feels like a compromise between a new
-section and continuous prose. It is used in a way that turns the whole thesis
-into a list of short minisecs, almost like a bullet-point list. In order to look
-good and read like a story, it should be formatted into prose with correct
-paragraph breaks.}
-
 \begin{definition}[Initial State]
 \label{def:initial-state}
-\orfnote{the word "want" is too vague. Also they don't want to trade
-successfully, they "want" to maximize their utility}
-\orfnote{how much money do they have? e.g. assume that they have at least
-enought to carry out protocol actions. In practice that will be $C_S$ for $S$
-and $C_B + P$ for $B$.}
-\orfnote{fix parties' capitalization}
-A Seller and a buyer want to trade successfully: Both have funds in the given cryptocurrency. The seller is in possession of the physical good.
+
+\niknote{look at that definition again}
+A Seller and a Buyer have some way of communicating with each other. A successful trade is beneficial for both entities. Both parties have enough funds in the given cryptocurrency to carry out protocol actions. The Seller is in possession of the physical good.
 \end{definition} 
 
 
 \begin{definition}[Desired Final State]
 \label{def:desired-final-state}
-The buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the seller have increased by $P$.
+The Buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the seller have increased by $P$.
 \end{definition}
 
+\begin{definition}[Success of the trade]
+The trade is considered successful if the situation transitions from the Initial State to the Desired Final State.
+\end{definition}
 
 We make the following assumptions:
 \begin{enumerate}
@@ -287,22 +280,12 @@ We make the following assumptions:
 
 We do not analyse transaction fees. 
 
-\begin{definition}[Success of the trade]
-The trade is considered successful if the situation transitions from the start
-point to the end point. \orfnote{Expand this into sth like: For parties starting
-from the Initial State, the Final State is a Nash Equilibrium}
-\end{definition}
-
-
 \subsection{Goal}
 \label{sec:goal}
-The goal of this work is to design a protocol in which behaviour that results in a successful trade is a Nash Equilibrium.\newline
-No minimal trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. A successful trade should be a Nash Equilibrium: If the other party behaves honestly, the best strategy will be to behave honestly as well.\newline
+The goal of this work is to design a protocol in which behaviour that results in a successful trade is a Nash Equilibrium. Minimal trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. A successful trade should be a Nash Equilibrium: If the other party behaves honestly, the best strategy will be to behave honestly as well.\niknote{Repitition? redundant?}\newline
+
 %If the other party behaves rational it should be best to behave honest.
-Another goal is that the trade is incoercible against rational attacks. It
-should be unprofitable, but not necessarily impossible, to decrease the payout
-of the other party, if the other party is behaving honestly. \orfnote{explain
-this last entry better}
+Another goal is that the trade is incoercible against rational attacks. That means that it should be unprofitable attack and decrease the payout of the other player, if the other player is honest. If this goal is achieved, a it is unprofitable, a rational Player will never try and attack the opposing player. It should be noted that that an irrational player can attack the opposing party, as an attack is unprofitable, but not necessarily impossible. If a player is willing to lower his own utility, he can attack an opposing honest player. 
 
 \orfnote{The "Success of the trade" seems a bit too mixed with the "goal". Try
 to express it in a clear way, maybe even merging the two concepts.}
