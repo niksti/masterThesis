@@ -11,6 +11,7 @@
 \usepackage{biblatex}
 \usepackage{capt-of}
 \usepackage{dashbox}
+\usepackage{diagbox}
 
 \usepackage [
 n, % or lambda
@@ -37,7 +38,7 @@ primitives , events , complexity , oracles , asymptotics , keys
 	%%%%%%%%%%%%%
 	%% Title page
 	%%%%%%%%%%%%%
-	\title{Trustless incoercible sale of a physical good over a blockchain}
+	\title{Trustless incoercible sale of physical goods over a blockchain}
 	%\subtitle{Longer subtitle (if required)}	%Delete subtitle if not required
 	\author{Nikolaos Stivaktakis}
 	\date{September 26, 2019}
@@ -96,8 +97,12 @@ primitives , events , complexity , oracles , asymptotics , keys
 	\mainmatter
 	
 	\chapter{Introduction}
-	HERE GENERAL Introduction
-	\section{contributions?}
+	\niknote{text just copied from first email}
+The remote and anonymous nature of blockchains greatly complicates the sale of physical goods over a blockchain: Since the item is physical and therefore unknown to the blockchain, one cannot build a smart contract that atomically exchanges it for its price. Worse, the anonymity of both the seller and the buyer make it virtually impossible to build a robust recovery mechanism if one party pays/sends honestly first but the other misbehaves afterwards.
+
+The most common solution is to add a trusted third party (a.k.a. escrow), which obtains both the coins and the good before sending them to their recipients. Can we do better?
+
+The goal of this project is to answer this question positively. We propose a scheme in which the parties lock on-chain some collateral which will only be released if they agree on-chain on the success or failure of the sale, otherwise burnt. To avoid coercion, after sending the payment the buyer ignores messages from the seller, on receipt of the item asks a trusted (only by the buyer) party to verify whether the item is the expected good or not and reports the answer to the blockchain. If, before paying, the buyer can credibly threaten the seller that she will stick to this strategy after paying, then it is, we believe, provable that coercion is impossible. A number of ideas to achieve such a credible threat while minimizing the needed trust exist	\section{contributions?}
 	\section{methodology?}
 \section{Related work?}
 \chapter{Preliminaries}
@@ -126,7 +131,6 @@ same payouts everywhere. Better use specific numbers. Use numbers with a single
 Nash Equilibrium and walk the reader through the analysis of why it is a Nash
 Equilibrium.}
 
-\orfnote{use $B$, $S$ instead of $B$, $S$ in the tikzpicture as well.}
 
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -144,8 +148,14 @@ Equilibrium.}
 \end{figure}
 
 To find the Nash Equilibrium of this game we will use the method "iterated elimination of strictly dominated strategies".
-TODO look for paper,  more information here
+\niknote{TODO look for paper,  more information here}\newline
 
+To analyze the game we start at the bottom of the tree at Bob's decision. He always takes the action that yields him the biggest payout.  We start at the left branch. If Bob takes action $L$, he gets a payout of $6$. If he chooses action $R$, he gets a payout of $5$. In this scenario Bob chooses $L$, because $6>5$.
+On the right branch he chooses $R$ because $3>2$.\newline
+
+Then we look at Alice's decision. She knows that Bob chooses the path that yields him the greatest payout and can calculate his decisions. She knows that Bob will choose $L$,if Alice takes action $L$. Therefore her payout of action $L$ is $1$. If she chooses action $R$, Bob will choose $R$ as well. In this case Alice has a payoff of $3$. Alice chooses action $L$, because $3>1$.\newline
+
+The Nash Equilibrium of this game is \{$R$,$R$\} and the payout is $3_A | 3_B$.
 \subsection{Simultaneous games}
 \begin{definition}[Simultaneous games]
 \label{def:simultaneous-game}
@@ -162,12 +172,12 @@ that the players need not be symmetric. The payouts are specific numbers,
 each colored with the respective player's color.}
 \begin{center}
 \begin{tabular}{ c||c|c| }
-& \emph{Pay} & \emph{Withhold}  \\
+\diagbox{\color{red}Alice}{\color{blue}Bob}& \emph{be honest} & \emph{lie}  \\
 \hline
 \hline
-\emph{Send} & $P_S | P_B$ & $P_S | P_B$ \\
+\emph{report} & {\color{red}$1$} $|$ {\color{blue}$6$} & {\color{red}$5$} $|$ {\color{blue}$5$} \\
 \hline
-\emph{Keep} & $P_S | P_B$ & $P_S | P_B$ \\ 
+\emph{hide} & {\color{red}$4$} $|$ {\color{blue}$2$} & {\color{red}$3$} $|$ {\color{blue}$3$} \\
 \hline
 \label{tab:example-table}
 \end{tabular}
@@ -348,7 +358,8 @@ For the protocols proposed in section~\ref{sec:first-try-nocol} we analyse two s
                 child[sibling distance = 7cm]{node[shape = rectangle]{$P-U_S(G)|U_B(G)-P$} edge from parent node [left] {\emph{Send}}} 
                 child[sibling distance = 7cm]{node[shape=rectangle]{$P|-P$}edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
         child{node{0$|$0} edge from parent node [right] {\emph{Withhold}}};
-\end{tikzpicture}\newline
+\end{tikzpicture}
+\centering
 \caption{No collateral, Buyer acts first}
 \label{fig:nocol-buyer-first}
 \end{figure}
@@ -375,6 +386,7 @@ The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and result
                 child[sibling distance = 7cm]{node[shape=rectangle]{$-U_S(G)|U_B(G)$}edge from parent node [right] {\emph{Withhold}}} edge from parent node [left] {\emph{Send}}} 
         child{node{0$|$0} edge from parent node [right] {\emph{Keep}}};
 \end{tikzpicture}
+\centering
 \label{fig:nocol-seller-first}
 \caption{No collateral, Seller acts first}
 \end{figure}
@@ -454,7 +466,8 @@ We still have the strategies from section~\ref{sec:possible-strategies}: \emph{P
                 child[sibling distance = 3cm]{node[shape = rectangle]{$P|-P$} edge from parent node [left] {\emph{Pay}}} 
                 child[sibling distance = 3cm]{node[shape=rectangle]{$0|-C$}edge from parent node [right] {\emph{Withhold}}}edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Deposit}}} 
           child[sibling distance = 7cm]{node[shape = rectangle]{$0|0$}edge from parent node [right]{\emph{Refuse}}};
-\end{tikzpicture}\newline
+\end{tikzpicture}
+\centering
     \caption{Only the Buyer deposits collateral}
 \end{figure}
 To analyze the payout of this game, we again start at the bottom at the Buyer's decision. On both branches the Buyer chooses \emph{Pay}:
@@ -526,6 +539,7 @@ and ignore the message (\emph{Ignore}).\newline
                         child[sibling distance = 3cm]{node[shape=rectangle]{0$|$0} edge from parent node [left] {\emph{Comply}}}
                         child[sibling distance = 3cm]{node[shape=rectangle]{$P-C|-P$} edge from parent node [right] {\emph{Ignore}}}edge from parent node [right] {\emph{Coerce}}}edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
           child[sibling distance = 8cm]{node[shape = rectangle]{$0|0$}edge from parent node [right] {\emph{Withhold}}};
+          \centering
 \end{tikzpicture}
 \caption{Only the Seller deposits collateral}
 \end{figure}
