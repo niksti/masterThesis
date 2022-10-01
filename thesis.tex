@@ -106,15 +106,43 @@ The goal of this project is to answer this question positively. We propose a sch
 	\section{methodology?}
 \section{Related work?}
 \chapter{Preliminaries}
-\section{Cryptography}
 \section{Game Theory}
+\niknote{first generaly describe the field}
+Game theory studies the interaction between self-interested players \cite{leyton-brown_essentials_2008}. It uses models to analyse games.
+\niknote{a little bit of history}
+It is considered that the field began in 1944 with the publication of von Nemann \& Morgenstern's "The Theory of Games and Economic Behaviour" \cite{rasmusen_games_nodate}\cite{vonNeumannTheory} Then Nash... history   What is a game?? Each player wants to \cite{leyton-brown_essentials_2008-1} As discribed in \cite{kiayias_escrow_2017}, audbfoi
+\subsection{Games}
+A game consists of players who are taking actions in order to maximize their own payoff. An action $a$ is a choice that a player can make. Each possible action for a given decision is contained in an action set. Which choice the player makes is influencing how big his payoff will be. The payoff (or utility) is a numerical value and each player gets his own payoff.
+\begin{definition}[Game]
+A game is a tuple ($N$,$A$,$u$), where:
+\begin{itemize}
+    \item $N$ is a finite set of n players
+    \item $A = A_1 \times \dots \times A_n$, where $A_i$ is a finite set of actions available to player i. Each vector $a= (a_1,...,a_n) \in A$ is called an action profile.
+    \item $u_1,...,u_n$ where $u_i$: $A \to \mathbb{R}$ is a payout (or utility) function for player i.
+\end{itemize} \cite{leyton-brown_essentials_2008}
+\end{definition}
+\subsection{Strategies}
+Each player faces multiple decisions in a game. At every decision point he chooses between possible actions. These decision can depend on every information that the player knows at this stage of the game. Which action a player takes in which situation can be formulated in a strategy. A possible strategy could be: If the opposing player takes action $L$, I will take action $R$, else i will take action $L$.
+\begin{definition}
+Player $i$'s strategy $s_i$ is a rule that tells him which action to choose at each instant of the game, given his information set. {\normalfont \cite{rasmusen_games_nodate}}.
+\end{definition}
+We call the set of every strategy for a player his strategy set. A strategy profile is an ordered set consisting of one strategy for each of the n players in the game.
+- best response
+-dominated and dominant strategies here
+\subsection{Nash Equilibrium}
+tell something about nash\newline
+what about pareto/strictly dominated strategies equilibrium?
+\begin{definition}[Nash Equilibrium]
+A strategy profile $s^*$ is a Nash equilibrium if no player has incentive to deviate from his strategy given that the other players do not deviate. {\normalfont \cite{rasmusen_games_nodate}} Formally: \[\forall i: \forall s_i': u(s^*_i,s^*_{-i}) \geq u(s'_i,s^*_{-i})\].
+\end{definition}
+strict/weak nash
 \subsection{Turn-based games}
 \begin{definition}[turn-based games]
 \label{def:turn-based-game}
 A game is turn-based if only one party can play at a time and its move is revealed
 to all other parties before the next move.
 \end{definition}
-To analyse turn-based games we will use game trees.\newline
+To analyse turn-based games we will use game trees. The nodes of the tree represent decision points and the edges of the tree possible actions. The leafs of the tree are the payout values for the players. In this example Alice and Bob have one decision each. Alice will play first. She has the possible actions $L$ and $R$. Then Bob will make his decision choosing between the actions $L$ and $R$. \newline
 
 \orfnote{Game trees and
 examples should be introduced in the preliminaries. Mention that, in our work, a
@@ -162,41 +190,32 @@ The Nash Equilibrium of this game is \{$R$,$R$\} and the payout is $3_A | 3_B$.
 A game is simultaneous, if at least two parties play at a time. 
 \end{definition}
 
-To analyse simultaneous games we will use a table.
-\orfnote{My favorite table format mentions the two parties' names at the
-top-left cell with a diagonal, as in the link:
-\url{https://www.jasss.org/12/4/7/Ohdaira-Table-01.jpg}. Each party has a color
-(e.g.\ $S$ blue, $B$ red). The actions can be full words; in the example use "be
-honest"/"lie" for one player and "report"/"hide" for the other, highlighting
-that the players need not be symmetric. The payouts are specific numbers,
-each colored with the respective player's color.}
-\begin{center}
-\begin{tabular}{ c||c|c| }
-\diagbox{\color{red}Alice}{\color{blue}Bob}& \emph{be honest} & \emph{lie}  \\
-\hline
-\hline
-\emph{report} & {\color{red}$1$} $|$ {\color{blue}$6$} & {\color{red}$5$} $|$ {\color{blue}$5$} \\
-\hline
-\emph{hide} & {\color{red}$4$} $|$ {\color{blue}$2$} & {\color{red}$3$} $|$ {\color{blue}$3$} \\
-\hline
-\label{tab:example-table}
-\end{tabular}
-\end{center}
-\captionof{table}{Example table}
+To analyse simultaneous games we will use a table. The two players are again Alice and Bob. On the top of the table we see the possible strategies of Bob: \emph{be honest} and \emph{lie}. On the left side are the possible strategies for Alice: \emph{report} and \emph{hide}. For each combination of strategies the two parties get a specific payout. For example if Bob chooses strategy \emph{lie} and Alice chooses strategy hide, Bob gets a payout of 8 and Alice gets a payout of 2.
 
-\minisec{Description}On the top are the possible strategies for the buyer: \emph{Pay} is the strategy where the buyer behaves honestly and \emph{Withhold} is the strategy where the Buyer behaves dishonestly.\newline
-On the left side are the strategies for the seller. Similar to the buyer, \emph{Send} denotes the strategy where the seller behaves honestly and \emph{Keep} denotes the strategy where the seller behaves dishonestly.\newline
+\begin{table}[htb!]
+    \centering
+    \begin{tabular}{ |c||c|c| }
+    \hline
+    \diagbox{\color{red}Alice}{\color{blue}Bob}& \emph{be honest} & \emph{lie}  \\
+    \hline
+    \hline
+    \emph{report} & {\color{red}$2$} $|$ {\color{blue}$5$} & {\color{red}$5$} $|$ {\color{blue}$-3$} \\
+    \hline
+    \emph{hide} & {\color{red}$2$} $|$ {\color{blue}$3$} & {\color{red}$2$} $|$ {\color{blue}$8$} \\
+    \hline
+    \end{tabular}
+    \caption{Example Table}
+    \label{tab:example-table}
+\end{table}
 
-For each combination of strategies the two parties get a specific payout. $P_S$ denotes the payout of the seller and $P_B$ denotes the payout of the buyer.
-\orfnote{Once again, in the examples (which will move to the Preliminaries)
-don't mention Seller/Buyer. Also I believe it will be confusing to mention
-honesty/dishonesty in the rationality-based games. In general for our games,
-prefer to use more specific terms for the actions and not use cryptographic
-(honest/dishonest) terms. More discussion below.}
+If we now look at the table we can see which combinations of strategy benefits which player. There is a Nash Equilibrium at \{\emph{be honest}, \emph{report}\}, because no player can improve their payout by changing strategy. If bob changes his his strategy to \emph{lie}, his payout will decrease to $-3$. If a Alice changes her strategy to \emph{hide}, she will get the exact same payout of 2. Because Alice's payout does not decrease, this Nash Equilibrium is a weak Nash Equilibrium.
 
-\section{Blockchains}
-\section{Smart Contracts}
-\section{Escrows}
+\section{Cryptographic primitives}
+\subsection{Cryptographic Commitments}
+\section{Cryptocurrencies}
+\subsection{Blockchain}
+talk mostly about its properties
+\subsection{Smart Contracts}
 
 \chapter{Related work}
 \section{first escrowless protocol}
@@ -249,7 +268,9 @@ good, only the money}
 \orfnote{This definition is not detailed enough. You may introduce the exact
 SC code here (discussing collateral/handling of $P$ in case of
 disagreement as well), or at least refer to it TODO: rethink code location}
-\minisec{Escrow/Smart Contract} An entity that should ensure that the trade is successful. It acts as a fully trusted oracle.
+\begin{definition}[Escrow/Smart Contract]
+An entity SC that should ensure that the trade is successful. It acts as a fully trusted oracle.
+\end{definition}
 
 \section{The Game}
 \label{sec:the-game}
@@ -367,7 +388,7 @@ For the protocols proposed in section~\ref{sec:first-try-nocol} we analyse two s
 
 To analyze the game, we use the method "iterated elimination of strictly dominated strategies"\niknote{refer to preliminaries/source}. We start at the bottom at the seller's decision.
 \begin{itemize}
-    \item The Seller chooses \emph{Keep} (Because $P > P - U_S(G)$).
+    \item The Seller chooses \emph{Keep} (Because $P > P - U_S(G)$).\niknote{Do you like this format with itemize? I want the decisions to visually stand out}
 \end{itemize}
     We then go one step towards the root and look at the Buyer's decision. He already knows that if he chooses \emph{Pay}, the rational Seller will choose \emph{Keep}. This would leave the Buyer with a payout of $-P$. If the Buyer chooses \emph{Withhold}, his payout is $0$.
 \begin{itemize}
@@ -605,11 +626,10 @@ There are still the same strategies as in section~\ref{sec:possible-strategies-s
 \subsection{Game: The Seller reports first}
 As the Buyer reports last, this protocol still gives the Buyer the power of
 burning the collateral of the Seller by reporting exactly the opposite from the
-Seller's report.\newline
-Therefore he can still coerce the Seller into sending him back his payment. This
-strategy will be denoted as $C_B$. As we already have shown in section~\ref{sec:seller-col}, a rational
+Seller's report.
+Therefore he can still coerce the Seller into sending him back his payment. As we already have shown in section~\ref{sec:seller-col}, a rational
 seller will always comply and send back the payment $P$. This last decision from the Seller (leaf 3, 6, 9, 12) will be
-omitted from the tree for better readabilit).\newline
+omitted from the tree for better readability).\newline
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{$B$}
         child[sibling distance = 8cm]{node[draw]{$S$}
