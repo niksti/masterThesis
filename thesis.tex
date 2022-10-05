@@ -106,22 +106,52 @@ primitives , events , complexity , oracles , asymptotics , keys
 	\mainmatter
 	
 	\chapter{Introduction}
-	\niknote{text just copied from first email}
-The remote and anonymous nature of blockchains greatly complicates the sale of physical goods over a blockchain: Since the item is physical and therefore unknown to the blockchain, one cannot build a smart contract that atomically exchanges it for its price. Worse, the anonymity of both the seller and the buyer make it virtually impossible to build a robust recovery mechanism if one party pays/sends honestly first but the other misbehaves afterwards.
+	\niknote{Say in a trade without trust: who sends first? which is a big part of the dilemma.}
+The remote and anonymous nature of blockchains greatly complicates the sale of physical goods over a blockchain: Since the item is physical and therefore unknown to the blockchain, one cannot build a smart contract that atomically exchanges it for its price. In addition to that, the anonymity of both the seller and the buyer make it virtually impossible to build a robust recovery mechanism if one party pays/sends honestly first but the other misbehaves afterwards.
+The most common solution is to add a trusted third party which obtains both the coins and the good before sending them to their recipients. As third parties can misbehave and there are scenarios where no trusted third party is available, a protocol that is not relying on a trusted third party is beneficial.\newline
 
-The most common solution is to add a trusted third party (a.k.a. escrow), which obtains both the coins and the good before sending them to their recipients. Can we do better?
+The goal of this thesis is to examine whether such a protocol can exist. For that, we first have to formalize the problem. We have to define the requirements for such a protocol, what properties such a protocol has to meet in order to realize a trustless and incoercible sale. We take a game-theoretic approach to model the behaviour of the different parties: Each party is modeled rational, meaning that each party is trying to maximize its own utility/payoff/profit? We want to find a protocol where it is profitable for each party to not deviate from this protocol. If such a protocol is found, as it is in the best interest of the parties to follow the protocol, it solves the problem of a sale without trust. The seller can expect the Buyer to pay not because of trust, but because it is the most profitable option for the buyer himself. We propose various candidates and analyse if these proposed protocols do indeed meet the criteria to be such a protocol. \newline
 
-The goal of this project is to answer this question positively. We propose a scheme in which the parties lock on-chain some collateral which will only be released if they agree on-chain on the success or failure of the sale, otherwise burnt. To avoid coercion, after sending the payment the buyer ignores messages from the seller, on receipt of the item asks a trusted (only by the buyer) party to verify whether the item is the expected good or not and reports the answer to the blockchain. If, before paying, the buyer can credibly threaten the seller that she will stick to this strategy after paying, then it is, we believe, provable that coercion is impossible. A number of ideas to achieve such a credible threat while minimizing the needed trust exist	\section{contributions?}
-	\section{methodology?}
+%\niknote{the text from the mail}
+%The goal of this project is to answer this question positively. We propose a scheme in which the parties lock on-chain some collateral which will only be released if they agree on-chain on the success or failure of the sale, otherwise burnt. To avoid coercion, after sending the payment the buyer ignores messages from the seller, on receipt of the item asks a trusted (only by the buyer) party to verify whether the item is the expected good or not and reports the answer to the blockchain. If, before paying, the buyer can credibly threaten the seller that she will stick to this strategy after paying, then it is, we believe, provable that coercion is impossible. A number of ideas to achieve such a credible threat while minimizing the needed trust exist
+
+	\section{Motivation}
+	%why is it worth to write my master thesis about this topic?
+	%Whats the big picture? How is this master thesis contributing to this big picture?
+	
+	%\subsection{why}
+	%why physical good? what is the difference to digital goods? Why we are looking at selling\newline
+	%
+	In the last years there has been a big rise of the digital world and cryptocurrencies. As they gain acceptance, they become a valid payment option for sales of digital and physical goods. Current solutions work with a trusted third party, an escrow, that collects the payment and the good and then forward them to their recipients. In order for this solution to work, both parties have to trust the third party. There exist situations where there is no trusted third party and these solutions are not viable. Worse, if the two parties trust a third party that is not trustworthy, there is a possibility that they lose all the money that is involved in this trade. \niknote{maybe mention the big amount of scams in the ctypto world} Therefore there is a demand for trustless solutions which solve the problem without needing a trusted third party. \newline
+	
+	While a trustless sale of digital goods over the blockchain is possible and there are existing solutions \cite{asgaonkar_solving_2019}, the sale of physical goods are much more complicated as the good and its delivery are unknown to the blockchain. Finding a protocol that enables a trustless and incoercible sale of physical goods over a blockchain would make cryotocurrencies more useful as a currency and allow potential sellers to sell physical goods directy to their clients without any risk involved.\newline 
+	
+	%a sale Many economic processes are based on trust. .. because of the rise of the digital world and the irregulated nature of cryptocurrencies, economic parties often can not trust the other parties: A Buyer does not trust a unknown Seller without any reputation and vice-versa (look at the many scams in the crypto market) . That is the reason why there is a need for protocols that work with a minimal amount of trust.
+	%\subsection{what}
+	%to find a protocol that enables a sale of a physical good over a blockchain: The payment of the price occurs over a blockchain. This sale has to be trustless (no trusted third party) and incoercible (One party can not coerce the other party into doing something they do not want)
+	
+	%What we need: Blockchain, Smart Contract
+	%We look at the problem with 2 players: One Seller one Buyer
+	%emphasise that normally this is done with a trusted third party, but we want to find a protocol with NO trusted third party.
+	%\subsection{how}
+	%same problem, different solution proposals easiest solution, then more complex per iteration until we find solution that works as simple as possible, as complex as necessary say	collateral? that we did one side collateral then both side collateral (and did the protocols that make the most sense). and each with 3 versions: first sellere, first buyer, both simultaneous)
+   %% we assumed, if it is possible, a possible protocol would be found by us in this step.
+    %First search the most probable solutions, after finding out that they do not work, try to proof that it is impossible with this set of assumptions, therefore ease up the assumptions and propose new solution.
+	\section{Methodology}
+	We take an iterative approach to find a solution to our problem. We first propose the simplest possible solution and analyse if it indeed solves our problem. If yes, we are finished. If no, we add a layer of complexity and propose a new solution. This cycle will be continued until we find a solution or we think we exhausted the most probable solutions and there is no solution to the proposed problem. If this is the case we try and proof that there is no solution to the proposed problem.
+	%With this approach we try to find a solution as simple as possible but as complex as necessary.
+	\section{Structure of this thesis}
+	In chapter 2 preliminaries, 3 related work...
 \section{Related work?}
 \chapter{Preliminaries}
 \section{Game Theory}
 \niknote{first generaly describe the field}
 Game theory studies the interaction between self-interested players \cite{leyton-brown_essentials_2008}. It uses models to analyse games.
 \niknote{a little bit of history}
-It is considered that the field began in 1944 with the publication of von Nemann \& Morgenstern's "The Theory of Games and Economic Behaviour" \cite{rasmusen_games_nodate,vonNeumannTheory} Then Nash... history   What is a game?? Each player wants to \cite{leyton-brown_essentials_2008-1} As discribed in \cite{kiayias_escrow_2017}, audbfoi
+It is considered that the field began in 1944 with the publication of von Nemann \& Morgenstern's "The Theory of Games and Economic Behaviour" \cite{rasmusen_games_nodate,vonNeumannTheory} Then Nash... history   What is a game?? Each player wants to \cite{leyton-brown_essentials_2008-1} 
+%As discribed in \cite{kiayias_escrow_2017}, 
 \subsection{Games}
-A game consists of players who are taking actions in order to maximize their own payoff. An action $a$ is a choice that a player can make. Each possible action for a given decision is contained in an action set. Which choice the player makes is influencing how big his payoff will be. The payoff (or utility) is a numerical value and each player gets his own payoff.
+A game consists of players who are taking actions in order to maximize their own payoff. An action is a choice that a player can make. Each possible action for a given decision is contained in an action set. Which choice the player makes is influencing how big his payoff will be. The payoff (or utility) is a numerical value and each player gets his own payoff.
 \begin{definition}[Game]
 A game is a tuple ($N$,$A$,$u$), where:
 \begin{itemize}
@@ -304,11 +334,11 @@ good, only the money}
 \orfnote{This definition is not detailed enough. You may introduce the exact
 SC code here (discussing collateral/handling of $P$ in case of
 disagreement as well), or at least refer to it TODO: rethink code location}
-\begin{definition}[Escrow/Smart Contract]
+\begin{definition}[Smart Contract]
 An entity SC that should ensure that the trade is successful. It acts as a fully trusted oracle.
 \end{definition}
 
-\section{The Game}
+\section{The Game} \niknote{is this the right headline??}
 \label{sec:the-game}
 \begin{definition}[Initial State]
 \label{def:initial-state}
@@ -1416,6 +1446,7 @@ An Entity $M$ that has the purpose to protect the Buyer from an misbehaving Sell
 The new Entity is not modeled as a rational party. It always behaves in the described way. It has its own physical address and the power to receive physical items. Given the right specifications of $G$, the Mediator can distinguish $G$ from every other  physical item. The Mediator also has the power to communicate with the Smart Contract and the Buyer. It is trusted by the Buyer to evaluate if the good sent by the Seller is indeed $G$.
 //TODO Maybe expand on that: What about trust
 \section{Mediated protocol}
+\label{sec:mediated-protocol}
 We propose the following protocol:
 \begin{figure}[htb!]
 \fbox{
@@ -1719,9 +1750,27 @@ object recognition. Find references}
 How is the reporting entity different than an escrow?
 -only buyer has to trust?
 -Maybe even model rational: misbehaving is doing more damage to the company/manufacturer than behaving exactly as described -> then no trust is necessary -> but then we can us it as a clean middleman that reports to the SC
-\chapter{Open Research/ Questions}
+%\chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
+%what?(short form) \newline
+\niknote{still need to add references}\newline
+Cryptocurrencies gain acceptance as a valid payment method for digital and physical goods. There is a need for a protocol that handles these sales with a cryptocurrency as payment method. Current solutions use a trusted third party. As there are situations where no trusted third party is available and the third party can misbehave, protocols without the need of that trust are advantageous. The goal of this thesis was to find such a protocol that enables a trustless and incoercible sale of physical goods over a blockchain.\newline
+
+ First, we formalized the problem. After that we proposed two-party protocols and analyzed if these protocols are viable solutions to the formalized problem. First we examined protocols without collateral. Then we looked at protocols where only one party deposits collateral. After showing that these approaches do not solve the proposed problem, we looked at protocols where both parties deposit collateral. As all of these candidates did not solve the proposed problem, we tried to prove that such a two-party protocol is impossible. \niknote{Here write something about the proof} After showing that indeed such a two-party protocol is impossible, we lowered the requirements for the protocol by allowing a Mediator which is trusted by the Buyer. We showed that with this mediator there exists a protocol that enables a trustless and incoercible sale of physical goods. We proposed such a protocol with an idealised Mediator in section \ref{sec:mediated-protocol}. At the end of the thesis, we looked at possible practical realizations that can take the role of the Mediator. We proposed two possible solutions (Postal Office reports, Machine reports).
+
+%How?\newline
+%Looked first at no collateral, then.... then... (like intro), but no results\newline
+%Then tried to proof that this problem is not solvable unter the first assumptions.\newline
+%Then tried to change the problem. (loose up the restrictions) We allowed another entity, M to be apart of the protocol... we showed that with a mediator behaving like ref (ideal mediator) the problem has a solution. We proposed a protocol that solves this problem (ref). We then searched for possible practical realizations of a Mediater and proposed 2 working solutions (PO, Machine) They 
+
+%what are the results of this thesis?
+
+\section{Outlook}
+maybe find a formal way to distinguish working protocols from not working ones, given the new assumptions where we allow a Mediator? probably dependend on the behaviour of the Mediator. why is it working? Is there an easier protocoll that still solves the problem?\newline
+
+Engeneer the (ML) machine, as in section... that can classify a physical good correctly with high probability. 
+Object detection with 3d model. maybe loook at face ID?
 
 \chapter{Appendix}
 
