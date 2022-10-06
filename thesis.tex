@@ -1209,6 +1209,7 @@ function assign_coins_ideal(
   return (sellerCoins, buyerCoins)
 }
 \end{lstlisting}
+\label{fig:code_ideal_sc}
     \caption{General Code for the ideal functionality}
 \end{figure}
 The irrational case (line 7) should never appear in the real world. At least one player is lying and thereby risking his collateral. Either the Seller did send $G$ but reports that he did not, or B did not receive $G$ but reports that he did. Both behaviours are irrational as the lie would harm the lying party. The irrational case can be implemented without looking at the ground truth. The same can be said about the honest case, as there is no dispute to settle.\newline
@@ -1339,8 +1340,7 @@ The Nash Equilibrium is at \{\emph{Send}, 1, 1\} and the trade would unravel suc
 Such a smart contract solves the problem completely as the Nash Equilibrium lies in both parties behaving honestly.
 %TODO It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
 \subsection{Real World Functionality}
-\niknote{I was working on that while we talked, so NOT finished}
-In the real world, the Smart Contract does not know the ground truth. Therefore the signature of a function realizable in the real world is:
+In the real world, the Smart Contract does not know the ground truth. Therefore the signature of a function realizable in the real world is:\newline
 \begin{figure}[htb!]
 \begin{lstlisting}[language=java]
 function assign_coins_real(
@@ -1352,22 +1352,53 @@ function assign_coins_real(
     \caption{Signature of a function realizable in the real world}
     \label{fig:real_world_function_signature}
 \end{figure}
-This poses the following problem: The ground truth is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract.\newline
 
-\paragraph{Theorem:}There is no function $assign\_coins\_real' :: (5 inputs) -> (2 outputs)$, such that
-for all $\forall bc, sc, p\in \mathbb{N}, \forall ss,bs,sh \in \{0,1\}$,\newline
+This poses the following problem: The ground truth is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract. In the following section we will show that no real world function(a function that does not have the ground truth as input) can achieve the ideal functionality.\newline
 
-$assign\_coins\_real$(buyercol $=bc$ sellercol $=sc$, price $=p$, sellersent $=ss$, buyerRecv $=bs$) $= assign\_coins\_ideal$(buyercol=$bc$ sellercol=sc, price=p, sellersent=ss, buyerRecv=bs ,shipped=s))\newline
+Notation: $C_S$: Seller collateral, $C_B$: Buyer collateral, $P$ price, $R_S$ boolean value reported by the Seller, $R_B$: boolean value reported by the Buyer, $S$: ground truth if good was shipped
 
-with $=$ we mean that assign\_coins' returns a value that is in the ranges defined by the ideal functionality.
-\paragraph{Proof:}\label{sec:proof} We look at the case where $sellercol=5,Buyercol=5,price=4,sellersent=1buyerRecv=0,shipped=1$.
-By definition of the ideal functionality (c.f. figure~\ref{fig:payout-ideal-sc}), its payoff to the Buyer has to be:
+\paragraph{Theorem:}There is no function $assign\_coins\_real: (C_B, C_S, P, S_B, B_S) \to (O_S, O_B)$ \niknote{maybe $\mathbb{N}\times \mathbb{N}\times \mathbb{N}\times \{0,1\}\times \{0,1\}\times \{0,1\} \to \mathbb{R}\times \mathbb{R}$ is formally more correct, but more difficult for the reader as they do not see what the inputs correspond to}, such that
+ $\forall C_B, C_S, P\in \mathbb{N}, \forall R_B,R_S,S \in \{0,1\}$:
 \begin{equation}
-    assign_coins_ideal
+\label{eq:theorem}
+    assign\_coins\_real(C_B, C_S, P, S_B, B_S) = assign\_coins\_ideal(C_B, C_S, P, S_B, B_S,S)
 \end{equation}
 
-For example, it is impossible to differentiate between a lying seller that did not send the good $G$ but says he did, and a lying Buyer that received the good but says he did not. 
-Without the sixth input, it is impossible to design a Smart Contract that achieves the ideal functionality described in section 5.4.1.
+whereas "$=$" denotes that the output of $assign\_coins\_real$ is in the range defined by the ideal functionality.\newline
+\paragraph{Proof:}\label{sec:proof} 
+We provide a proof by contradiction: Let us assume for the sake of contradiction that the Theorem is wrong. That means there exists a \niknote{deterministic?} function $assign\_coins\_real : (C_B, C_S, P, S_B, B_S) \to (O_S, O_B)$, such that $\forall C_B, C_S, P\in \mathbb{N}, \forall R_B,R_S,S \in \{0,1\}$ equation \ref{eq:theorem} holds.\newline
+
+We provide the following set of inputs: $C_B=5,C_S=5,P=4,R_S=1,R_B=0,S=1$.
+\niknote{I can also put the generic terms $C_S, C_B...$ here instead of concrete numbers}By definition of the ideal functionality (c.f. figure~\ref{fig:code_ideal_sc}), its payoff to the Seller(the first value of the output tuple) has to be:
+\begin{equation}
+\label{eq:ideal_1}
+     assign\_coins\_ideal(C_S=5,C_B=5,P=4,R_S=1,R_B=0,S=1)[1] \geq  5 + 4 = 9
+\end{equation}
+
+From equation \ref{eq:theorem} and equation \ref{eq:ideal_1} we get:
+\begin{equation}
+\label{eq:real_1}
+     assign\_coins\_real(C_S=5,C_B=5,P=4,R_S=1,R_B=0)[1] \geq 9
+\end{equation}
+
+We now change the last sixth input from 1 to 0: $C_B=5,C_S=5,P=4,R_S=1,R_B=0,S=0$. The payoff from the ideal function(c.f. figure~\ref{fig:code_ideal_sc}) to the Seller has to be:
+\begin{equation}
+\label{eq:ideal_2}
+    assign\_coins\_ideal(C_S=5,C_B=5,P=4,R_S=1,R_B=0,S=0)[1] \leq  4
+\end{equation}
+
+From equation \ref{eq:theorem} and equation \ref{eq:ideal_2} we get:
+\begin{equation}
+\label{eq:real_2}
+    assign\_coins\_real(C_S=5,C_B=5,P=4,R_S=1,R_B=0)[1] \leq  4
+\end{equation}
+
+As \emph{assign\_coins\_real} is a deterministic function, equation~\ref{eq:real_1} and equation~\ref{eq:real_2} contradict each other. That means that our assumption was wrong and there can not exist such function \emph{assign\_coins\_real}.
+
+
+%Notation:$sellercol$ is $C_S$...
+%%For example, it is impossible to differentiate between a lying seller that did not send the good $G$ but says he did, and a lying Buyer that received the good but says he did not. 
+%Without the sixth input, it is impossible to design a Smart Contract that achieves the ideal functionality described in section 5.4.1.
 \orfnote{do not hardcode section numbers, use labels/references instead}
 \orfnote{I would really like to present this argument in a theorem-proof format}
 
@@ -1728,12 +1759,9 @@ The inputs it takes are:
     \item The physical good $G$
 \end{itemize}
 
-The Mediator now is a deterministic machine in contrast to a third Entity. This
-has the advantage that both the Buyer and the Seller know that the Machine will
-behave exactly as it is programmed to do. There is no need of trust anymore.
-\orfnote{mention that the machine can presumably use image recognition, be cheap
-and open source, therefore both parties can verify its code and the seller can
-easily believe that the buyer can have such a machine, thus eliminating trust}\newline
+The Mediator now is a deterministic machine in contrast to a third Entity. This has the advantage that both the Buyer and the Seller know that the Machine will behave exactly as it is programmed to do. It can presumably can use some kind of image recognition or 3D object recognition. \niknote{find references}. This machine has to be cheap
+and open source, therefore both parties can verify its code and the Seller can
+easily believe that the Buyer can have such a machine, thus eliminating trust.
 
 \subsubsection{Behaviour of the Machine}
 \begin{enumerate}
@@ -1771,9 +1799,13 @@ In addition to that, no trust is needed as the Mediator is not able to behave di
 \subsubsection{Realizability of the machine} 
 The biggest challenge for the machine is to determine if the provided good actually matches the specifications.\newline
 We believe that a machine which behaves exactly as we described is could be
-realised using artificial intelligence. \orfnote{expand a bit. Mention image/3d
+realised using artificial intelligence. 
+\niknote{maybe merge this paragraph with the one directly above Behaviour of the Machine}\orfnote{expand a bit. Mention image/3d
 object recognition. Find references}
+
+
 \section{Difference from trusted third party/ Escrow}
+\niknote{not yet implemented}
 How is the reporting entity different than an escrow?
 -only buyer has to trust?
 -Maybe even model rational: misbehaving is doing more damage to the company/manufacturer than behaving exactly as described -> then no trust is necessary -> but then we can us it as a clean middleman that reports to the SC
