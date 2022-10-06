@@ -142,7 +142,15 @@ The goal of this thesis is to examine whether such a protocol can exist. For tha
 	%With this approach we try to find a solution as simple as possible but as complex as necessary.
 	\section{Structure of this thesis}
 	In chapter 2 preliminaries, 3 related work...
-\section{Related work?}
+\section{Related work}
+\minisec{\citetitle{asgaonkar_solving_2019}\cite{asgaonkar_solving_2019}}
+In this paper \citeauthor{asgaonkar_solving_2019} proposed a protocol that allows the sale of a digital good without a trusted third party. Their solution involves a Smart Contract that collects a deposit from both the selling and the buying party. If then one party misbehaves, the Smart Contract slashes the deposit of the lying party.  This solution assumes the good to be digitally verifiable. Therefore if one party is not honest, the opposing honest party can report this misbehaviour to the Smart Contract and proof that the other party indeed did misbehave. The authors also provide a game-theoretic analysis of their protocol and confirm that honest behaviour is the only Nash equilibrium.
+
+\minisec{\citetitle{zimbeck_two_nodate}\cite{zimbeck_two_nodate}}
+In this work \citeauthor{zimbeck_two_nodate} proposes a protocol based on bitcoin scripts that should allow the trade between two perfect strangers even if the parties themselves can not be trusted. His approach has no need for a trusted third party. \citeauthor{zimbeck_two_nodate} also implemented his protocol in an open source program called BitHalo. His approach was formally and game-theoretically analysed in the paper \cite{bodei_validation_2015}
+
+\minisec{\citetitle{kiayias_escrow_2017}\cite{kiayias_escrow_2017}}
+In this paper \citeauthor{kiayias_escrow_2017} look at the problem of buying physical goods using cryptocurrencies with a third party acting as an escrow. They formalized the escrow problem for physical goods and introduce multiple schemes with different properties. 
 \chapter{Preliminaries}
 \section{Game Theory}
 \niknote{first generaly describe the field}
@@ -283,13 +291,6 @@ Digital Signatures:\cite{Katz2020-aj}
 talk mostly about its properties
 \subsection{Smart Contracts}
 
-\chapter{Related work}
-\section{first escrowless protocol}
-Zimbeck mit Bithalo
-auch die analyse erwähnen
-\section{digital vs Physical}
-Hier unbedingt Asganokar sein paper erwähnen (sale of digital goods)
-
 \chapter{Formalization}
 % Example usage of definition START
 %begin{definition}[Darmstadt]
@@ -334,6 +335,7 @@ good, only the money}
 \orfnote{This definition is not detailed enough. You may introduce the exact
 SC code here (discussing collateral/handling of $P$ in case of
 disagreement as well), or at least refer to it TODO: rethink code location}
+\niknote{I am a little unsure, how I want to define SC}
 \begin{definition}[Smart Contract]
 An entity SC that should ensure that the trade is successful. It acts as a fully trusted oracle.
 \end{definition}
@@ -386,6 +388,7 @@ Another goal is that the trade is incoercible against rational attacks. That mea
 
 \orfnote{The "Success of the trade" seems a bit too mixed with the "goal". Try
 to express it in a clear way, maybe even merging the two concepts.}
+\niknote{now okay? I set success of the trade as a pure definition. Goal is in text form and describes a little more}
 
 %\subsection{Implementation}
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
@@ -1187,7 +1190,7 @@ information whether the good was actually shipped as an input. This ideal functi
 \begin{figure}[htbp!]
     \centering
 \begin{lstlisting}[language=java]
-function assign_coins(
+function assign_coins_ideal(
   buyerCol: natural, sellerCol: natural, price: natural,
   sellerSent: bool /* self reported */, buyerRecv: bool /* self reported */, 
   shipped: bool /* ground truth */
@@ -1197,11 +1200,11 @@ function assign_coins(
 
   // both claim they went through and the other player failed
   if shipped {
-    sellerCoins: int >= price + sellerCol // honest seller
-    buyerCoins: int < price + buyerCol - U_B(G) //lying Buyer
+    sellerCoins: int >= price + sellerCol // honest Seller
+    buyerCoins: int < price + buyerCol - U_B(G) // lying Buyer
   } else {
-    sellerCoins: int < sellerCol // lying seller
-    buyerCoins: int > price + buyerCol // honest buyer
+    sellerCoins: int < sellerCol // lying Seller
+    buyerCoins: int > price + buyerCol // honest Buyer
   }
   return (sellerCoins, buyerCoins)
 }
@@ -1247,22 +1250,22 @@ function assign_coins(
 ) -> (int /* seller coins */, int /* buyer coins */) {
   if sellerSent == buyerRecv { 
     sellerCoins = sellerCol // give back the collateral
-    buyerCoins = buyerCol //give back the collateral
+    buyerCoins = buyerCol // give back the collateral
     if shipped{sellerCoins += price} // G was shipped, Seller gets price
     else {buyerCoins += price}// G was not shipped, Buyer gets price
     }
   if (not sellerSent) and buyerRecv { 
-    sellerCoins = 0 //irrational case, give both parties no coins
+    sellerCoins = 0 // irrational case, give both parties no coins
     buyerCoins = 0
   }
 
   // both claim they went through and the other player failed
   if shipped {
-    sellerCoins = price + sellerCol + buyerCol // honest seller
-    buyerCoins =  0 //lying Buyer
+    sellerCoins = price + sellerCol + buyerCol // honest Seller
+    buyerCoins =  0 // lying Buyer
   } else {
-    sellerCoins = 0 // lying seller
-    buyerCoins = price + sellerCol + buyerCol // honest buyer
+    sellerCoins = 0 // lying Seller
+    buyerCoins = price + sellerCol + buyerCol // honest Buyer
   }
   return (sellerCoins, buyerCoins)
 }
@@ -1336,8 +1339,32 @@ The Nash Equilibrium is at \{\emph{Send}, 1, 1\} and the trade would unravel suc
 Such a smart contract solves the problem completely as the Nash Equilibrium lies in both parties behaving honestly.
 %TODO It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
 \subsection{Real World Functionality}
-In the real world, the smart contract does not know the ground truth.
+\niknote{I was working on that while we talked, so NOT finished}
+In the real world, the Smart Contract does not know the ground truth. Therefore the signature of a function realizable in the real world is:
+\begin{figure}[htb!]
+\begin{lstlisting}[language=java]
+function assign_coins_real(
+  buyerCol: natural, sellerCol: natural, price: natural,
+  sellerSent: bool, buyerRecv: bool
+) -> (int /* seller coins */, int /* buyer coins */)
+\end{lstlisting}
+ \centering
+    \caption{Signature of a function realizable in the real world}
+    \label{fig:real_world_function_signature}
+\end{figure}
 This poses the following problem: The ground truth is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract.\newline
+
+\paragraph{Theorem:}There is no function $assign\_coins\_real' :: (5 inputs) -> (2 outputs)$, such that
+for all $\forall bc, sc, p\in \mathbb{N}, \forall ss,bs,sh \in \{0,1\}$,\newline
+
+$assign\_coins\_real$(buyercol $=bc$ sellercol $=sc$, price $=p$, sellersent $=ss$, buyerRecv $=bs$) $= assign\_coins\_ideal$(buyercol=$bc$ sellercol=sc, price=p, sellersent=ss, buyerRecv=bs ,shipped=s))\newline
+
+with $=$ we mean that assign\_coins' returns a value that is in the ranges defined by the ideal functionality.
+\paragraph{Proof:}\label{sec:proof} We look at the case where $sellercol=5,Buyercol=5,price=4,sellersent=1buyerRecv=0,shipped=1$.
+By definition of the ideal functionality (c.f. figure~\ref{fig:payout-ideal-sc}), its payoff to the Buyer has to be:
+\begin{equation}
+    assign_coins_ideal
+\end{equation}
 
 For example, it is impossible to differentiate between a lying seller that did not send the good $G$ but says he did, and a lying Buyer that received the good but says he did not. 
 Without the sixth input, it is impossible to design a Smart Contract that achieves the ideal functionality described in section 5.4.1.
@@ -1772,99 +1799,6 @@ maybe find a formal way to distinguish working protocols from not working ones, 
 Engeneer the (ML) machine, as in section... that can classify a physical good correctly with high probability. 
 Object detection with 3d model. maybe loook at face ID?
 
-\chapter{Appendix}
-
-\section{Formal proof}
-\label{sec:formal-proof}
-In this section we provide a proof showing that (under our Assumptions) there can not exist  a successful game G as it is defined in 4.2.
-
-\minisec{Assumptions}
-\begin{enumerate}
-    \item if the other party behaves honestly or rationally, it will be the best strategy to behave honestly
-    \item $U_S(G)$ and $U_B(G)$ are constants $> 0$
-    \item All Payments go through the smart Contract
-    \item The players only interact with each other and the Smart Contract. There are no other entities involved.
-    \item The entities interact with the SC with transactions. The payoff from the SC does only depend on these transactions.
-    \item The Smart Contract handles the payoff after receiving all the transactions.
-    \item The seller can post $Tx\_honest_S$, even if he does not send $G$. There is no mechanism for the Buyer to prevent the seller from posting $Tx_honest_S$.
-
-\end{enumerate}
-
-\minisec{General payout function}
-
-We introduce a general payout functions $P_B$ and $P_S$, that take two strategies as input and output the overall payout that a player receives when playing this strategy.\newline
-A strategy is a set of decisions that define the behaviour of a player. %TODO: MAYBE PRELIMINARIES? LOOK AT THAT AGAIN
-%Questions: How to model strategy, since payout is also dependent on opponent, assume minmax?\newline
-
-
-\[P_S : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
-\[P_B : \{ \textit{set of Seller strategies}\} \times \{ \textit{set of Buyer strategies}\} \to \mathbb{R}\]
-%\[P_S : \{ \textit{set of strategies}\} \to \mathbb{R} \]
-The honest strategy for each player ($honest_S, honest_B$) is behaving according to the agreed protocol.
-\minisec{Transactions}
-DEFINE $T$ as the set of all possible Transaction SETS. TODO think about that again.\newline
-When both parties behave honestly both parties post numerous transactions to the Smart Contract. We call the set of transactions that an honest Seller posts $Tx\_honest_S$ and the transaction from an honest Buyer $Tx\_honest_B$.
-
-\minisec{payout from the SC}
-We introduce functions $SC_B$ and $SC_S$ that take as input all transactions to the Smart Contract and output the corresponding Payout from the Smart Contract:
-
-\[ SC_S : \{T\} \times \{T\} \to \mathbb{R} \]
-\[ SC_B : \{T\} \times \{T\} \to \mathbb{R} \]
-
-\minisec{Begin formal proof}
-Let us assume there exists a successful Game $G$ (as defined in 4.2). That means
-\begin{equation}
-    \forall s \in \{\textit{set of Seller strategies}\}: P_S(s, honest_B) \leq P_S(honest_S,honest_B)
-\end{equation}
-and
-\begin{equation}
-    \forall s \in \{\textit{set of Buyer strategies}\}: P_B(honest_S, s) \leq P_B(honest_S,honest_B)
-\end{equation}
-It is the best strategy to behave honestly if the other party behaves honestly as well.\newline
-
-
-%In addition the game should be incoercible, meaning that the other party has no dishonest strategy that decreases the payout from the first party:
-%I think this is a inreasonable assumption. How to model incoercible?
-%\begin{equation}
- %   \forall s \in \{\textit{set of Buyer strategies}\}: P_S(honest_S, s) \geq P_S(honest_S,honest_B)
-%\end{equation}
-%\begin{equation}
- %   \forall s \in \{\textit{set of Seller strategies}\}: P_B(s, honest_B) \geq P_B(honest_S,honest_B)
-%\end{equation}
-\minisec{Payout honest case}
-\begin{equation}
-    P_B(honest_S,honest_B) = SC_B(Tx\_honest_S, Tx\_honest_B) + U_B(G))
-\end{equation} 
-\begin{equation}
-    P_S(honest_S,honest_B) = SC_S(Tx\_honest_S, Tx\_honest_B) - U_S(G) 
-\end{equation}
-
-As $U_B(G)$ is a constant, from (8.2 and 8.3):
-\begin{equation}
-    \forall Tx_B \in \{T\}: SC_B(Tx\_honest_S, Tx_B) \leq SC_B(Tx\_honest_S, Tx\_honest_B)
-\end{equation}
-If the seller posts the transactions $Tx\_honest_S$, posting the transactions $Tx\_honest_B$ will give $B$ the biggest payout from the Smart Contract.
-\minisec{Payout dishonest seller}
-Strategy $dishonestSeller$: In this strategy the seller behaves according to the agreed protocol (and posts the exact same transactions to the Smart Contract as if he was honest), but does not send the physical good $G$ to the Buyer.\newline
-His payout is (dependent on the buyers strategy $S_B$ (and Transactions $Tx_B$)):
-\begin{equation}
-    P_S(dishonestSeller,S_B) = SC_S(Tx\_honest_S,Tx_B)
-\end{equation}
-As the dishonest seller does not send the item, his payout is exactly the amount of coins that he gets from the smart contract.\newline
-
-\minisec{It is profitable for the seller to behave malicious}
-We already showed, that if the seller posts the transactions $Tx\_honest_S$, posting $Tx\_honest_B$ yields the biggest payout for $B$ (8.5).\newline
-Therefore the rational $B$ will always post $Tx\_honest_B$ if the Seller posts $Tx\_honest_A$, even if the protocol requires a different behaviour. We call this strategy (posting $Tx\_honest_B$) $Post\_Tx\_honest_B$.\newline
-The general payout of a Seller using strategy $dishonestSeller$ is:
-
-\begin{equation}
-    P_S(dishonestSeller,Post\_Tx\_honest_B) = SC_S(Tx\_honest_S,Tx\_honest_B)
-\end{equation}
-
-As we assume $U_S(G) > 0$, this strategy yields a bigger payout than the honest strategy (8.4, 8.7):
-\[P_S(dishonestSeller,Post\_Tx\_honest_B) = P_S(honest_S,honest_B) + U_S(G)\]
-
-This contradicts our assumption that $G$ is a successful Game as defined in 4.2, as the honest strategy is no longer the best strategy for the Seller when the buyer is acting rational.
 
 \chapter{test}
 \subsection{without subprocedure}
