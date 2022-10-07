@@ -106,26 +106,27 @@ primitives , events , complexity , oracles , asymptotics , keys
 	\mainmatter
 	
 	\chapter{Introduction}
-	\niknote{Say in a trade without trust: who sends first? which is a big part of the dilemma.}
-The remote and anonymous nature of blockchains greatly complicates the sale of physical goods over a blockchain: Since the item is physical and therefore unknown to the blockchain, one cannot build a smart contract that atomically exchanges it for its price. In addition to that, the anonymity of both the seller and the buyer make it virtually impossible to build a robust recovery mechanism if one party pays/sends honestly first but the other misbehaves afterwards.
-The most common solution is to add a trusted third party which obtains both the coins and the good before sending them to their recipients. As third parties can misbehave and there are scenarios where no trusted third party is available, a protocol that is not relying on a trusted third party is beneficial.\newline
-
-The goal of this thesis is to examine whether such a protocol can exist. For that, we first have to formalize the problem. We have to define the requirements for such a protocol, what properties such a protocol has to meet in order to realize a trustless and incoercible sale. We take a game-theoretic approach to model the behaviour of the different parties: Each party is modeled rational, meaning that each party is trying to maximize its own utility/payoff/profit? We want to find a protocol where it is profitable for each party to not deviate from this protocol. If such a protocol is found, as it is in the best interest of the parties to follow the protocol, it solves the problem of a sale without trust. The seller can expect the Buyer to pay not because of trust, but because it is the most profitable option for the buyer himself. We propose various candidates and analyse if these proposed protocols do indeed meet the criteria to be such a protocol. \newline
+	Technological advancement is ongoing. In the last years there has been a big rise of the digital world.  Traditional processes in many aspects of human life have been brought from the real, physical world to the digital world \niknote{expand?While 100 years ago one had to write a letter that took several days to deliver, now text messengers allow instant communication all accross the globe}. One traditional aspect of life that is being digitized in particular the last years is money. While banks allow digital payments for quite some years now, until the recent time there was no digital counterpart to cash, which allows a client to spend money without the observation of banking institutions.\newline
+	
+	While there were approaches for digital cash like chaums ecash \niknote{ref}, none of the approaches prevailed and gained acceptance as a valid option to transfer value. That is until the Bitcoin whitepaper\cite{nakamoto_bitcoin_nodate} was released and created the wide field of cryptocurrencies. As the title "\citefield{nakamoto_bitcoin_nodate}{title}" suggests, Bitcoin aimed to be a decentralized implementation of digital cash. With such a system one should be able to make fast, direct and anonymous payments to any other person that is also using the system. Each of this payments, called \emph{transactions}, are written on the \emph{blockchain}, a distributed database that acts as a public ledger. After Bitcoin many other cryptocurrencies were introduced, most notably Ethereum\cite{buterin_ethereum_nodate}. Besides the transfer of value, Ethereum also aimed to run code in a distributed manner over the blockchain. These automated programs, called \emph{Smart Contracts}, can be used to automate the execution of an agreement between multiple parties.\newline
+	
+	As cryptocurrencies are gaining acceptance, they become a valid payment option for sales of digital and physical goods. The remote and anonymous nature of blockchains complicates these sales, because the trading parties can not trust each other. An adherent problem arises: If the Buyer pays first, he has to trust the Seller to actually deliver the good after receiving the payment. As the Buyer does not trust the Seller, this is no viable option for him. If the Seller delivers the good before he gets payed, he has to trust the Buyer that he will pay upon receiving the good. As the Seller also does not trust the Buyer, this is again not a viable solution. This problem of the two trading parties not trusting each other is commonly solved using a trusted third party, an escrow. This escrow first collects the payment and the good and then forward them to their recipients. While this solution is working, there are several reasons why a protocol without a trusted third party is of interest. There is always a risk that the third party misbehaves and keeps both the good and the price \niknote{reference exit scam}. In addition to that there are scenarios, where third party is trusted by both the Buyer and the Seller. In these scenarios the two parties can not trade, even if a trade would benefit both parties. 
+	If the traded good is digital, such a trustless protocol can be achieved by building a Smart Contract that atomically exchanges the digital good for its price \cite{asgaonkar_solving_2019}. As physical goods and their delivery are unknown to the blockchain, the trustless sale of physical goods over the blockchain is much more complicated. The first approaches to solve this problem (e.g.\cite{zimbeck_two_nodate}) introduced flawed protocols that allowed coercion. The Seller could coerce the Buyer into sending the payment without ever sending the physical good \cite{goharshady_irrationality_2021}. Because of this design flaw, such protocols are not applicable in practice. Until this day there is no protocol that enables an incoercible sale of physical goods over a blockchain without a trusted escrow. \niknote{I don't know if this sentence is frased right} Designing such a protocol would make cryotocurrencies more useful as a currency and allow potential Sellers to sell physical goods directy to their clients without any risk involved. \newline
+	
+	%In addition to that, the anonymity of both the seller and the buyer make it virtually impossible to build a robust recovery mechanism if one party pays/sends honestly first but the other misbehaves afterwards.
+The goal of this thesis is to examine whether such a trustless and incoercible protocol can exist. For that, we first have to formalize the problem at hand. The requirements for such a protocol have to be defined: What properties does the protocol has to have in order to realize a trustless and incoercible sale of a physical good? When the problem is formalized, we need a way to analyze possible solutions.
+We take a game-theoretic \cite{leyton-brown_essentials_2008} approach to model the behaviour of the different parties and evaluate the success of a protocol. Each party is modeled as rational, meaning that each party is trying to maximize its own utility. We want to find a protocol where it is profitable for each party to not deviate from this protocol: Each party maximizes its own utility by following the protocol. If such a protocol is found, as it is in the best interest of the parties to follow the protocol, it solves the problem of an incoercible sale without trust. The Seller can expect the Buyer to pay not because of trust, but because it is the most profitable option for the Buyer himself. We propose various candidates and analyse if these proposed protocols do indeed meet the criteria to be such a protocol. Looking forward, we do not find a two-party protocol that is a solution to the problem. As we will prove under reasonable assumptions \niknote{what about the proof of \cite{goharshady_irrationality_2021}??}, there is no two-party protocol possible that can implement a trustless and incoercible sale of a physical good over a blockchain. Still, we propose various solutions that introduce a third party that is not trusted by both parties and does not act like an escrow. We discuss to what degree there is a need of trust and the practicability of these solutions.  \newline
 
 %\niknote{the text from the mail}
 %The goal of this project is to answer this question positively. We propose a scheme in which the parties lock on-chain some collateral which will only be released if they agree on-chain on the success or failure of the sale, otherwise burnt. To avoid coercion, after sending the payment the buyer ignores messages from the seller, on receipt of the item asks a trusted (only by the buyer) party to verify whether the item is the expected good or not and reports the answer to the blockchain. If, before paying, the buyer can credibly threaten the seller that she will stick to this strategy after paying, then it is, we believe, provable that coercion is impossible. A number of ideas to achieve such a credible threat while minimizing the needed trust exist
 
-	\section{Motivation}
+	%\section{Motivation}
 	%why is it worth to write my master thesis about this topic?
 	%Whats the big picture? How is this master thesis contributing to this big picture?
 	
 	%\subsection{why}
 	%why physical good? what is the difference to digital goods? Why we are looking at selling\newline
 	%
-	In the last years there has been a big rise of the digital world and cryptocurrencies. As they gain acceptance, they become a valid payment option for sales of digital and physical goods. Current solutions work with a trusted third party, an escrow, that collects the payment and the good and then forward them to their recipients. In order for this solution to work, both parties have to trust the third party. There exist situations where there is no trusted third party and these solutions are not viable. Worse, if the two parties trust a third party that is not trustworthy, there is a possibility that they lose all the money that is involved in this trade. \niknote{maybe mention the big amount of scams in the ctypto world} Therefore there is a demand for trustless solutions which solve the problem without needing a trusted third party. \newline
-	
-	While a trustless sale of digital goods over the blockchain is possible and there are existing solutions \cite{asgaonkar_solving_2019}, the sale of physical goods are much more complicated as the good and its delivery are unknown to the blockchain. Finding a protocol that enables a trustless and incoercible sale of physical goods over a blockchain would make cryotocurrencies more useful as a currency and allow potential sellers to sell physical goods directy to their clients without any risk involved.\newline 
-	
 	%a sale Many economic processes are based on trust. .. because of the rise of the digital world and the irregulated nature of cryptocurrencies, economic parties often can not trust the other parties: A Buyer does not trust a unknown Seller without any reputation and vice-versa (look at the many scams in the crypto market) . That is the reason why there is a need for protocols that work with a minimal amount of trust.
 	%\subsection{what}
 	%to find a protocol that enables a sale of a physical good over a blockchain: The payment of the price occurs over a blockchain. This sale has to be trustless (no trusted third party) and incoercible (One party can not coerce the other party into doing something they do not want)
@@ -138,25 +139,30 @@ The goal of this thesis is to examine whether such a protocol can exist. For tha
    %% we assumed, if it is possible, a possible protocol would be found by us in this step.
     %First search the most probable solutions, after finding out that they do not work, try to proof that it is impossible with this set of assumptions, therefore ease up the assumptions and propose new solution.
 	\section{Methodology}
-	We take an iterative approach to find a solution to our problem. We first propose the simplest possible solution and analyse if it indeed solves our problem. If yes, we are finished. If no, we add a layer of complexity and propose a new solution. This cycle will be continued until we find a solution or we think we exhausted the most probable solutions and there is no solution to the proposed problem. If this is the case we try and proof that there is no solution to the proposed problem.
-	%With this approach we try to find a solution as simple as possible but as complex as necessary.
+	First we formally propose a problem. In order to find a solution to the proposed problem that is as simple as possible but as complex as necessary, we take an iterative approach.  We first propose the simplest possible solution and analyse if it indeed solves our problem. If the game-theoretic analysis shows that the proposed protocol is not a viable solution, we propose a new solution that has a added layer of complexity. This cycle will be continued until we find a solution or we think we exhausted the most probable solutions. As this iterative approach did not lead us to a viable solution we later try to proof that there is no solution to the proposed problem. After the proof we change the requirements to the solution \niknote{Should I remain this abstract or can I go a little bit into detail? (we allow for the protocol to have a third party that helps the Buyer)}and thereby propose a new problem. We then search for solutions to the newly proposed problem.
+
 	\section{Structure of this thesis}
-	In chapter 2 preliminaries, 3 related work...
+	In chapter \ref{cha:preliminaries} we introduce the general concepts of game theory, cryptographic commitment schemes, blockchains and Smart Contracts.  After that in chapter \ref{cha:formalizations} we formalize the problem and the corresponding game. %We define a clear goal that quantifies the succes of a protocol
+	In chapter\ref{cha:candidates} we propose numerous possible two-party protocols and analyse if these protocols are a viable solution to the proposed problem. Section \ref{sec:first-try-nocol} looks at protocols where no player deposits collateral, sections~\ref{sec:buyer-collateral}, \ref{sec:seller-col}, \ref{sec:sellercol-both-report} examine protocols where only one party deposits collateral and section~\ref{sec:two-side-collateral} looks at protocols where both parties deposit collateral. In Section~\ref{sec:extra-input-needed} we show that for a protocol to solve the proposed problem, it needs an extra input which it is not given in the real world. In chapter~\ref{cha:redisigned-game} we look at the new game where we allow a third party to be apart of the protocol. At the end, chapter~\ref{cha:conclusion} concludes this thesis and summarizes the results of this work.
 \section{Related work}
-\minisec{\citetitle{asgaonkar_solving_2019}\cite{asgaonkar_solving_2019}}
-In this paper \citeauthor{asgaonkar_solving_2019} proposed a protocol that allows the sale of a digital good without a trusted third party. Their solution involves a Smart Contract that collects a deposit from both the selling and the buying party. If then one party misbehaves, the Smart Contract slashes the deposit of the lying party.  This solution assumes the good to be digitally verifiable. Therefore if one party is not honest, the opposing honest party can report this misbehaviour to the Smart Contract and proof that the other party indeed did misbehave. The authors also provide a game-theoretic analysis of their protocol and confirm that honest behaviour is the only Nash equilibrium.
+\minisec{\citefield{asgaonkar_solving_2019}{title} \cite{asgaonkar_solving_2019}}
+In this paper \citeauthor{asgaonkar_solving_2019} propose a protocol that allows the sale of a digital good without a trusted third party. Their solution involves a Smart Contract that collects a deposit from both the selling and the buying party. If then one party misbehaves, the Smart Contract slashes the deposit of the lying party.  This solution assumes the good to be digitally verifiable. Therefore if one party is not honest, the opposing honest party can report this misbehaviour to the Smart Contract and prove that the other party indeed did misbehave. The authors also provide a game-theoretic analysis of their protocol and confirm that honest behaviour is the only Nash equilibrium.\newline
 
-\minisec{\citetitle{zimbeck_two_nodate}\cite{zimbeck_two_nodate}}
-In this work \citeauthor{zimbeck_two_nodate} proposes a protocol based on bitcoin scripts that should allow the trade between two perfect strangers even if the parties themselves can not be trusted. His approach has no need for a trusted third party. \citeauthor{zimbeck_two_nodate} also implemented his protocol in an open source program called BitHalo. His approach was formally and game-theoretically analysed in the paper \cite{bodei_validation_2015}
+\minisec{\citefield{zimbeck_two_nodate}{title} \cite{zimbeck_two_nodate}}
+In this work \citeauthor{zimbeck_two_nodate} proposes a protocol based on bitcoin scripts that should allow the trade between two perfect strangers even if the parties themselves cannot be trusted. His approach has no need for a trusted third party. \citeauthor{zimbeck_two_nodate} also implemented his protocol in an open source program called BitHalo. His approach was formally and game-theoretically analysed in the paper \cite{bodei_validation_2015}.\newline
 
-\minisec{\citetitle{kiayias_escrow_2017}\cite{kiayias_escrow_2017}}
-In this paper \citeauthor{kiayias_escrow_2017} look at the problem of buying physical goods using cryptocurrencies with a third party acting as an escrow. They formalized the escrow problem for physical goods and introduce multiple schemes with different properties. 
+\minisec{\citefield{kiayias_escrow_2017}{title} \cite{kiayias_escrow_2017}}
+In this paper \citeauthor{kiayias_escrow_2017} look at the problem of buying physical goods using cryptocurrencies with a third party acting as an escrow. They formalized the escrow problem for physical goods and introduce multiple schemes with different properties.\newline
+
+\minisec{\citefield{goharshady_irrationality_2021}{title} \cite{goharshady_irrationality_2021}}
+\niknote{TODO}
 \chapter{Preliminaries}
+\label{cha:preliminaries}
 \section{Game Theory}
 \niknote{first generaly describe the field}
 Game theory studies the interaction between self-interested players \cite{leyton-brown_essentials_2008}. It uses models to analyse games.
 \niknote{a little bit of history}
-It is considered that the field began in 1944 with the publication of von Nemann \& Morgenstern's "The Theory of Games and Economic Behaviour" \cite{rasmusen_games_nodate,vonNeumannTheory} Then Nash... history   What is a game?? Each player wants to \cite{leyton-brown_essentials_2008-1} 
+It is considered that the field began in 1944 with the publication of von Nemann \& Morgenstern's "The Theory of Games and Economic Behaviour" \cite{rasmusen_games_nodate,vonNeumannTheory} Then Nash... history   What is a game?? Each player wants to \cite{leyton-brown_essentials_2008} 
 %As discribed in \cite{kiayias_escrow_2017}, 
 \subsection{Games}
 A game consists of players who are taking actions in order to maximize their own payoff. An action is a choice that a player can make. Each possible action for a given decision is contained in an action set. Which choice the player makes is influencing how big his payoff will be. The payoff (or utility) is a numerical value and each player gets his own payoff.
@@ -292,6 +298,7 @@ talk mostly about its properties
 \subsection{Smart Contracts}
 
 \chapter{Formalization}
+\label{cha:formalizations}
 % Example usage of definition START
 %begin{definition}[Darmstadt]
 %\label{def:darmstadt}
@@ -394,6 +401,7 @@ to express it in a clear way, maybe even merging the two concepts.}
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
 
 \chapter{Candidate Two-Party Protocols}
+\label{cha:candidates}
 In this chapter we try to find a two-party protocol that solves the proposed problem. We start by a simple, naive approach and then increase the complexity on each proposed protocol. On each protocol we examine the created game and analyze the Nash Equilibrium of that game. As described in section~\ref{sec:the-game}, we want to create a game where the Nash Equilibrium lies in an honest trade between the Seller and the Buyer.
 
 \section{First try: no collateral}
@@ -659,6 +667,7 @@ What was designed to be an incentive for $S$ to behave honestly, ended up as lev
 %The Nash Equilibrium would be in nobody sending anything and the trade not happening.
 
 \section{Fourth try: Seller collateral, both parties report}
+\label{sec:sellercol-both-report}
 One Side Collateral on the Seller's side does not work if only the Buyer reports
 to the Smart Contract (c.f.~\ref{sec:seller-col}). If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.
 Another option would be that both players report to the Smart Contract if the physical good $G$ was sent and received.
@@ -690,7 +699,7 @@ The Following protocol is proposed:
 
 There are multiple ways to implement step 4: Either the two parties report one after another or they report simultaneously.
 \subsection{Possible Strategies}
-\label{sec:sellercol-both-report}
+\label{sec:possible-strategies-sellercol-bothreport}
 There are still the same strategies as in section~\ref{sec:possible-strategies-sellercol}. We now denote reporting 0 to the SC as "$0$" and reporting 1 to the SC as "$1$".
 \subsection{Game: The Seller reports first}
 As the Buyer reports last, this protocol still gives the Buyer the power of
@@ -1181,6 +1190,7 @@ Without any additional assumptions, it is unclear which is the better subgame fo
 We have created a situation where the players do not have all the information they need to choose the best option. That also means, that they are not motivated to behave honestly as they do not know if this is indeed the most beneficial behaviour. As the players are not motivated to behave honestly, they would not trade successfully in this protocol.
 
 \section{An extra input is needed}
+\label{sec:extra-input-needed}
 The Smart Contract plays an important role in the two side collateral protocol. We want to create a Smart Contract that rewards honest behaviour and punishes dishonest behaviour.\newline 
 Problems arise, because the Smart Contract does not know if the physical good $G$ was actually sent to the Buyer. Because of this missing information, it is impossible for the Smart Contract to settle disputes.
 \subsection{Ideal Functionality}
@@ -1403,6 +1413,8 @@ As \emph{assign\_coins\_real} is a deterministic function, equation~\ref{eq:real
 \orfnote{I would really like to present this argument in a theorem-proof format}
 
 \chapter{A redesigned game}
+\label{cha:redisigned-game}
+
 As we have shown (c.f.~\ref{sec:formal-proof}) \orfnote{we have to discuss what will be the fate of the
 proof}, it is not possible (under our assumptions) to design a protocol that would create a successful game (as described in \ref{sec:the-game}). The biggest problem is that we have no reliable way of telling the Smart Contract whether the physical good $G$ was actually shipped or not. If there is a dispute, the Smart Contract does not know which party is lying and has to be punished.\newline
 
@@ -1812,11 +1824,12 @@ How is the reporting entity different than an escrow?
 %\chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
+\label{cha:conclusion}
 %what?(short form) \newline
 \niknote{still need to add references}\newline
-Cryptocurrencies gain acceptance as a valid payment method for digital and physical goods. There is a need for a protocol that handles these sales with a cryptocurrency as payment method. Current solutions use a trusted third party. As there are situations where no trusted third party is available and the third party can misbehave, protocols without the need of that trust are advantageous. The goal of this thesis was to find such a protocol that enables a trustless and incoercible sale of physical goods over a blockchain.\newline
+Cryptocurrencies are gaining acceptance\niknote{here a reference} as a valid payment method for physical goods. These payments over the blockchain do not reveal the identity of the paying and receiving party. There is a need for a protocol that handles these sales between two anonymous parties. Previous solutions use a trusted third party. As there are situations where no trusted third party is available and the third party can misbehave, protocols without the need of that trust are advantageous. The goal of this thesis was to find such a protocol that enables a trustless and incoercible sale of physical goods over a blockchain.\newline
 
- First, we formalized the problem. After that we proposed two-party protocols and analyzed if these protocols are viable solutions to the formalized problem. First we examined protocols without collateral. Then we looked at protocols where only one party deposits collateral. After showing that these approaches do not solve the proposed problem, we looked at protocols where both parties deposit collateral. As all of these candidates did not solve the proposed problem, we tried to prove that such a two-party protocol is impossible. \niknote{Here write something about the proof} After showing that indeed such a two-party protocol is impossible, we lowered the requirements for the protocol by allowing a Mediator which is trusted by the Buyer. We showed that with this mediator there exists a protocol that enables a trustless and incoercible sale of physical goods. We proposed such a protocol with an idealised Mediator in section \ref{sec:mediated-protocol}. At the end of the thesis, we looked at possible practical realizations that can take the role of the Mediator. We proposed two possible solutions (Postal Office reports, Machine reports).
+ First, we formalized the problem. After that we proposed two-party protocols and analyzed if these protocols are viable solutions to the formalized problem. First we examined protocols without collateral. Then we looked at protocols where only one party deposits collateral. After showing that these approaches do not solve the proposed problem, we looked at protocols where both parties deposit collateral. As all of these candidates did not solve the proposed problem, we tried to prove that such a two-party protocol is impossible. \niknote{Here write something about the proof} After showing that indeed, under reasonable assumptions, such a two-party protocol is impossible, we lowered the requirements for the protocol by allowing a Mediator which is trusted by the Buyer. We showed that with this Mediator there exists a protocol that enables an incoercible sale of physical goods. We proposed such a protocol with an idealised Mediator in section \ref{sec:mediated-protocol}. At the end of the thesis, we looked at possible practical realizations that can take the role of the Mediator. We proposed two possible solutions (Postal Office reports, Machine reports). \orfnote{ at the end add sth like "our work proposes a practical solution to trustless incoercible sales of physical goods over a blockchain". If you use this exact phrase, rephrase the last sentence of the 1st paragraph of the conclusion}
 
 %How?\newline
 %Looked first at no collateral, then.... then... (like intro), but no results\newline
