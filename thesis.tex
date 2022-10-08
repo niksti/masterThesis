@@ -304,19 +304,19 @@ Cryptography is being used to secure these properties
 Digital Signatures:\cite{Katz2020-aj} 
 talk mostly about its properties
 \section{Smart Contracts}
-Smart contracts are small computer programs that are stored and executed on the blockchain \cite{chrisistidis}. They were popularized by Ethereum \cite{buterin_ethereum_nodate}, the second biggest cryptocurrency after Bitcoin. 
-a computerized transaction protocol that executes the terms of a contract’
-A smart contract is a set of programs which are self-verifying, self-executing and tamper resistant. 
-• Smart contract are machine readable code run on blockchain platform
-• Smart contracts are part of one application program
-• Smart contracts are event driven program
-• Smart contracts are autonomous once created no need to
-monitor
-• Smart contracts are distributed\cite{sc18}
+Smart contracts are small computer programs that are stored and executed on the blockchain \cite{chrisistidis}. They have their own on-chain address, the ability to own coins and they can interact with parties and other Smart Contracts via transactions. Anybody can create a Smart Contract with a transaction by uploading its program code to the blockchain \cite{narayanan2016bitcoin}. As Smart Contracts are self-executing and tamper resistant \citeauthor{sc18}, they can be used to enforce an agreement without a third party.\newline
 
+%a computerized transaction protocol that executes the terms of a contract’
+%A smart contract is a set of programs which are self-verifying, 
+%%• Smart contract are machine readable code run on blockchain platform
+%• Smart contracts are part of one application program
+%• Smart contracts are event driven program
+%• Smart contracts are autonomous once created no need to
+%monitor
+%• Smart contracts are distributed\cite{sc18}
+The concept of Smart Contract can be illustrated by the following example: Alice and Bob want to make following agreement: Alice thinks of a word. She will pay Bob 5 coins, if he guesses the word correctly. If not, Bob will pay Alice 2 coins. As they do not trust each other, this agreement is difficult to enforce traditionally without an independent party. A Smart Contract could help Alice and Bob enforce this agreement: Alice creates the Smart Contract and sends in a transaction her 5 coins. Then Bob sends his 2 coins. After that Alice sends another transaction with her secret word (Note that all transactions are public, so it is better to send the hash of the word in order to prevent Bob from seeing this word). Bob can then send his guess in another transaction. If he guesses correctly, the Smart Contract rewards Bob all 7 coins, else it rewards Alice all 7 coins.\newline
 
-
-‘a computerized transaction protocol that executes the terms of a contract’’ [44]\cite{chrisistidis}
+Smart Contracts were popularized by Ethereum \cite{buterin_ethereum_nodate}, the second biggest cryptocurrency after Bitcoin. In Contrast to Bitcoins scripts, Smart Contracts in Ethereum are Turing-complete and therefore have a lot more functionality.
 \chapter{Formalization}
 \label{cha:formalizations}
 % Example usage of definition START
