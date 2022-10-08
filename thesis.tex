@@ -106,19 +106,19 @@ primitives , events , complexity , oracles , asymptotics , keys
 	\mainmatter
 	
 	\chapter{Introduction}
-	Technological advancement is ongoing. In the last years there has been a big rise of the digital world.  Traditional processes in many aspects of human life have been brought from the real, physical world to the digital world \niknote{expand?While 100 years ago one had to write a letter that took several days to deliver, now text messengers allow instant communication all accross the globe}. One traditional aspect of life that is being digitized in particular the last years is money. While banks allow digital payments for quite some years now, until the recent time there was no digital counterpart to cash, which allows a client to spend money without the observation of banking institutions.\newline
+	Technological advancement is ongoing. In the last years there has been a big rise of the digital world.  Traditional processes in many aspects of human life have been brought from the real, physical world to the digital world \niknote{expand?While 100 years ago one had to write a letter that took several days to deliver, now text messengers allow instant communication all across the globe}. One traditional aspect of life that is being digitized in particular the last years is money. While banks allow digital payments for quite some years now, until the recent time there was no digital counterpart to cash, which allows a client to spend money without the observation of banking institutions.\newline
 	
-	While there were approaches for digital cash like chaums ecash \niknote{ref}, none of the approaches prevailed and gained acceptance as a valid option to transfer value. That is until the Bitcoin whitepaper\cite{nakamoto_bitcoin_nodate} was released and created the wide field of cryptocurrencies. As the title "\citefield{nakamoto_bitcoin_nodate}{title}" suggests, Bitcoin aimed to be a decentralized implementation of digital cash. With such a system one should be able to make fast, direct and anonymous payments to any other person that is also using the system. Each of this payments, called \emph{transactions}, are written on the \emph{blockchain}, a distributed database that acts as a public ledger. After Bitcoin many other cryptocurrencies were introduced, most notably Ethereum\cite{buterin_ethereum_nodate}. Besides the transfer of value, Ethereum also aimed to run code in a distributed manner over the blockchain. These automated programs, called \emph{Smart Contracts}, can be used to automate the execution of an agreement between multiple parties.\newline
+	While there were approaches for digital cash (e.g.\cite{chaum_83}), none of the approaches prevailed and gained acceptance as a valid option to transfer value. That is until the Bitcoin whitepaper \cite{nakamoto_bitcoin_nodate} was released and created the wide field of cryptocurrencies. As the title "\citefield{nakamoto_bitcoin_nodate}{title}" suggests, Bitcoin aimed to be a decentralized implementation of digital cash. With such a system one should be able to make fast, direct and anonymous payments to any other person that is also using the system. Each of this payments, called \emph{transactions}, are written on the \emph{blockchain}, a distributed database that acts as a public ledger. After Bitcoin many other cryptocurrencies were introduced, most notably Ethereum \cite{buterin_ethereum_nodate}. Besides the transfer of value, Ethereum also aimed to run code in a distributed manner over the blockchain. These automated programs, called \emph{Smart Contracts}, can be used to automate the execution of an agreement between multiple parties.\newline
 	
 	As cryptocurrencies are gaining acceptance, they become a valid payment option for sales of digital and physical goods. The remote and anonymous nature of blockchains complicates these sales, because the trading parties can not trust each other. An adherent problem arises: If the Buyer pays first, he has to trust the Seller to actually deliver the good after receiving the payment. As the Buyer does not trust the Seller, this is no viable option for him. If the Seller delivers the good before he gets payed, he has to trust the Buyer that he will pay upon receiving the good. As the Seller also does not trust the Buyer, this is again not a viable solution. This problem of the two trading parties not trusting each other is commonly solved using a trusted third party, an escrow. This escrow first collects the payment and the good and then forward them to their recipients. While this solution is working, there are several reasons why a protocol without a trusted third party is of interest. There is always a risk that the third party misbehaves and keeps both the good and the price \niknote{reference exit scam}. In addition to that there are scenarios, where third party is trusted by both the Buyer and the Seller. In these scenarios the two parties can not trade, even if a trade would benefit both parties. 
-	If the traded good is digital, such a trustless protocol can be achieved by building a Smart Contract that atomically exchanges the digital good for its price \cite{asgaonkar_solving_2019}. As physical goods and their delivery are unknown to the blockchain, the trustless sale of physical goods over the blockchain is much more complicated. The first approaches to solve this problem (e.g.\cite{zimbeck_two_nodate}) introduced flawed protocols that allowed coercion. The Seller could coerce the Buyer into sending the payment without ever sending the physical good \cite{goharshady_irrationality_2021}. Because of this design flaw, such protocols are not applicable in practice. Until this day there is no protocol that enables an incoercible sale of physical goods over a blockchain without a trusted escrow. \niknote{I don't know if this sentence is frased right} Designing such a protocol would make cryotocurrencies more useful as a currency and allow potential Sellers to sell physical goods directy to their clients without any risk involved. \newline
+	If the traded good is digital, such a trustless protocol can be achieved by building a Smart Contract that atomically exchanges the digital good for its price \cite{asgaonkar_solving_2019}. As physical goods and their delivery are unknown to the blockchain, the trustless sale of physical goods over the blockchain is much more complicated. The first approaches to solve this problem (e.g.\cite{zimbeck_two_nodate}) introduced flawed protocols that allowed coercion. The Seller could coerce the Buyer into sending the payment without ever sending the physical good \cite{goharshady_irrationality_2021}. Because of this design flaw, such protocols are not applicable in practice. Until this day there is no protocol that enables an incoercible sale of physical goods over a blockchain without a trusted escrow. \niknote{I don't know if this sentence is phrased right} Designing such a protocol would make cryptocurrencies more useful as a currency and allow potential Sellers to sell physical goods directly to their clients without any risk involved. \newline
 	
-	%In addition to that, the anonymity of both the seller and the buyer make it virtually impossible to build a robust recovery mechanism if one party pays/sends honestly first but the other misbehaves afterwards.
+	%In addition to that, the anonymity of both the Seller and the Buyer make it virtually impossible to build a robust recovery mechanism if one party pays/sends honestly first but the other misbehaves afterwards.
 The goal of this thesis is to examine whether such a trustless and incoercible protocol can exist. For that, we first have to formalize the problem at hand. The requirements for such a protocol have to be defined: What properties does the protocol has to have in order to realize a trustless and incoercible sale of a physical good? When the problem is formalized, we need a way to analyze possible solutions.
 We take a game-theoretic \cite{leyton-brown_essentials_2008} approach to model the behaviour of the different parties and evaluate the success of a protocol. Each party is modeled as rational, meaning that each party is trying to maximize its own utility. We want to find a protocol where it is profitable for each party to not deviate from this protocol: Each party maximizes its own utility by following the protocol. If such a protocol is found, as it is in the best interest of the parties to follow the protocol, it solves the problem of an incoercible sale without trust. The Seller can expect the Buyer to pay not because of trust, but because it is the most profitable option for the Buyer himself. We propose various candidates and analyse if these proposed protocols do indeed meet the criteria to be such a protocol. Looking forward, we do not find a two-party protocol that is a solution to the problem. As we will prove under reasonable assumptions \niknote{what about the proof of \cite{goharshady_irrationality_2021}??}, there is no two-party protocol possible that can implement a trustless and incoercible sale of a physical good over a blockchain. Still, we propose various solutions that introduce a third party that is not trusted by both parties and does not act like an escrow. We discuss to what degree there is a need of trust and the practicability of these solutions.  \newline
 
 %\niknote{the text from the mail}
-%The goal of this project is to answer this question positively. We propose a scheme in which the parties lock on-chain some collateral which will only be released if they agree on-chain on the success or failure of the sale, otherwise burnt. To avoid coercion, after sending the payment the buyer ignores messages from the seller, on receipt of the item asks a trusted (only by the buyer) party to verify whether the item is the expected good or not and reports the answer to the blockchain. If, before paying, the buyer can credibly threaten the seller that she will stick to this strategy after paying, then it is, we believe, provable that coercion is impossible. A number of ideas to achieve such a credible threat while minimizing the needed trust exist
+%The goal of this project is to answer this question positively. We propose a scheme in which the parties lock on-chain some collateral which will only be released if they agree on-chain on the success or failure of the sale, otherwise burnt. To avoid coercion, after sending the payment the Buyer ignores messages from the Seller, on receipt of the item asks a trusted (only by the Buyer) party to verify whether the item is the expected good or not and reports the answer to the blockchain. If, before paying, the Buyer can credibly threaten the Seller that she will stick to this strategy after paying, then it is, we believe, provable that coercion is impossible. A number of ideas to achieve such a credible threat while minimizing the needed trust exist
 
 	%\section{Motivation}
 	%why is it worth to write my master thesis about this topic?
@@ -135,7 +135,7 @@ We take a game-theoretic \cite{leyton-brown_essentials_2008} approach to model t
 	%We look at the problem with 2 players: One Seller one Buyer
 	%emphasise that normally this is done with a trusted third party, but we want to find a protocol with NO trusted third party.
 	%\subsection{how}
-	%same problem, different solution proposals easiest solution, then more complex per iteration until we find solution that works as simple as possible, as complex as necessary say	collateral? that we did one side collateral then both side collateral (and did the protocols that make the most sense). and each with 3 versions: first sellere, first buyer, both simultaneous)
+	%same problem, different solution proposals easiest solution, then more complex per iteration until we find solution that works as simple as possible, as complex as necessary say	collateral? that we did one side collateral then both side collateral (and did the protocols that make the most sense). and each with 3 versions: first Sellere, first Buyer, both simultaneous)
    %% we assumed, if it is possible, a possible protocol would be found by us in this step.
     %First search the most probable solutions, after finding out that they do not work, try to proof that it is impossible with this set of assumptions, therefore ease up the assumptions and propose new solution.
 	\section{Methodology}
@@ -143,75 +143,72 @@ We take a game-theoretic \cite{leyton-brown_essentials_2008} approach to model t
 
 	\section{Structure of this thesis}
 	In chapter \ref{cha:preliminaries} we introduce the general concepts of game theory, cryptographic commitment schemes, blockchains and Smart Contracts.  After that in chapter \ref{cha:formalizations} we formalize the problem and the corresponding game. %We define a clear goal that quantifies the succes of a protocol
-	In chapter\ref{cha:candidates} we propose numerous possible two-party protocols and analyse if these protocols are a viable solution to the proposed problem. Section \ref{sec:first-try-nocol} looks at protocols where no player deposits collateral, sections~\ref{sec:buyer-collateral}, \ref{sec:seller-col}, \ref{sec:sellercol-both-report} examine protocols where only one party deposits collateral and section~\ref{sec:two-side-collateral} looks at protocols where both parties deposit collateral. In Section~\ref{sec:extra-input-needed} we show that for a protocol to solve the proposed problem, it needs an extra input which it is not given in the real world. In chapter~\ref{cha:redisigned-game} we look at the new game where we allow a third party to be apart of the protocol. At the end, chapter~\ref{cha:conclusion} concludes this thesis and summarizes the results of this work.
+	In chapter \ref{cha:candidates} we propose numerous possible two-party protocols and analyse if these protocols are a viable solution to the proposed problem. Section \ref{sec:first-try-nocol} looks at protocols where no player deposits collateral, sections~\ref{sec:Buyer-collateral}, \ref{sec:Seller-col}, \ref{sec:Sellercol-both-report} examine protocols where only one party deposits collateral and section~\ref{sec:two-side-collateral} looks at protocols where both parties deposit collateral. In Section~\ref{sec:extra-input-needed} we show that for a protocol to solve the proposed problem, it needs an extra input which it is not given in the real world. In chapter~\ref{cha:redisigned-game} we look at the new game where we allow a third party to be apart of the protocol. At the end, chapter~\ref{cha:conclusion} concludes this thesis and summarizes the results of this work.
 \section{Related work}
 \minisec{\citefield{asgaonkar_solving_2019}{title} \cite{asgaonkar_solving_2019}}
 In this paper \citeauthor{asgaonkar_solving_2019} propose a protocol that allows the sale of a digital good without a trusted third party. Their solution involves a Smart Contract that collects a deposit from both the selling and the buying party. If then one party misbehaves, the Smart Contract slashes the deposit of the lying party.  This solution assumes the good to be digitally verifiable. Therefore if one party is not honest, the opposing honest party can report this misbehaviour to the Smart Contract and prove that the other party indeed did misbehave. The authors also provide a game-theoretic analysis of their protocol and confirm that honest behaviour is the only Nash equilibrium.\newline
 
 \minisec{\citefield{zimbeck_two_nodate}{title} \cite{zimbeck_two_nodate}}
-In this work \citeauthor{zimbeck_two_nodate} proposes a protocol based on bitcoin scripts that should allow the trade between two perfect strangers even if the parties themselves cannot be trusted. His approach has no need for a trusted third party. \citeauthor{zimbeck_two_nodate} also implemented his protocol in an open source program called BitHalo. His approach was formally and game-theoretically analysed in the paper \cite{bodei_validation_2015}.\newline
+In this work \citeauthor{zimbeck_two_nodate} proposes a protocol based on bitcoin scripts that should allow the trade between two perfect strangers even if the parties themselves cannot be trusted. His approach has no need for a trusted third party. \citeauthor{zimbeck_two_nodate} also implemented his protocol in an open source program called BitHalo. His approach was formally and game-theoretically analysed in the paper \cite{bodei_validation_2015}. The protocol proposed by \citeauthor{zimbeck_two_nodate} has the serious flaw that the Seller can coerce the Buyer\cite{goharshady_irrationality_2021}, making it not applicable in any sale of goods in the real world.\newline
 
 \minisec{\citefield{kiayias_escrow_2017}{title} \cite{kiayias_escrow_2017}}
-In this paper \citeauthor{kiayias_escrow_2017} look at the problem of buying physical goods using cryptocurrencies with a third party acting as an escrow. They formalized the escrow problem for physical goods and introduce multiple schemes with different properties.\newline
+In this paper \citeauthor{kiayias_escrow_2017} look at the problem of buying physical goods using cryptocurrencies with a third party acting as an escrow. They formalized the escrow problem for physical goods and introduce multiple schemes with different properties.\orfnote{Go into more detail for 3rd reference (i.e. give a taste of the categorization they build)}\newline
 
 \minisec{\citefield{goharshady_irrationality_2021}{title} \cite{goharshady_irrationality_2021}}
-\niknote{TODO}
+In this paper \citeauthor{goharshady_irrationality_2021} analyse the sale of a physical good over a blockchain. They show that previous approaches like BitHalo (proposed in \cite{zimbeck_two_nodate}) have the serious flaw that the Seller can coerce the Buyer into sending him the payment without ever receiving the physical good. In addition to that they provide a proof that any strictly two-party escrow contract for the sale of a physical good that is deployed between rational parties on a blockchain enables the Seller to extort the Buyer. 
+\niknote{Do I mention that our proof is essentially proving a very similar/the same thing? Do I compare this work to mine, e.g. mention that we tried to provide, under different assumption, a solution to this coercion problem by the seller }
+%unterschiede: wir haben anforderungen danach gelockert und verschiedene lösungen vorgeschlagen, die diese probleme umgehen
 \chapter{Preliminaries}
 \label{cha:preliminaries}
+
 \section{Game Theory}
-\niknote{first generaly describe the field}
-Game theory studies the interaction between self-interested players \cite{leyton-brown_essentials_2008}. It uses models to analyse games.
-\niknote{a little bit of history}
-It is considered that the field began in 1944 with the publication of von Nemann \& Morgenstern's "The Theory of Games and Economic Behaviour" \cite{rasmusen_games_nodate,vonNeumannTheory} Then Nash... history   What is a game?? Each player wants to \cite{leyton-brown_essentials_2008} 
+Game theory studies the interaction between self-interested players \cite{leyton-brown_essentials_2008}. It formalizes how a player behaves in a given game.
+%It uses models to analyse games.
+%\niknote{a little bit of history}
+%It is considered that the field began in 1944 with the publication of von Nemann \& Morgenstern's "The Theory of Games and Economic Behaviour" \cite{rasmusen_games_nodate,vonNeumannTheory} Then Nash... history   What is a game?? Each player wants to \cite{leyton-brown_essentials_2008} 
 %As discribed in \cite{kiayias_escrow_2017}, 
 \subsection{Games}
-A game consists of players who are taking actions in order to maximize their own payoff. An action is a choice that a player can make. Each possible action for a given decision is contained in an action set. Which choice the player makes is influencing how big his payoff will be. The payoff (or utility) is a numerical value and each player gets his own payoff.
+A game consists of players who are taking actions in order to maximize their own payoff. An action is a choice that a player can make. Each possible action for a given decision is contained in an action set. Which choice the player makes is influencing how big his payoff will be. The payoff (or utility) is a numerical value and each player gets his own payoff. It is the goal of each player to maximize his own payoff. He will take every action that leads him to achieve this goal.
 \begin{definition}[Game]
 A game is a tuple ($N$,$A$,$u$), where:
 \begin{itemize}
     \item $N$ is a finite set of n players
-    \item $A = A_1 \times \dots \times A_n$, where $A_i$ is a finite set of actions available to player i. Each vector $a= (a_1,...,a_n) \in A$ is called an action profile.
+    \item $A = A_1 \times \dots \times A_n$, where $A_i$ is a finite set of actions available to player i. %Each vector $a= (a_1,...,a_n) \in A$ is called an action profile.
     \item $u_1,...,u_n$ where $u_i$: $A \to \mathbb{R}$ is a payout (or utility) function for player i.
 \end{itemize} {\normalfont \cite{leyton-brown_essentials_2008}}
 \end{definition}
 \subsection{Strategies}
-Each player faces multiple decisions in a game. At every decision point he chooses between possible actions. These decision can depend on every information that the player knows at this stage of the game. Which action a player takes in which situation can be formulated in a strategy. A possible strategy could be: If the opposing player takes action $L$, I will take action $R$, else i will take action $L$.
-\begin{definition}
+Each player faces multiple decisions in a game. At every decision point he chooses between possible actions. These decision can depend on every information that the player knows at this stage of the game. Which action a player takes in which situation can be formulated in a strategy. A possible strategy could be: If the opposing player takes action $L$, I will take action $R$, else I will take action $L$.\newline
+
+\begin{definition}[Strategy]
 Player $i$'s strategy $s_i$ is a rule that tells him which action to choose at each instant of the game, given his information set. {\normalfont \cite{rasmusen_games_nodate}}.
 \end{definition}
 We call the set of every strategy for a player his strategy set. A strategy profile is an ordered set consisting of one strategy for each of the n players in the game.
-- best response
--dominated and dominant strategies here
+%- best response
+\begin{definition}[Dominated strategy]
+The strategy $s^d_i$ is dominated by $s_i'$ if it is strictly inferior to $s_i'$ no matter what strategies the other players choose, in the sense that whatever strategies they pick, his payoff is lower with $s^d_i$ {\normalfont \cite{rasmusen_games_nodate}}. Formally: 
+\begin{equation}
+    \forall s_i': u(s^d_i,s^*_{-i}) \leq u(s_i',s^*_{-i})
+\end{equation}
+\end{definition}
+
+If one strategy dominated the other, a player will always choose the dominant strategy.
 \subsection{Nash Equilibrium}
-tell something about nash\newline
-what about pareto/strictly dominated strategies equilibrium?
+%tell something about nash\newline
+%what about pareto/strictly dominated strategies equilibrium?
 \begin{definition}[Nash Equilibrium]
-A strategy profile $s^*$ is a Nash equilibrium if no player has incentive to deviate from his strategy given that the other players do not deviate. {\normalfont \cite{rasmusen_games_nodate}} Formally: \[\forall i: \forall s_i': u(s^*_i,s^*_{-i}) \geq u(s'_i,s^*_{-i})\].
+A strategy profile $s^*$ is a Nash equilibrium if no player has incentive to deviate from his strategy given that the other players do not deviate. {\normalfont \cite{rasmusen_games_nodate}} Formally: \begin{equation}
+    \forall i: \forall s_i': u(s^*_i,s^*_{-i}) \leq u(s'_i,s^*_{-i})
+\end{equation}
 \end{definition}
-strict/weak nash
-\subsection{Turn-based games}
-\begin{definition}[turn-based games]
+Nash showed, that every game with a finite number of players, each having a finite set of strategies, has at least one Nash Equilibrium \cite{nash1950}.
+\subsection{Two-party alternating turn-based games}
+\begin{definition}[Two-party alternating turn-based games]
 \label{def:turn-based-game}
-A game is turn-based if only one party can play at a time and its move is revealed
-to all other parties before the next move.
+A game is a two-party alternating turn-based game if two parties are playing alternately, only one party can play at a time and its move is revealed
+to the other party before the other party plays the next move.
 \end{definition}
-To analyse turn-based games we will use game trees. The nodes of the tree represent decision points and the edges of the tree possible actions. The leafs of the tree are the payout values for the players. In this example Alice and Bob have one decision each. Alice will play first. She has the possible actions $L$ and $R$. Then Bob will make his decision choosing between the actions $L$ and $R$. \newline
-
-\orfnote{Game trees and
-examples should be introduced in the preliminaries. Mention that, in our work, a
-game is turn-based if only one party can play at a time and its move is revealed
-to all other parties before the next move. Mention that we can combine
-simultaneous and turn-based games if some moves are turn-based and some are
-simultaneous.}
-
-
-\orfnote{for the example, prefer parties $A$, $B$ instead
-of $B$, $S$. For actions, you can e.g. use $L$, $R$, which is common in Game
-Theory literature for generic moves when every choice is binary. Do not use the
-same payouts everywhere. Better use specific numbers. Use numbers with a single
-Nash Equilibrium and walk the reader through the analysis of why it is a Nash
-Equilibrium.}
-
+For example, chess is a two-party alternating turn based game. To analyse two-party alternating turn-based games we will use game trees. The game starts from the root of the tree and ends at the leaves of the tree. The nodes of the tree represent decision points. Each node is marked with the party that decides. The edges of the tree represent possible actions. At each node the party that plays chooses 1 action among the available edges that lead to the children of the node. The leaves of the tree are the payout values for the players. In this example Alice and Bob have one decision each. Alice will play first. She has the possible actions $L$ and $R$. Then Bob will make his decision choosing between the actions $L$ and $R$. \newline
 
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -228,22 +225,22 @@ Equilibrium.}
     \label{fig:example-tree}
 \end{figure}
 
-To find the Nash Equilibrium of this game we will use the method "iterated elimination of strictly dominated strategies".
+To find the Nash Equilibrium of this example game of Fig.~\ref{fig:example-tree} we will use the method "iterated elimination of strictly dominated strategies".
 \niknote{TODO look for paper,  more information here}\newline
 
 To analyze the game we start at the bottom of the tree at Bob's decision. He always takes the action that yields him the biggest payout.  We start at the left branch. If Bob takes action $L$, he gets a payout of $6$. If he chooses action $R$, he gets a payout of $5$. In this scenario Bob chooses $L$, because $6>5$.
-On the right branch he chooses $R$ because $3>2$.\newline
+Likewise, on the right branch he chooses $R$ because $3>2$.\newline
 
-Then we look at Alice's decision. She knows that Bob chooses the path that yields him the greatest payout and can calculate his decisions. She knows that Bob will choose $L$,if Alice takes action $L$. Therefore her payout of action $L$ is $1$. If she chooses action $R$, Bob will choose $R$ as well. In this case Alice has a payoff of $3$. Alice chooses action $L$, because $3>1$.\newline
+Then we look at Alice's decision. She knows that Bob chooses the path that yields to him the greatest payout and can calculate his decisions. She knows that Bob will choose $L$,if Alice takes action $L$. Therefore her payout of action $L$ is $1$. If she chooses action $R$, Bob will choose $R$ as well. In this case Alice has a payoff of $3$. Alice chooses action $L$, because $3>1$.\newline
 
-The Nash Equilibrium of this game is \{$R$,$R$\} and the payout is $3_A | 3_B$.
-\subsection{Simultaneous games}
-\begin{definition}[Simultaneous games]
+The Nash Equilibrium of this game is \{$R$,$R$\} and the payout is $3_A | 3_B$. It is interesting to see, that this is for both parties a worse outcome than \{$R$,$R$\}, where the payoff is $5_A|5_B$.
+\subsection{Two-party simultaneous games}
+\begin{definition}[Two-party simultaneous games]
 \label{def:simultaneous-game}
-A game is simultaneous, if at least two parties play at a time. 
+A game is a two-party simultaneous game, if the two parties choose their strategy simultaneously and independently form each other and both parties have only one decision to make. After that, all actions are revealed and the relevant payoffs are given. 
 \end{definition}
 
-To analyse simultaneous games we will use a table. The two players are again Alice and Bob. On the top of the table we see the possible strategies of Bob: \emph{be honest} and \emph{lie}. On the left side are the possible strategies for Alice: \emph{report} and \emph{hide}. For each combination of strategies the two parties get a specific payout. For example if Bob chooses strategy \emph{lie} and Alice chooses strategy hide, Bob gets a payout of 8 and Alice gets a payout of 2.
+For example, rock-paper-scissors is a two-party simultaneous game. To analyse two-party simultaneous games we will use a table. The two players are again Alice and Bob. On the top of the table we see the possible strategies of Bob: \emph{be honest} and \emph{lie}. On the left side are the possible strategies for Alice: \emph{report} and \emph{hide}. For each combination of strategies the two parties get a specific payout. For example if Bob chooses strategy \emph{lie} and Alice chooses strategy hide, Bob gets a payout of 8 and Alice gets a payout of 2.
 
 \begin{table}[htb!]
     \centering
@@ -254,49 +251,72 @@ To analyse simultaneous games we will use a table. The two players are again Ali
     \hline
     \emph{report} & {\color{red}$2$} $|$ {\color{blue}$5$} & {\color{red}$5$} $|$ {\color{blue}$-3$} \\
     \hline
-    \emph{hide} & {\color{red}$2$} $|$ {\color{blue}$3$} & {\color{red}$2$} $|$ {\color{blue}$8$} \\
+    \emph{hide} & {\color{red}$1$} $|$ {\color{blue}$3$} & {\color{red}$2$} $|$ {\color{blue}$8$} \\
     \hline
     \end{tabular}
     \caption{Example Table}
     \label{tab:example-table}
 \end{table}
 
-If we now look at the table we can see which combinations of strategy benefits which player. There is a Nash Equilibrium at \{\emph{be honest}, \emph{report}\}, because no player can improve their payout by changing strategy. If bob changes his his strategy to \emph{lie}, his payout will decrease to $-3$. If a Alice changes her strategy to \emph{hide}, she will get the exact same payout of 2. Because Alice's payout does not decrease, this Nash Equilibrium is a weak Nash Equilibrium.
+If we now look at the table we can see which combinations of strategy benefits which player. There is a Nash Equilibrium at \{\emph{be honest}, \emph{report}\}, because no player can improve their payout by changing strategy as long as the other party does not its strategy. If Bob changes his his strategy to \emph{lie} and Alice still chooses \emph{report}, Bob's payout will decrease to $-3$. If a Alice changes her strategy to \emph{hide} and Bob still chooses \emph{be honest}, her payout will decrease to 1.\newline
 
-\section{Cryptographic primitives}
+In every two-party simultaneous game with a Nash Equilibrium at \{\emph{NE\_column}, \emph{NE\_row}\}, the party that chooses the column (Bob in the example) will always choose the maximum of its own payouts of the row \emph{NE\_row}. In the example, Bob chooses the column with the biggest blue value of the row \emph{report}, which is \emph{be honest}. Likewise, the player that chooses the row will choose the row that maximizes its own payoff of column \emph{NE\_column}. In the example, Alice chooses the row with the biggest red value in the column \emph{be honest}, which is \emph{report}.
 
-\niknote{do i need a general introduction to the field of cryptography?}
-\section{Public Key Cryptography}
-\niknote{We use some PK cryptography, maybe I should explain it a little to the reader}
-\subsection{Commitment schemes}
-Commitment schemes are used in a vast variety of cryptographic protocols. They enable a party to commit itself to a value while keeping it secret \cite{Goldreich2001-bv}. This resembles a non transparent sealed envelope: By putting a note in such an envelope, a party commits itself to the content of the note. This note can not be read until the envelope is being opened.  \niknote{maybe delete}\newline 
+
+\section{Commitment schemes}
+Commitment schemes are used in a vast variety of cryptographic protocols. They enable a party to commit itself to a value while keeping it secret \cite{Goldreich2001-bv}. This resembles a non transparent sealed envelope: By putting a note in such an envelope, a party commits itself to the content of the note. This note can not be read until the envelope is being opened.\newline
 
  A commitment scheme lets one party (Bob) commit to a value of his choice. Later, he can open the commitment in order to convince another party (Alice) that indeed that value was committed. Committing to a value results in a commitment string $c$, that Bob sends to Alice, and an opening string $s$ that Bob uses for opening the commitment later\cite{boneh_graduate_nodate}.\newline
  
  A commitment scheme is secure if it satisfies the following two properties:
  \begin{itemize}
-     \item \textbf{Hiding:} The Commitment string $c$ reveals no information about the commited value\cite{boneh_graduate_nodate}.
+     \item \textbf{Hiding:} The Commitment string $c$ reveals no information about the committed value\cite{boneh_graduate_nodate}.
      \item \textbf{Binding:} Let $c$ be a commitment string output that Bob gets by committing the value $v$. Bob can open this commitment to the committed value $v$, but not to any other value $v'\neq v$.
  \end{itemize}
  %Bob shares the commitment string with Alice. In a later stage Bob can open the committment using the co ommitment schemes have two algorithms: \emph{Commit} and \emph{Open}. In the committing phase a party can use \emph{commit} to turn a value into a commitment and an opening value. In addition to the commitment the algorithm also returns an opening value. Later, the commitment can be "opened" with that exact opening value. and it returns a value. The returned value is guaranteed to be the value to which the party committed in the committing phase. If any party\cite{Goldreich2001-bv}. 
-\section{Cryptocurrencies}
+\section{Blockchains}
+\label{sec:blockchain}
 \niknote{look at that again}
-Cryptocurrencies are decentralised currencies that introduce a way to transfer value with low latency and without any intermediary. They use various cryptographic primitives to prevent fraud. An important cryptographic tool are digital signatures, that ensure that only the owner of the coin can spend it. Hash algorithms allow For this work, it is not important to understand these cryptographic primitives. A detailed description of said crypgtographic primitives can be found at Katz and Lindell's book \emph{Introduction into modern Cryptography} \cite{Katz2020-aj}. 
+To understand blockchains and their origin, we first look at cryptocurrencies.
+Cryptocurrencies are decentralised currencies that introduce a way to transfer value with low latency and without any intermediary. They use various cryptographic primitives to prevent fraud. For example one important cryptographic tool is a digital signature, that ensures that only the owner of the coin can spend it and nobody else. Another important cryptographic primitve are Hash Functions: A Hash Function can take as input an arbitrary large file and return a short string, a \emph{hash} of constant size. While the hash of a file can be efficiently computed, it is computationally infeasible to compute    For this work, it is not important to understand how these cryptographic primitives work. A detailed description of said cryptographic primitives can be found at Katz and Lindell's book \emph{Introduction into modern Cryptography} \cite{Katz2020-aj}. 
 
-We will explain some of the principles of cryptocurrencies by looking at The first and best known cryptocurrency: Bitcoin. Bitcoin was introduced in 2008 Satoshi Nakamoto \cite{nakamoto_bitcoin_nodate}. In Bitcoin everyone can create his own wallet and send and receive coins. These coins are sent using transactions. Every transaction is stored on a public database, the blockchain (c.f. section~\ref{sec:blockchain}). Once these transactions are on the blockchain, they can never be changed or deleted. The blockchain acts as a public ledger recording all the transactions. The blockchain is maintained by the miners \niknote{what is a miner? how deep should I explain? as miners do not have something to do with my thesis directly} \newline
+We will explain some of the principles of cryptocurrencies by looking at the first and best known cryptocurrency: Bitcoin. Bitcoin was introduced in 2008 \cite{nakamoto_bitcoin_nodate}. In Bitcoin everyone can create his own wallet and send and receive coins. These coins are sent using transactions. Every transaction is stored on a public distributed database, the blockchain (c.f. section~\ref{sec:blockchain}). Once these transactions are on the blockchain, they can never be changed or deleted. The blockchain acts as a public ledger recording all the transactions.
+These transactions are grouped in blocks. Aside from transactions, each block contains the hash of the previous block, thereby linking it with the previous block, forming a chain of blocks. \niknote{maybe a figure explains it best}   \newline
+
+New transactions are written to the blockchain in the form of new blocks that are appended to the blockchain.  These blocks are created by the \emph{validators}.
+The validators are very important for the security of the blockchain, as they define which is the unique ordered history of transactions. They are usually a big, dynamic set of people, meaning that the set of active validators may change over time. In addition to that, some percentage of this set of validators may be arbitrarily malicious. Even in this case, the blockchain has to guarantee its security properties.\newline
+
+The security properties a blockchain has to fulfil in order to be a public transaction ledger are \cite{bitcoin_backbone}:
+\begin{itemize}
+    \item \textbf{Common Prefix:} Honest validators have identical prefix with high probability, meaning that honest validators agree on the same transaction history.
+    \item \textbf{Chain Quality:} The blockchain of honest validators contains a significant fraction of blocks created by honest validators.
+    \item \textbf{Chain Growth:} After a certain time interval it is guaranteed that new blocks are added to the blockchain.
+\end{itemize}
+
+\niknote{}* A figure of a blockchain wouldn't be bad, but isn't needed either.  \newline
 
 After Bitcoin many other cryptocurrencies were developed. In this work, we do not look at a specific cryptocurrency. We rather use them as a remote way to transfer value between two parties. These two parties do not need to know each other, rather they only need each other's wallet address to send coins to each other. The transfer of value occurs nearly instantaneous and can not be reversed.
-\subsection{Blockchain}
-\label{sec:blockchain}
-In this work we look at public blockchains used for cryptocurrencies. In this context a blockchain is a public, distributed database storing every transaction. These transactions are grouped in blocks, where every block is linked with the previous block, forming a chain of blocks. \niknote{maybe a figure explains it best}   New transactions are written to the blockchain in the form of new blocks that are appended to the blockchain. As new transactions are posted constantly, the blockchain is always growing. This property is called \emph{liveliness}. Another important property is that blockchains are \emph{immutable}, which means whatever is written on the blockchain can not be altered.
 
-properties: immutability, liveliness 
+
+In this work we look at public blockchains used for cryptocurrencies. In this context a blockchain is a public, distributed database storing every transaction. 
 
 Cryptography is being used to secure these properties
 Digital Signatures:\cite{Katz2020-aj} 
 talk mostly about its properties
-\subsection{Smart Contracts}
+\section{Smart Contracts}
+Smart contracts are small computer programs that are stored and executed on the blockchain \cite{chrisistidis}. They were popularized by Ethereum \cite{buterin_ethereum_nodate}, the second biggest cryptocurrency after Bitcoin. 
+a computerized transaction protocol that executes the terms of a contract’
+A smart contract is a set of programs which are self-verifying, self-executing and tamper resistant. 
+• Smart contract are machine readable code run on blockchain platform
+• Smart contracts are part of one application program
+• Smart contracts are event driven program
+• Smart contracts are autonomous once created no need to
+monitor
+• Smart contracts are distributed\cite{sc18}
 
+
+
+‘a computerized transaction protocol that executes the terms of a contract’’ [44]\cite{chrisistidis}
 \chapter{Formalization}
 \label{cha:formalizations}
 % Example usage of definition START
@@ -307,95 +327,86 @@ talk mostly about its properties
 %Definition~\ref{def:darmstadt} transliterates Darmstadt.
 % Example usage of definition END
 
-\begin{definition}[Utility Function]
+\begin{definition}[Utility of Physical Good]
 \label{def:utility-function}
-The utility function $U_P(G)$ describes how much utility a physical good $G$ provides to a player $P$. The output of this function is a numerical value, which corresponds to the amount of coins that have equal value as $U_P(G)$. In this work, utility will always be a positive integer.
+The utility of a physical good $U_i(G)$ describes how much utility a physical good $G$ provides to a player $i$. The output of this function is a numerical value, which corresponds to the amount of coins that have equal value as $U_i(G)$. In this work, utility will always be a positive integer.
 \end{definition}
 
 \section{Entities}
 
 \begin{definition}[Seller]
-\label{def:seller}
-A rational entity $S$ that owns a specific physical good $G$. The seller
-has bigger utility in owning $P$ coins in contrast to owning $G$ (c.f.~equation~\ref{eq:seller-utility}) He therefore desires to exchange $G$ against $P$ coins.
+\label{def:Seller}
+A rational entity $S$ that initially owns a specific physical good $G$. The Seller
+has bigger utility in owning $P$ coins in contrast to owning $G$ (c.f.~equation~\ref{eq:Seller-utility}) He therefore desires to exchange $G$ against $P$ coins in order to maximize his utility.
 \end{definition}
 
 %Insert Utility function distribution
 \begin{equation}
-\label{eq:seller-utility}
+\label{eq:Seller-utility}
     U_S(G) + P > P > U_S(G) > 0
 \end{equation}
 
 \begin{definition}[Buyer]
-\label{def:buyer}
-A rational entity $B$ that owns at least $P$ coins. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ coins (c.f.~equation~\ref{eq:buyer-utility}). He therefore desires to exchange $P$ coins against $G$.
+\label{def:Buyer}
+A rational entity $B$ that initially owns at least $P$ coins. The Buyer has greater utility in owning $G$ in contrast to  owning $P$ coins (c.f.~equation~\ref{eq:Buyer-utility}). He therefore desires to exchange $P$ coins against $G$ in order to maximize his utility.
 \end{definition}
 
 %Insert Utility function distribution
 \begin{equation}
-\label{eq:buyer-utility}
+\label{eq:Buyer-utility}
     U_B(G) + P > U_B(G) > P > 0
 \end{equation}
 
-\orfnote{The SC is not really an escrow, as it doesn't hold on to the physical
-good, only the money}
-\orfnote{This definition is not detailed enough. You may introduce the exact
-SC code here (discussing collateral/handling of $P$ in case of
-disagreement as well), or at least refer to it TODO: rethink code location}
-\niknote{I am a little unsure, how I want to define SC}
 \begin{definition}[Smart Contract]
-An entity SC that should ensure that the trade is successful. It acts as a fully trusted oracle.
+An Entity $SC$ that is a Smart Contract on a blockchain. It is therefore trusted by the other entities. The $SC$ interacts with the Buyer and the Seller by it taking the money and possibly collateral. It has the purpose to facilitate the exchange.
 \end{definition}
+Since the Smart Contract lives on the blockchain, it cannot hold on to the physical good. It has no information whether the physical good was sent by the Seller and received by the Buyer. 
 
-\section{The Game} \niknote{is this the right headline??}
+\section{The Game}
 \label{sec:the-game}
 \begin{definition}[Initial State]
 \label{def:initial-state}
 
-\niknote{look at that definition again}
-A Seller and a Buyer have some way of communicating with each other. A successful trade is beneficial for both entities. Both parties have enough funds in the given cryptocurrency to carry out protocol actions. The Seller is in possession of the physical good.
+A Seller and a Buyer have some way of communicating with each other. Both parties have enough funds in the given cryptocurrency to carry out protocol actions: Both have enough collateral (if needed) and the Buyer has at least $P$ additional coins. Both the Buyer and the Seller have access to the same Smart Contract. The Seller is in possession of the physical good.
 \end{definition} 
 
 
 \begin{definition}[Desired Final State]
 \label{def:desired-final-state}
-The Buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the seller have increased by $P$.
+The Buyer is in possession of the physical good and his funds have decreased by amount $P$. The funds of the Seller have increased by $P$.
 \end{definition}
 
 \begin{definition}[Success of the trade]
-The trade is considered successful if the situation transitions from the Initial State to the Desired Final State.
+\label{def:success-trade}
+The trade is considered successful if for all parties starting in the Initial State, the Desired Final State is a Nash Equilibrium.
 \end{definition}
+
+\label{sec:goal}
+The goal of this work is to design a protocol that enables a successful trade as defined in definition \ref{def:success-trade}. Minimal trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. It should be a Nash Equilibrium to follow the protocol: If the other party follows the protocol, the best strategy will be to follow the protocol as well.\newline
+
+Another goal is that the trade is incoercible against rational attacks. That means that it should be unprofitable to attack and decrease the payout of the other player, if the other player is following the protocol. If this goal is achieved, a rational player will never try and attack the opposing player. It should be noted that that an irrational player can attack the opposing party, as an attack is unprofitable, but not necessarily impossible. If a player is willing to lower his own utility, he is able attack an opposing player. \newline
 
 We make the following assumptions:
 \begin{enumerate}
     \item All entities have access to the Smart Contract and know the addresses and public keys of each other.
     \label{ass:1}
-    \item The seller knows the physical address to which the buyer wants the good to be shipped. This address is not necessarily the buyer's real physical address, he can choose any physical address he wants to protect his privacy.
+    \item The Seller knows the physical address to which the Buyer wants the good to be shipped. This address is not necessarily the Buyer's real physical address, he can choose any physical address he wants to protect his privacy.
     \label{ass:2}
-    \item Other than the information of assumption \ref{ass:1} and \ref{ass:2}, the buyer and the seller know nothing about each other.
+    \item Other than the information of assumption \ref{ass:1} and \ref{ass:2}, the Buyer and the Seller know nothing about each other.
     \label{ass:3}
     \item Both parties can send funds in the given cryptocurrency to any address.
     \label{ass:4}
-    \item The sender has the power to send/ship the physical good to any physical address he wants.
+    \item The sender has the power to send the physical good to any physical address he wants.
     \label{ass:5}
-    \item Both the seller and the buyer know the code of the Smart Contract.
+    \item Both the Seller and the Buyer know and trust the code of the Smart Contract.
     \label{ass:6}
-    \item The seller and the buyer behave rationally, meaning that they both want to maximise their expected payout.
+    \item The Seller and the Buyer behave rationally, meaning that they both want to maximise their expected payout.
     \item Both $U_S(G)$ and $U_B(G)$ are positive. 
 \end{enumerate}
 
-We do not analyse transaction fees. 
+We do not take into account transaction fees. 
 
-\subsection{Goal}
-\label{sec:goal}
-The goal of this work is to design a protocol in which behaviour that results in a successful trade is a Nash Equilibrium. Minimal trust should be required. This will be achieved, if it is the rational behaviour for both players to perform the trade. A successful trade should be a Nash Equilibrium: If the other party behaves honestly, the best strategy will be to behave honestly as well.\niknote{Repitition? redundant?}\newline
 
-%If the other party behaves rational it should be best to behave honest.
-Another goal is that the trade is incoercible against rational attacks. That means that it should be unprofitable attack and decrease the payout of the other player, if the other player is honest. If this goal is achieved, a it is unprofitable, a rational Player will never try and attack the opposing player. It should be noted that that an irrational player can attack the opposing party, as an attack is unprofitable, but not necessarily impossible. If a player is willing to lower his own utility, he can attack an opposing honest player. 
-
-\orfnote{The "Success of the trade" seems a bit too mixed with the "goal". Try
-to express it in a clear way, maybe even merging the two concepts.}
-\niknote{now okay? I set success of the trade as a pure definition. Goal is in text form and describes a little more}
 
 %\subsection{Implementation}
 %The underlying blockchain is immutable as long as there is an honest majority of %miners. We assume this honest majority.
@@ -416,7 +427,7 @@ The simplest protocol is both players sending their resources without any collat
 }
     \centering
     \caption{Protocol: No collateral, Buyer sends first}
-    \label{pro:naive-buyer-first}
+    \label{pro:naive-Buyer-first}
 \end{figure}
 
 \begin{figure}[htb!]
@@ -428,13 +439,13 @@ The simplest protocol is both players sending their resources without any collat
 }
     \centering
     \caption{Protocol: No collateral, Seller sends first}
-    \label{pro:naive-seller-first}
+    \label{pro:naive-Seller-first}
 \end{figure}
 
 \begin{figure}[htb!]
 \fbox{
  \procedureblock[linenumbering]{Both players send simultaneously}{
-    \text{Buyer sends $P$ coins to the Seller and seller sends $G$ to the Buyer simultaneously}}
+    \text{Buyer sends $P$ coins to the Seller and Seller sends $G$ to the Buyer simultaneously}}
 }
     \centering
     \caption{Protocol: No collateral, both players send at simultaneously}
@@ -459,11 +470,11 @@ For the protocols proposed in section~\ref{sec:first-try-nocol} we analyse two s
 \end{tikzpicture}
 \centering
 \caption{No collateral, Buyer acts first}
-\label{fig:nocol-buyer-first}
+\label{fig:nocol-Buyer-first}
 \end{figure}
 %\captionof{figure}{Naive approach, Buyer sends first}
 
-To analyze the game, we use the method "iterated elimination of strictly dominated strategies"\niknote{refer to preliminaries/source}. We start at the bottom at the seller's decision.
+To analyze the game, we use the method "iterated elimination of strictly dominated strategies"\niknote{refer to preliminaries/source}. We start at the bottom at the Seller's decision.
 \begin{itemize}
     \item The Seller chooses \emph{Keep} (Because $P > P - U_S(G)$).\niknote{Do you like this format with itemize? I want the decisions to visually stand out}
 \end{itemize}
@@ -485,7 +496,7 @@ The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and result
         child{node{0$|$0} edge from parent node [right] {\emph{Keep}}};
 \end{tikzpicture}
 \centering
-\label{fig:nocol-seller-first}
+\label{fig:nocol-Seller-first}
 \caption{No collateral, Seller acts first}
 \end{figure}
 
@@ -493,7 +504,7 @@ The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and result
 The analysis is similar to the above case, but the roles are reversed. 
 \begin{itemize}
     \item The Buyer would choose \emph{Withhold} as $U_B(G) > U_B(G)-P$
-    \item The seller would choose \emph{Keep} as $0 > -U_S(G)$
+    \item The Seller would choose \emph{Keep} as $0 > -U_S(G)$
 \end{itemize}
 The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
@@ -526,7 +537,7 @@ In other words, a successful trade would benefit both parties but is not happeni
 %\section{Second Try: One-Sided collateral}  \orfnote{apply earlier notes that also suit here}
 
 \section{Second Try: Buyer Collateral}
-\label{sec:buyer-collateral}
+\label{sec:Buyer-collateral}
 To incentivize an entity to follow the protocol we introduce collateral. The collateral will be lost if the entity deviates from the protocol. In this section we will look at a protocol where only one the Buyer deposits collateral. We introduce a Smart Contract~(SC) which handles the collateral. The payment $P$ is now routed via the Smart Contract.  \newline
 
 Following protocol is proposed:
@@ -534,14 +545,14 @@ Following protocol is proposed:
 \fbox{
  \procedureblock[linenumbering]{Buyer Collateral protocol}{
      \text{Buyer deposits collateral $C > P$ to the Smart Contract}\\
-    \text{Seller sends the physical good $G$ to the seller}\\
+    \text{Seller sends the physical good $G$ to the Seller}\\
     \text{After receiving $G$, the Buyer sends funds of amount $P$ to the Smart Contract}\\
     \text{The Smart Contract releases the collateral of the Buyer and sends $P$ to the Seller}
 }
 }
     \centering
     \caption{Buyer Collateral protocol}
-    \label{pro:buyer-col}
+    \label{pro:Buyer-col}
 \end{figure}
 
 The Smart Contract releases the collateral as soon as it receives $P$ by the Buyer. By paying $P$, the Buyer implicitly reports to the Smart Contract that he has received the physical good $G$. The collateral should incentivize the Buyer to pay the Seller after receiving the physical good $G$, as his collateral is greater than $P$.\newline
@@ -549,7 +560,7 @@ The Smart Contract releases the collateral as soon as it receives $P$ by the Buy
 It is important that the Seller sends first, as he has no collateral and therefore no incentive to follow the protocol. If we swap the order and let the Buyer send first, the Seller will simply keep $G$ and be in possession of both $G$ and $P$. Because of the collateral, the Seller can safely send $G$ first without having to worry that the Buyer will not pay him.\newline
 
 \subsection{Possible Strategies}
-\label{sec:possible-strategies-buyercol}
+\label{sec:possible-strategies-Buyercol}
 We still have the strategies from section~\ref{sec:possible-strategies}: \emph{Pay} and \emph{Withhold} for the Buyer and \emph{Keep} and \emph{Send} for the Seller. The The Buyer now has one additional decision: He can either follow the protocol and deposit the collateral $C$ (\emph{Deposit}) or deviate from the protocol and refuse to deposit the collateral (\emph{Refuse}).
 
 \subsection{Game}
@@ -585,7 +596,7 @@ The Nash Equilibrium is at \{\emph{Refuse}\} and results in a payout of $0|0$. T
 
 
 \section{Third Try: Seller Collateral}
-\label{sec:seller-col}
+\label{sec:Seller-col}
 In this section we will look into protocols where only the Seller deposits collateral.\newline
 
 Following protocol is proposed:
@@ -593,7 +604,7 @@ Following protocol is proposed:
 \fbox{
  \procedureblock[linenumbering]{Seller collateral protocol}{
     \text{Seller deposits collateral $C > P$ to the Smart Contract}\\
-    \text{Buyer sends funds of amount $P$ to the seller}\\
+    \text{Buyer sends funds of amount $P$ to the Seller}\\
     \text{Seller sends the physical good to the Buyer}\\
     \text{Buyer receives the physical good and confirms it to the Smart Contract}\\
     \text{The Smart Contract releases the collateral of the Seller}
@@ -601,19 +612,19 @@ Following protocol is proposed:
 }
     \centering
     \caption{Seller collateral protocol}
-    \label{pro:seller-col}
+    \label{pro:Seller-col}
 \end{figure}
 
 The collateral should incentivize the Seller to behave honestly and to ship the
-physical good to the buyer. The Buyer can report to the SC with a simple boolean input:
+physical good to the Buyer. The Buyer can report to the SC with a simple boolean input:
 \begin{itemize}
     \item 0 denotes that $G$ was not received
     \item 1 denotes that $G$ was received
 \end{itemize}
-%Because of the collateral, behaving honestly should be the best strategy for the seller.
+%Because of the collateral, behaving honestly should be the best strategy for the Seller.
 \subsection{Possible Strategies}
-\label{sec:possible-strategies-sellercol}
-There are still the basic strategies from section~\ref{sec:possible-strategies}: \emph{Pay} and \emph{Withhold} for the Buyer and \emph{Keep} and \emph{Send} for the Seller. Similar to the strategies of the Buyer Collateral protocol (c.f.~\ref{sec:possible-strategies-buyercol}) the Seller has the option to deposit the collateral (\emph{Deposit}) or refuse to deposit the collateral (\emph{Refuse}).\newline
+\label{sec:possible-strategies-Sellercol}
+There are still the basic strategies from section~\ref{sec:possible-strategies}: \emph{Pay} and \emph{Withhold} for the Buyer and \emph{Keep} and \emph{Send} for the Seller. Similar to the strategies of the Buyer Collateral protocol (c.f.~\ref{sec:possible-strategies-Buyercol}) the Seller has the option to deposit the collateral (\emph{Deposit}) or refuse to deposit the collateral (\emph{Refuse}).\newline
 
 The Buyer has a unique opportunity: He decides what happens to the Seller's
 collateral as he can either report that he received the physical good $G$ (\emph{Report}) or he can report that he did not receive it. Because he has this power over the Seller's collateral, he can try and coerce the Seller into sending him extra resources. This
@@ -662,14 +673,14 @@ The Nash Equilibrium is at \{Withhold\} \niknote{am I describing the Nash Equili
 %If $S$ does not behave honestly (does not send the good), $B$ can punish $S$ by reporting 0 to the Smart contract. This means, that the collateral would not be given back to $S$.
 What was designed to be an incentive for $S$ to behave honestly, ended up as leverage for $B$ over $S$. $B$ can report 0 (and burn the collateral) even if $S$ behaves honestly. 
 %Therefore $B$ can use this leverage to coerce $S$ into giving him extra resources: “Give me C/2 coins or I will report 0 to the Smart Contract and burn your collateral.“
-%Since sending the good has no impact on the collateral (the rational buyer will always play strategy $C_B$ over \emph{Pay}), it is best for $S$ to not send the physical good (\emph{Withhold}).
-%Because not Sending (\emph{Keep}) is the best strategy for the seller, it is best for $B$ to not even send P and therefore not engage in the trade at all (\emph{Withhold}).\newline
+%Since sending the good has no impact on the collateral (the rational Buyer will always play strategy $C_B$ over \emph{Pay}), it is best for $S$ to not send the physical good (\emph{Withhold}).
+%Because not Sending (\emph{Keep}) is the best strategy for the Seller, it is best for $B$ to not even send P and therefore not engage in the trade at all (\emph{Withhold}).\newline
 %The Nash Equilibrium would be in nobody sending anything and the trade not happening.
 
 \section{Fourth try: Seller collateral, both parties report}
-\label{sec:sellercol-both-report}
+\label{sec:Sellercol-both-report}
 One Side Collateral on the Seller's side does not work if only the Buyer reports
-to the Smart Contract (c.f.~\ref{sec:seller-col}). If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.
+to the Smart Contract (c.f.~\ref{sec:Seller-col}). If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.
 Another option would be that both players report to the Smart Contract if the physical good $G$ was sent and received.
 Also, instead of sending the Payment $P$ directly to the Seller, the Buyer will
 send the payment to the Smart Contract. \orfnote{Isn't the payment always routed
@@ -694,19 +705,19 @@ The Following protocol is proposed:
 }
     \centering
     \caption{Seller collateral protocol: Both parties report}
-    \label{pro:seller-col-both-report}
+    \label{pro:Seller-col-both-report}
 \end{figure}
 
 There are multiple ways to implement step 4: Either the two parties report one after another or they report simultaneously.
 \subsection{Possible Strategies}
-\label{sec:possible-strategies-sellercol-bothreport}
-There are still the same strategies as in section~\ref{sec:possible-strategies-sellercol}. We now denote reporting 0 to the SC as "$0$" and reporting 1 to the SC as "$1$".
+\label{sec:possible-strategies-Sellercol-bothreport}
+There are still the same strategies as in section~\ref{sec:possible-strategies-Sellercol}. We now denote reporting 0 to the SC as "$0$" and reporting 1 to the SC as "$1$".
 \subsection{Game: The Seller reports first}
 As the Buyer reports last, this protocol still gives the Buyer the power of
 burning the collateral of the Seller by reporting exactly the opposite from the
 Seller's report.
-Therefore he can still coerce the Seller into sending him back his payment. As we already have shown in section~\ref{sec:seller-col}, a rational
-seller will always comply and send back the payment $P$. This last decision from the Seller (leaf 3, 6, 9, 12) will be
+Therefore he can still coerce the Seller into sending him back his payment. As we already have shown in section~\ref{sec:Seller-col}, a rational
+Seller will always comply and send back the payment $P$. This last decision from the Seller (leaf 3, 6, 9, 12) will be
 omitted from the tree for better readability).\newline
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{$B$}
@@ -840,7 +851,7 @@ No matter which decision the Buyer takes at the top of the tree, the payout will
 \end{tabular}
 \caption{The corresponding payout table of figure 5.7}
 \end{table}
-To analyze the payout, we again start at the bottom. The seller chooses:
+To analyze the payout, we again start at the bottom. The Seller chooses:
 \begin{itemize}
     \item 1 over 2 ($-U_S(G)>-C - U_S(G)$)
     \item 4 over 3 ($P-U_S(G)> -C-U_S(G)$)
@@ -940,13 +951,13 @@ Again, there are three possible ways of handling the reports:
     \item Both players report simultaneously
 \end{itemize}
 \subsection{Possible strategies}
-There are still the basic strategies from section~\ref{sec:possible-strategies}: \emph{Pay} and \emph{Withhold} for the Buyer and \emph{Keep} and \emph{Send} for the Seller. In addition to that the players can either report 0 or 1 to the SC, similar to section~\ref{sec:sellercol-both-report}.
+There are still the basic strategies from section~\ref{sec:possible-strategies}: \emph{Pay} and \emph{Withhold} for the Buyer and \emph{Keep} and \emph{Send} for the Seller. In addition to that the players can either report 0 or 1 to the SC, similar to section~\ref{sec:Sellercol-both-report}.
 
 \subsection{Game: The Seller reports first}
 The following protocol is proposed:
 \begin{figure}[htb!]
 \fbox{
- \procedureblock[linenumbering]{Two side collateral: The seller reports first}{
+ \procedureblock[linenumbering]{Two side collateral: The Seller reports first}{
     \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
     \text{Buyer deposits collateral $C_B > P$ and $P$ to the Smart Contract}\\
     \text{Seller sends physical good $G$ to the Buyer and reports it to the Smart Contract}\\
@@ -956,7 +967,7 @@ The following protocol is proposed:
 }
     \centering
     \caption{Two side collateral protocol: Seller reports first}
-    \label{pro:two-side-collateral-seller-first}
+    \label{pro:two-side-collateral-Seller-first}
 \end{figure}
 
 To increase readability, we do not plot the decisions from point 1 and point 2 of
@@ -1038,7 +1049,7 @@ The following protocol is proposed:
 }
     \centering
     \caption{Two side collateral protocol: Buyer reports first}
-    \label{pro:two-side-collateral-buyer-first}
+    \label{pro:two-side-collateral-Buyer-first}
 \end{figure}
 
 To increase readability, we again do not plot the decisions from point 1 and point 2 of the protocol.
@@ -1062,7 +1073,7 @@ To increase readability, we again do not plot the decisions from point 1 and poi
     \end{tikzpicture}
     \centering
     \caption{Two Side Collateral: The Buyer reports first}
-    \label{fig:payout-twocol-buyer-first}
+    \label{fig:payout-twocol-Buyer-first}
 \end{figure}
 
 \begin{table}[htb!]
@@ -1089,7 +1100,7 @@ To increase readability, we again do not plot the decisions from point 1 and poi
         8& $P| -P$\\
         \hline
     \end{tabular}
-    \caption{The corresponding payout table of figure \ref{fig:payout-twocol-buyer-first}}
+    \caption{The corresponding payout table of figure \ref{fig:payout-twocol-Buyer-first}}
 \end{table}
 
 
@@ -1201,22 +1212,22 @@ information whether the good was actually shipped as an input. This ideal functi
     \centering
 \begin{lstlisting}[language=java]
 function assign_coins_ideal(
-  buyerCol: natural, sellerCol: natural, price: natural,
-  sellerSent: bool /* self reported */, buyerRecv: bool /* self reported */, 
+  BuyerCol: natural, SellerCol: natural, price: natural,
+  SellerSent: bool /* self reported */, BuyerRecv: bool /* self reported */, 
   shipped: bool /* ground truth */
-) -> (int /* seller coins */, int /* buyer coins */) {
-  if sellerSent == buyerRecv { /* honest case, multiple possible solutions  */ }
-  if (not sellerSent) and buyerRecv { /* irrational case, multiple possible solutions */ }
+) -> (int /* Seller coins */, int /* Buyer coins */) {
+  if SellerSent == BuyerRecv { /* honest case, multiple possible solutions  */ }
+  if (not SellerSent) and BuyerRecv { /* irrational case, multiple possible solutions */ }
 
   // both claim they went through and the other player failed
   if shipped {
-    sellerCoins: int >= price + sellerCol // honest Seller
-    buyerCoins: int < price + buyerCol - U_B(G) // lying Buyer
+    SellerCoins: int >= price + SellerCol // honest Seller
+    BuyerCoins: int < price + BuyerCol - U_B(G) // lying Buyer
   } else {
-    sellerCoins: int < sellerCol // lying Seller
-    buyerCoins: int > price + buyerCol // honest Buyer
+    SellerCoins: int < SellerCol // lying Seller
+    BuyerCoins: int > price + BuyerCol // honest Buyer
   }
-  return (sellerCoins, buyerCoins)
+  return (SellerCoins, BuyerCoins)
 }
 \end{lstlisting}
 \label{fig:code_ideal_sc}
@@ -1224,7 +1235,7 @@ function assign_coins_ideal(
 \end{figure}
 The irrational case (line 7) should never appear in the real world. At least one player is lying and thereby risking his collateral. Either the Seller did send $G$ but reports that he did not, or B did not receive $G$ but reports that he did. Both behaviours are irrational as the lie would harm the lying party. The irrational case can be implemented without looking at the ground truth. The same can be said about the honest case, as there is no dispute to settle.\newline
 
-The important case is when the seller reports that he shipped the good and the Buyer reports that he did not receive it. Because the Smart Contract has the input 'shipped', it can determine which party is lying and which party is telling the truth.
+The important case is when the Seller reports that he shipped the good and the Buyer reports that he did not receive it. Because the Smart Contract has the input 'shipped', it can determine which party is lying and which party is telling the truth.
 The Smart Contract settles the disputes in such a way that the honest party has a payout greater than zero and the lying party has a payout smaller than zero. Therefore it is unfavorable for any party to report wrongfully.\newline
 
 We will now see why the function outputs are defined in this way to achieve the ideal functionality:\newline
@@ -1256,35 +1267,35 @@ In the case of a dispute the SC rewards all the coins to the honest party.
     \centering
 \begin{lstlisting}[language=java]
 function assign_coins(
-  buyerCol: natural, sellerCol: natural, price: natural,
-  sellerSent: bool, buyerRecv: bool, shipped: bool
-) -> (int /* seller coins */, int /* buyer coins */) {
-  if sellerSent == buyerRecv { 
-    sellerCoins = sellerCol // give back the collateral
-    buyerCoins = buyerCol // give back the collateral
-    if shipped{sellerCoins += price} // G was shipped, Seller gets price
-    else {buyerCoins += price}// G was not shipped, Buyer gets price
+  BuyerCol: natural, SellerCol: natural, price: natural,
+  SellerSent: bool, BuyerRecv: bool, shipped: bool
+) -> (int /* Seller coins */, int /* Buyer coins */) {
+  if SellerSent == BuyerRecv { 
+    SellerCoins = SellerCol // give back the collateral
+    BuyerCoins = BuyerCol // give back the collateral
+    if shipped{SellerCoins += price} // G was shipped, Seller gets price
+    else {BuyerCoins += price}// G was not shipped, Buyer gets price
     }
-  if (not sellerSent) and buyerRecv { 
-    sellerCoins = 0 // irrational case, give both parties no coins
-    buyerCoins = 0
+  if (not SellerSent) and BuyerRecv { 
+    SellerCoins = 0 // irrational case, give both parties no coins
+    BuyerCoins = 0
   }
 
   // both claim they went through and the other player failed
   if shipped {
-    sellerCoins = price + sellerCol + buyerCol // honest Seller
-    buyerCoins =  0 // lying Buyer
+    SellerCoins = price + SellerCol + BuyerCol // honest Seller
+    BuyerCoins =  0 // lying Buyer
   } else {
-    sellerCoins = 0 // lying Seller
-    buyerCoins = price + sellerCol + buyerCol // honest Buyer
+    SellerCoins = 0 // lying Seller
+    BuyerCoins = price + SellerCol + BuyerCol // honest Buyer
   }
-  return (sellerCoins, buyerCoins)
+  return (SellerCoins, BuyerCoins)
 }
 \end{lstlisting}
     \caption{Example Code for an implementation of the ideal Smart Contract}
 \end{figure}
 
-With this ideal Smart Contract we can create a new game. We can use any two-side collateral protocol of section~\ref{sec:two-side-collateral}. In this example we will let the Seller report first (c.f.~figure~\ref{pro:two-side-collateral-seller-first}).
+With this ideal Smart Contract we can create a new game. We can use any two-side collateral protocol of section~\ref{sec:two-side-collateral}. In this example we will let the Seller report first (c.f.~figure~\ref{pro:two-side-collateral-Seller-first}).
 
 \begin{figure}[htb!]
     \centering
@@ -1350,67 +1361,66 @@ The Nash Equilibrium is at \{\emph{Send}, 1, 1\} and the trade would unravel suc
 Such a smart contract solves the problem completely as the Nash Equilibrium lies in both parties behaving honestly.
 %TODO It resembles the case of shipping a digital verifiable good. %quote the paper that solved this problem
 \subsection{Real World Functionality}
-In the real world, the Smart Contract does not know the ground truth. Therefore the signature of a function realizable in the real world is:\newline
+In the real world, the Smart Contract does not know the ground truth. It lacks the last input (‘bool: shipped‘). Therefore the signature of a function realizable in the real world is:\newline
 \begin{figure}[htb!]
 \begin{lstlisting}[language=java]
 function assign_coins_real(
-  buyerCol: natural, sellerCol: natural, price: natural,
-  sellerSent: bool, buyerRecv: bool
-) -> (int /* seller coins */, int /* buyer coins */)
+  BuyerCol: natural, SellerCol: natural, price: natural,
+  SellerSent: bool, BuyerRecv: bool
+) -> (int /* Seller coins */, int /* Buyer coins */)
 \end{lstlisting}
  \centering
     \caption{Signature of a function realizable in the real world}
     \label{fig:real_world_function_signature}
 \end{figure}
 
-This poses the following problem: The ground truth is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract. In the following section we will show that no real world function(a function that does not have the ground truth as input) can achieve the ideal functionality.\newline
+This poses the following problem: The ground truth is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract. In the following section we will show that no real world function (i.e.\ a function that does not have the ground truth as input) can achieve the ideal functionality.\newline
 
-Notation: $C_S$: Seller collateral, $C_B$: Buyer collateral, $P$ price, $R_S$ boolean value reported by the Seller, $R_B$: boolean value reported by the Buyer, $S$: ground truth if good was shipped
+Notation: $C_S$: Seller collateral, $C_B$: Buyer collateral, $P$ price, $R_S$ boolean value reported by the Seller, $R_B$: boolean value reported by the Buyer, $G$: ground truth if good was shipped
 
-\paragraph{Theorem:}There is no function $assign\_coins\_real: (C_B, C_S, P, S_B, B_S) \to (O_S, O_B)$ \niknote{maybe $\mathbb{N}\times \mathbb{N}\times \mathbb{N}\times \{0,1\}\times \{0,1\}\times \{0,1\} \to \mathbb{R}\times \mathbb{R}$ is formally more correct, but more difficult for the reader as they do not see what the inputs correspond to}, such that
- $\forall C_B, C_S, P\in \mathbb{N}, \forall R_B,R_S,S \in \{0,1\}$:
+\paragraph{Theorem:}There exists no function \texttt{assign\_coins\_real} with inputs $C_B \in \mathbb{N}$, $C_S \in \mathbb{N}$, $P \in \mathbb{N}$, $R_B~\in~\{\top,\bot\}$, $R_S \in \{\top,\bot\}$ and outputs  $O_S \in \mathbb{R}$, $O_B \in \mathbb{R}$, such that
+ $\forall C_B, C_S, P\in \mathbb{N}$, $\forall R_B,R_S,G \in \{\top,\bot\}$:
 \begin{equation}
 \label{eq:theorem}
-    assign\_coins\_real(C_B, C_S, P, S_B, B_S) = assign\_coins\_ideal(C_B, C_S, P, S_B, B_S,S)
+    \texttt{assign\_coins\_real(}C_B, C_S, P, S_B, B_S\textt{)} = \texttt{assign\_coins\_ideal(}C_B, C_S, P, S_B, B_S,G\textt{)}
 \end{equation}
 
-whereas "$=$" denotes that the output of $assign\_coins\_real$ is in the range defined by the ideal functionality.\newline
 \paragraph{Proof:}\label{sec:proof} 
-We provide a proof by contradiction: Let us assume for the sake of contradiction that the Theorem is wrong. That means there exists a \niknote{deterministic?} function $assign\_coins\_real : (C_B, C_S, P, S_B, B_S) \to (O_S, O_B)$, such that $\forall C_B, C_S, P\in \mathbb{N}, \forall R_B,R_S,S \in \{0,1\}$ equation \ref{eq:theorem} holds.\newline
+We provide a proof by contradiction: Let us assume for the sake of contradiction that the Theorem is wrong. That means there exists a \niknote{deterministic?} function \texttt{assign\_coins\_real}: %$(C_B, C_S, P, S_B, B_S) \to (O_S, O_B)$, 
+$\mathbb{N}\times \mathbb{N}\times \mathbb{N}\times \{\top,\bot\}\times \{\top,\bot\}\times \{\top,\bot\} \to \mathbb{R}\times \mathbb{R}$ 
+such that $\forall C_B, C_S, P\in \mathbb{N}, \forall R_B,R_S,S \in \{\top,\bot\}$ equation \ref{eq:theorem} holds.\newline
 
-We provide the following set of inputs: $C_B=5,C_S=5,P=4,R_S=1,R_B=0,S=1$.
-\niknote{I can also put the generic terms $C_S, C_B...$ here instead of concrete numbers}By definition of the ideal functionality (c.f. figure~\ref{fig:code_ideal_sc}), its payoff to the Seller(the first value of the output tuple) has to be:
+We provide the following set of inputs: $C_B=42,C_S=42,P=1,R_S=\bot,R_B=\bot,G=\top$.
+By definition of the ideal functionality (Figure~\ref{fig:code_ideal_sc}), its payoff to the Seller (the first value of the output tuple) has to be:
 \begin{equation}
 \label{eq:ideal_1}
-     assign\_coins\_ideal(C_S=5,C_B=5,P=4,R_S=1,R_B=0,S=1)[1] \geq  5 + 4 = 9
+     \texttt{assign\_coins\_ideal(}C_S=5,C_B=5,P=4,R_S=\top,R_B=\bot,G=\top\textt{)}[1] \geq  1 + 42 = 43
 \end{equation}
 
 From equation \ref{eq:theorem} and equation \ref{eq:ideal_1} we get:
 \begin{equation}
 \label{eq:real_1}
-     assign\_coins\_real(C_S=5,C_B=5,P=4,R_S=1,R_B=0)[1] \geq 9
+     \texttt{assign\_coins\_real(}C_S=5,C_B=5,P=4,R_S=\top,R_B=\bot\textt{)}[1] \geq 43
 \end{equation}
 
-We now change the last sixth input from 1 to 0: $C_B=5,C_S=5,P=4,R_S=1,R_B=0,S=0$. The payoff from the ideal function(c.f. figure~\ref{fig:code_ideal_sc}) to the Seller has to be:
+We now change the last sixth input from \top to \bot: $C_B=42,C_S=42,P=1,R_S=\bot,R_B=\bot,G=\bot$. The payoff from the ideal function (c.f. Figure~\ref{fig:code_ideal_sc}) to the Seller has to be:
 \begin{equation}
 \label{eq:ideal_2}
-    assign\_coins\_ideal(C_S=5,C_B=5,P=4,R_S=1,R_B=0,S=0)[1] \leq  4
+    \texttt{assign\_coins\_ideal(}C_S=5,C_B=5,P=4, R_S=\top,R_B=\bot,G=\bot\textt{)}[1] <  42
 \end{equation}
 
 From equation \ref{eq:theorem} and equation \ref{eq:ideal_2} we get:
 \begin{equation}
 \label{eq:real_2}
-    assign\_coins\_real(C_S=5,C_B=5,P=4,R_S=1,R_B=0)[1] \leq  4
+    \texttt{assign\_coins\_real(}C_S=5,C_B=5,P=4,R_S=\top,R_B=\bot\textt{)}[1] <  42
 \end{equation}
 
-As \emph{assign\_coins\_real} is a deterministic function, equation~\ref{eq:real_1} and equation~\ref{eq:real_2} contradict each other. That means that our assumption was wrong and there can not exist such function \emph{assign\_coins\_real}.
+As \texttt{assign\_coins\_real} is a deterministic function, equation~\ref{eq:real_1} and equation~\ref{eq:real_2} contradict each other. That means that our assumption was wrong and no such fuction  \texttt{assign\_coins\_real} exists.
 
 
-%Notation:$sellercol$ is $C_S$...
-%%For example, it is impossible to differentiate between a lying seller that did not send the good $G$ but says he did, and a lying Buyer that received the good but says he did not. 
+%Notation:$Sellercol$ is $C_S$...
+%%For example, it is impossible to differentiate between a lying Seller that did not send the good $G$ but says he did, and a lying Buyer that received the good but says he did not. 
 %Without the sixth input, it is impossible to design a Smart Contract that achieves the ideal functionality described in section 5.4.1.
-\orfnote{do not hardcode section numbers, use labels/references instead}
-\orfnote{I would really like to present this argument in a theorem-proof format}
 
 \chapter{A redesigned game}
 \label{cha:redisigned-game}
@@ -1440,7 +1450,7 @@ In this section we show that if the Buyer behaves truthful (and therefore not ra
                 child[sibling distance = 3cm]{node{7} edge from parent node [left] {0}}
     		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {\emph{Keep}}};
     \end{tikzpicture}
-    \label{fig:payout-truthful-buyer}
+    \label{fig:payout-truthful-Buyer}
     \caption{Two Side Collateral with truthful Buyer}
 \end{figure}
 
@@ -1468,7 +1478,7 @@ In this section we show that if the Buyer behaves truthful (and therefore not ra
 \hline
 \end{tabular}
 \end{center}
-\captionof{table}{The corresponding payout table of figure \ref{fig:payout-truthful-buyer}}
+\captionof{table}{The corresponding payout table of figure \ref{fig:payout-truthful-Buyer}}
 Now a truthful Buyer stops acting rationally and chooses option 7 over 8.\newline
 The Buyer chooses:
 \begin{itemize}
@@ -1526,7 +1536,7 @@ We propose the following protocol:
     \text{Buyer deposits collateral $C_B > P$ and price $P$ to the Smart Contract}\\
     \text{Seller sends physical good $G$ to the Mediator and reports it to the Smart Contract}\\
     \text{Mediator receives the physical good, confirms it to the Smart Contract and sends $G$ to the Buyer}\\
-    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the seller}
+    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}
 }
 }
     \centering
@@ -1548,7 +1558,7 @@ We propose the following protocol:
 %-----------SEND G------------------------
 \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
 \pcintertext [dotted] {Report to the SC} \\
-%-----------SELLER REPORTS----------------------
+%-----------Seller REPORTS----------------------
 \< \sendmessageright{top=report 1,length=2cm} \< \< \< \< \< \\
 %---------------CHECK IF G IS RIGHT-------------
 \< \< \< \< \text{$G$ is right?} \< \< \\
@@ -1819,7 +1829,7 @@ object recognition. Find references}
 \section{Difference from trusted third party/ Escrow}
 \niknote{not yet implemented}
 How is the reporting entity different than an escrow?
--only buyer has to trust?
+-only Buyer has to trust?
 -Maybe even model rational: misbehaving is doing more damage to the company/manufacturer than behaving exactly as described -> then no trust is necessary -> but then we can us it as a clean middleman that reports to the SC
 %\chapter{Open Research/ Questions}
 
@@ -1860,7 +1870,7 @@ Object detection with 3d model. maybe loook at face ID?
 %-----------SEND G------------------------
 \pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
 \pcintertext [dotted] {Report to the SC} \\
-%-----------SELLER REPORTS----------------------
+%-----------Seller REPORTS----------------------
 \pcln \< \sendmessageright{top=report 1,length=2cm} \< \< \< \< \< \\
 %---------------CHECK IF G IS RIGHT-------------
 \pcln \< \< \< \< \text{$G$ is right?} \< \< \\
@@ -1887,7 +1897,7 @@ Object detection with 3d model. maybe loook at face ID?
 %-----------SEND G------------------------
 \pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
 \pcintertext [dotted] {Report to the SC} \\
-%-----------SELLER REPORTS----------------------
+%-----------Seller REPORTS----------------------
 \pcln \< \sendmessageright{top=report 1,length=2cm} \< \< \< \< \< \\
 %---------------CHECK IF G IS RIGHT-------------
 \pcln \< \< \< \< 
@@ -1914,7 +1924,7 @@ Object detection with 3d model. maybe loook at face ID?
     \item Buyer deposits collateral $C_B > P$ to the Smart Contract
     \item Buyer sends funds of amount $P$ \orfnote{sends $P$ coins} to the Smart
     Contract \orfnote{this step could be combined with the previous one}
-    \item Seller sends physical good $G$ to the seller and reports it to the Smart Contract
+    \item Seller sends physical good $G$ to the Seller and reports it to the Smart Contract
     \item Buyer receives the physical good and confirms \orfnote{reports} it to the Smart Contract
     \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller
 \end{enumerate}
@@ -1930,7 +1940,7 @@ Object detection with 3d model. maybe loook at face ID?
 %-----------SEND G------------------------
 \pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
 \pcintertext [dotted] {Report to the SC} \\
-%-----------SELLER REPORTS----------------------
+%-----------Seller REPORTS----------------------
 \pcln \< \sendmessageright{top=report 1} \< \< \< \\
 \pcln \< \< \< \sendmessageleft{top = report} \< \text{check, if $G$ correct} \\
 \pcln \<  \sendmessageleft{top=$P$} \<\<\< \pclb
@@ -1947,7 +1957,7 @@ Object detection with 3d model. maybe loook at face ID?
  \procedureblock[linenumbering]{Protocol}{
     \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
     \text{Buyer deposits collateral $C_B > P$ and $P$ coins to the Smart Contract}\\
-    \text{Seller sends physical good $G$ to the seller and reports it to the Smart Contract}\\
+    \text{Seller sends physical good $G$ to the Seller and reports it to the Smart Contract}\\
     \text{Buyer receives the physical good and reports it to the Smart Contract}\\
     \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}
 }
