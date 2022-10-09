@@ -183,12 +183,13 @@ Each player faces multiple decisions in a game. At every decision point he choos
 \begin{definition}[Strategy]
 Player $i$'s strategy $s_i$ is a rule that tells him which action to choose at each instant of the game, given his information set. {\normalfont \cite{rasmusen_games_nodate}}.
 \end{definition}
-We call the set of every strategy for a player his strategy set. A strategy profile is an ordered set consisting of one strategy for each of the n players in the game.
+We call the set of every strategy for a player his strategy set. A strategy profile is an ordered set consisting of one strategy for each of the n players in the game.\newline
+
 %- best response
 \begin{definition}[Dominated strategy]
-The strategy $s^d_i$ is dominated by $s_i'$ if it is strictly inferior to $s_i'$ no matter what strategies the other players choose, in the sense that whatever strategies they pick, his payoff is lower with $s^d_i$ {\normalfont \cite{rasmusen_games_nodate}}. Formally: 
+The strategy $s^d_i$ is dominated by $s_i'$ if it is strictly inferior to $s_i'$ no matter what strategies $s^*_{-i}$ the other players choose, in the sense that whatever strategies they pick, his payoff is lower with $s^d_i$ than with $s_i'${\normalfont \cite{rasmusen_games_nodate}}. Formally: 
 \begin{equation}
-    \forall s_i': u(s^d_i,s^*_{-i}) \leq u(s_i',s^*_{-i})
+    \forall s^*_{-i}: u_i(s^d_i,s^*_{-i}) \leq u_i(s_i',s^*_{-i})
 \end{equation}
 \end{definition}
 
@@ -198,7 +199,7 @@ If one strategy dominated the other, a player will always choose the dominant st
 %what about pareto/strictly dominated strategies equilibrium?
 \begin{definition}[Nash Equilibrium]
 A strategy profile $s^*$ is a Nash equilibrium if no player has incentive to deviate from his strategy given that the other players do not deviate. {\normalfont \cite{rasmusen_games_nodate}} Formally: \begin{equation}
-    \forall i: \forall s_i': u(s^*_i,s^*_{-i}) \leq u(s'_i,s^*_{-i})
+    \forall i: \forall s_i': u_i(s^*_i,s^*_{-i}) \leq u_i(s'_i,s^*_{-i})
 \end{equation}
 \end{definition}
 Nash showed, that every game with a finite number of players, each having a finite set of strategies, has at least one Nash Equilibrium \cite{nash1950}.
@@ -1507,6 +1508,7 @@ If this is achieved, a Seller knows that it is unprofitable to not send $G$.\new
 
 
 \section{Formal definition of the new Entity}
+\label{sec:formal-definition-mediator}
 \niknote{Maybe change title to "formally redesigning the game"}
 We introduce another entity, which we call Mediator $M$: and has the following behaviour:
 \begin{definition}[Mediator]
@@ -1726,7 +1728,7 @@ credible threat to the Seller.
 
 
 \subsection{Postal Office reports}
-In our formal analysis we assumed that there is a way for the physical item $G$ to be reliably shipped. In practice physical goods are usually shipped by a another party (Post office/shipping company).
+In our formal analysis we assumed that there is a way for the physical item $G$ to be reliably shipped. In practice physical goods are usually shipped by a another party (Postal Office/shipping company).
 Therefore the parties have to trust the Postal Office (PO) to actually deliver the good. Because the parties already trust the PO, the PO can also report to the Smart Contract and thereby act as the Mediator.\newline
 
 We propose the following protocol:
@@ -1758,34 +1760,29 @@ An honest Postal Office realises the ideal Mediator as defined in 6.1:
             \item else it reports 0 and destroys the good
         \end{itemize}
 \end{enumerate}
-As the Postal Office has to be trusted by the Buyer, it meets the requirements to being the ideal mediator. We have already shown (6.2) that a practical implementation of the ideal Mediator would solve our problem. Therefore the Postal Office reporting to the Smart Contract and thereby acting as Mediator is a viable solution to the problem.
-\minisec{Trust in the Postal Office}
-Although this solution with the PO as Mediator achieves an incoercible sale of the physical good $G$, both parties still have to trust the Postal Office behave honestly.
-In addition to that, the Postal Office now knows the specifications of the good being shipped. This means that there is less privacy for the Buyer and the Seller. If the physical good that is being shipped is very valuable, it opens up possible attacks by the Postal Office.\newline
+As the Postal Office has to be trusted by the Buyer, it meets the requirements to being the ideal mediator as defined in section~\ref{sec:formal-definition-mediator}. We have already shown in section~\ref{sec:mediated-protocol}) that a practical implementation of the ideal Mediator would solve our problem. Therefore the Postal Office reporting to the Smart Contract and thereby acting as Mediator is a valid solution to the problem.\newline
 
--po has to be big/trusted enough\newline
--exit scams?
-\minisec{Difference Postal Office and Escrow}
-The big difference between the Postal Office and traditional third party escrow is that the PO does not handle the money. 
+Although this solution with the PO as Mediator achieves an incoercible sale of the physical good $G$, the Buyer still has to trust the Postal Office to follow the protocol. This is not a big increase of trust, as he already trusts the PO to ship the good. 
+It has to be taken into account, that the Postal Office now knows the specifications of the good being shipped. This means that there is less privacy for the Buyer and the Seller. If the physical good that is being shipped is very valuable, the Postal Office has incentive to deviate from the protocol and keep the physical good. Just the fact that the PO knows what good is inside opens up possible attacks by the Postal Office.\newline
+
+This solution has trust involved. Both the Buyer and the Seller have to trust the Postal Office to deliver the product. We did not model the PO as a rational party trying to maximize its own utility. One could argue, that the PO is just like a trusted escrow, that brokers the exchange.  The big difference between the Postal Office and traditional third party escrow is that the PO does not handle the money. 
 In traditional third party escrows, the escrow has to be trusted with the good and the money. As it is in possession of both, it opens up possibilities to scam the Buyer and the Seller out of both the money and the physical good.
-As the postal Office is only holding on to the physical good, the reward of a
-possible scam is considerably less than if it also had control of the money (approximately half, assuming that $U_{PO}(G) \approx P$). \newline 
+As the postal Office is only holding on to the physical good, the reward of possible scam is considerably less than if it also had control of the money (approximately half, assuming that $U_{PO}(G) \approx P$).\newline
 
-We trust the PO by default? Third party escrow is third rational party therefore can scam, but PO is not modeled as rational party? kind of cheating
+In addition to that, this trust that the Postal Office has to deliver the good is unavoidable in the real world, as long as the Seller is not delivering the good by himself. If a trusted third party is used, the good still has to be shipped and the Buyer and the Seller have to trust the third party and the Postal Office. 
+
 \subsection{Machine reports}
+\label{sec:machine-reporst}
 If we can build a machine that can recognize $G$ reliably, we can completely eliminate trust. This machine can act as the Mediator. It does not make decisions, it simply takes inputs and acts accordingly.\newline
 The inputs it takes are:
 \begin{itemize}
     \item The address of the SC
     \item Specifications that describe $G$
-    \item The physical good $G$
+    \item The physical good $G$\newline
 \end{itemize}
 
-The Mediator now is a deterministic machine in contrast to a third Entity. This has the advantage that both the Buyer and the Seller know that the Machine will behave exactly as it is programmed to do. It can presumably can use some kind of image recognition or 3D object recognition. \niknote{find references}. This machine has to be cheap
-and open source, therefore both parties can verify its code and the Seller can
-easily believe that the Buyer can have such a machine, thus eliminating trust.
 
-\subsubsection{Behaviour of the Machine}
+The machine has the following behaviour:
 \begin{enumerate}
     \item It receives the SC address and specifications that describe G
     \item It receives the physical good from the Seller
@@ -1795,11 +1792,9 @@ easily believe that the Buyer can have such a machine, thus eliminating trust.
             \item else: it reports 0 and destroys the good
         \end{itemize}
 \end{enumerate}
-A Machine with this behaviour is realising the ideal Mediator from 6.1. 
 
-\subsubsection{Protocol}
 \begin{figure}[htb!]
-%\fbox{
+\fbox{
  \procedureblock[linenumbering]{Two side collateral: Machine as Mediator}{
  \text{Buyer gives SC address and specifications for $G$ to the Machine}\\
     \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
@@ -1809,21 +1804,26 @@ A Machine with this behaviour is realising the ideal Mediator from 6.1.
     \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}\\
     \text{Machine sends $G$ to the Buyer}
 }
-%}
+}
     \centering
     \caption{Two side collateral protocol: Machine as Mediator}
     \label{pro:two-side-collateral-machine}
 \end{figure}
 
-As the machine realises an ideal ideal Mediator (6.1), this protocol achieves an incoercible sale of $G$.\newline
-In addition to that, no trust is needed as the Mediator is not able to behave differently. It will always behave as it was programmed to behave. Therefore it is not able to perform any kind of scam.
+This machine realises an ideal ideal Mediator as defined in section~\ref{sec:formal-definition-mediator}. As shown in section~\ref{sec:mediated-protocol}, such a protocol achieves an incoercible sale of $G$.\newline
 
-\subsubsection{Realizability of the machine} 
-The biggest challenge for the machine is to determine if the provided good actually matches the specifications.\newline
-We believe that a machine which behaves exactly as we described is could be
-realised using artificial intelligence. 
-\niknote{maybe merge this paragraph with the one directly above Behaviour of the Machine}\orfnote{expand a bit. Mention image/3d
-object recognition. Find references}
+The Mediator now is a deterministic machine in contrast to a third Entity. This has the advantage that both the Buyer and the Seller know that the Machine will behave exactly as it is programmed to do. It can presumably can use some kind of image recognition or 3D object recognition. \niknote{find references}. This machine has to be cheap
+and open source, therefore both parties can verify its code.\newline 
+
+If this is the case, no trust is needed as the Buyer can verify himself that the machine is programmed to follow the protocol. The machine has to be realizable and easy to access, so that the Seller can
+easily believe that the Buyer can have such a machine. As soon as the Seller believes that the Buyer us using such a machine, it is his best strategy to follow the protocol and perform a successful trade.
+
+%\subsubsection{Realizability of the machine} 
+%The biggest challenge for the machine is to determine if the provided good actually matches the specifications.\newline
+%We believe that a machine which behaves exactly as we described is could be
+%realised using artificial intelligence. 
+%\niknote{maybe merge this paragraph with the one directly above Behaviour of the Machine}\orfnote{expand a bit. Mention image/3d
+%object recognition. Find references}
 
 
 \section{Difference from trusted third party/ Escrow}
@@ -1849,124 +1849,12 @@ Cryptocurrencies are gaining acceptance\niknote{here a reference} as a valid pay
 %what are the results of this thesis?
 
 \section{Outlook}
-maybe find a formal way to distinguish working protocols from not working ones, given the new assumptions where we allow a Mediator? probably dependend on the behaviour of the Mediator. why is it working? Is there an easier protocoll that still solves the problem?\newline
+maybe find a formal way to distinguish working protocols from not working ones, given the new assumptions where we allow a Mediator? probably dependend on the behaviour of the Mediator. why is it working? Is there an easier protocol that still solves the problem?\newline
 
-Engeneer the (ML) machine, as in section... that can classify a physical good correctly with high probability. 
-Object detection with 3d model. maybe loook at face ID?
+An important topic for future work is to engineer the machine that we use in section~\ref{sec:machine-reporst}. For that, we need some kind of way of turning a physical good into a digital set of descriptions, that uniquely identifies this physical good, like a digital fingerprint of the good. A possible approach for that is to 3d-scan this good, and have the digital 3d model as an unique identifier. Another important part would be to program the software of the machine: it has to be able to compare the physical good that is presented with the digital description that it has as input and decide, if the physical good matches this description. In order for the protocol to practicable, this software has to have a high probability of recognizing the physical good.
 
 
-\chapter{test}
-\subsection{without subprocedure}
-\procedureblock{Protocol with Mediator}{
-\textbf{$S$} \<\< \textbf{SC} \<\<  \textbf{M} \<\< \textbf{$B$} \\
-%------------TELL THE MEDIATOR---------------
-\pcln \< \< \< \< \sendmessageleft{top=information,length=2cm} \>\>\pclb
-%-----------COLLATERAL-----------------
-\pcintertext [dotted] {Deposit Collateral} \\
-\pcln \< \sendmessageright{top = $C_S$,length=2cm} \< \<  \sendmessageleftx[5.5cm]{4}{C_B} \<   \pclb
-\pcintertext [dotted] {Send Resources} \\
-%-----------SEND P------------------
-\pcln \< \< \< \sendmessageleftx[5.5cm]{8}{P} \< \< \< \\
-%-----------SEND G------------------------
-\pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
-\pcintertext [dotted] {Report to the SC} \\
-%-----------Seller REPORTS----------------------
-\pcln \< \sendmessageright{top=report 1,length=2cm} \< \< \< \< \< \\
-%---------------CHECK IF G IS RIGHT-------------
-\pcln \< \< \< \< \text{$G$ is right?} \< \< \\
-%-----------MEDIATOR REPORTS---------------
-\pcln \< \< \< \sendmessageleft{top=report 1,length=2cm} \< \< \< \\
-%------MEDIATOR SENDS G TO $B$-------------
-\pcln \< \< \< \< \sendmessageright{top=$G$,length=2cm} \>\>\pclb
-\pcintertext [dotted] {Pay back collateral} \\
-\pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\
-\pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
-}
-\subsection{with subprocedure}
-\newpage
-\procedureblock{Protocol with Mediator}{
-\textbf{$S$} \<\< \textbf{SC} \<\<  \textbf{M} \<\< \textbf{$B$} \\
-%------------TELL THE MEDIATOR---------------
-\pcln \< \< \< \< \sendmessageleft{top=information,length=2cm} \>\>\pclb
-%-----------COLLATERAL-----------------
-\pcintertext [dotted] {Deposit Collateral} \\
-\pcln \< \sendmessageright{top = $C_S$,length=2cm} \< \<  \sendmessageleftx[5.5cm]{4}{C_B} \<   \pclb
-\pcintertext [dotted] {Send Resources} \\
-%-----------SEND P------------------
-\pcln \< \< \< \sendmessageleftx[5.5cm]{8}{P} \< \< \< \\
-%-----------SEND G------------------------
-\pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
-\pcintertext [dotted] {Report to the SC} \\
-%-----------Seller REPORTS----------------------
-\pcln \< \sendmessageright{top=report 1,length=2cm} \< \< \< \< \< \\
-%---------------CHECK IF G IS RIGHT-------------
-\pcln \< \< \< \< 
-\dbox{ \begin{subprocedure} \pseudocodeblock[linenumbering]{
-\pcif \text{G matches instructions}\\
-\pcthen \text{report 1 and send $G$ to Buyer} \\
-\pcelse \text{report 0 and destroy $G$}
-}
-\end{subprocedure}}
-\< \< \\
-%-----------MEDIATOR REPORTS---------------
-\pcln \< \< \< \sendmessageleft{top=report ,length=2cm} \< \< \< \\
-%------MEDIATOR SENDS G TO $B$-------------
-\pcln \< \< \< \< \sendmessageright{top=$G$,length=2cm} \>\>\pclb
-\pcintertext [center] {Pay back collateral} \\
-\pcln \<  \sendmessageleft{top=$C_S$,length=2cm} \<\<\<\<\< \\[][\hline]
-\pcln \< \< \< \sendmessagerightx[5.5cm]{8}{C_B} \< \< \< \\
-}
 
-\section{two-Side collateral}
-\minisec{How it is now}
-\begin{enumerate}
-    \item Seller deposits collateral $C_S > P$ to the Smart Contract
-    \item Buyer deposits collateral $C_B > P$ to the Smart Contract
-    \item Buyer sends funds of amount $P$ \orfnote{sends $P$ coins} to the Smart
-    Contract \orfnote{this step could be combined with the previous one}
-    \item Seller sends physical good $G$ to the Seller and reports it to the Smart Contract
-    \item Buyer receives the physical good and confirms \orfnote{reports} it to the Smart Contract
-    \item The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller
-\end{enumerate}
-\minisec{cryptocode figure}
-\procedureblock{Two-Side-Collateral Protocol}{
-\textbf{$S$} \<\< \textbf{SC} \<\< \textbf{$B$} \pclb
-%-----------COLLATERAL-----------------
-\pcintertext [dotted] {Deposit Collateral} \\
-\pcln \< \sendmessageright{top = $C_S$} \< \<  \sendmessageleft{top = $C_B$} \<   \pclb
-\pcintertext [dotted] {Send Resources} \\
-%-----------SEND P------------------
-\pcln \< \< \< \sendmessageleft{top = $P$} \< \\
-%-----------SEND G------------------------
-\pcln  \< \sendmessagerightx[6cm]{6}{G} \<\< \pclb
-\pcintertext [dotted] {Report to the SC} \\
-%-----------Seller REPORTS----------------------
-\pcln \< \sendmessageright{top=report 1} \< \< \< \\
-\pcln \< \< \< \sendmessageleft{top = report} \< \text{check, if $G$ correct} \\
-\pcln \<  \sendmessageleft{top=$P$} \<\<\< \pclb
-%---------------CHECK IF G IS RIGHT-------------
-%\pcln \< \< \< \< \text{$G$ is right?} \< \< \\
-\pcintertext [dotted] {Pay back collateral} \\
-\pcln \<  \sendmessageleft{top=$C_S$} \<\<\< \\
-\pcln \< \< \< \sendmessageright{top=$C_B$} \<  \\
-}
-
-\minisec{cryptocode proocedure}
-\begin{figure}[htb!]
-%\fbox{
- \procedureblock[linenumbering]{Protocol}{
-    \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
-    \text{Buyer deposits collateral $C_B > P$ and $P$ coins to the Smart Contract}\\
-    \text{Seller sends physical good $G$ to the Seller and reports it to the Smart Contract}\\
-    \text{Buyer receives the physical good and reports it to the Smart Contract}\\
-    \text{The Smart Contract releases the collateral of the Seller and the Buyer and sends $P$ to the Seller}
-}
-%}
-
-    \centering
-    \caption{Double collateral protocol}
-    \label{pro:double-collateral-protocol}
-\end{figure}
 
  %\begin{figure}[!htbp]
     %\begin{systembox}{A}
