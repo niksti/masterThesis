@@ -683,12 +683,12 @@ What was designed to be an incentive for $S$ to behave honestly, ended up as lev
 One Side Collateral on the Seller's side does not work if only the Buyer reports
 to the Smart Contract (c.f.~\ref{sec:Seller-col}). If only the Buyer reports, he has all the power and can report anything he wants to the Smart Contract.
 Another option would be that both players report to the Smart Contract if the physical good $G$ was sent and received.
-Also, instead of sending the Payment $P$ directly to the Seller, the Buyer will
-send the payment to the Smart Contract. \orfnote{Isn't the payment always routed
-through the smart contract anyway?} The Smart Contract will then, if both parties behave honestly, forward the payment to the Seller. This hands more power to the Smart Contract. With control over the collateral and the payment it has more options to punish dishonest behaviour. 
+%Also, instead of sending the Payment $P$ directly to the Seller, the Buyer will
+%send the payment to the Smart Contract. \orfnote{Isn't the payment always routed
+%hrough the smart contract anyway?} The Smart Contract will then, if both parties behave honestly, forward the payment to the Seller. This hands more power to the Smart Contract. With control over the collateral and the payment it has more options to punish dishonest behaviour. 
 If the two players report a different value, then the Smart Contract will slash
-the collateral, as one party has to be lying,whereas if the parties
-agree, their collateral is returned. If they both report 0 ($G$ was not sent),
+the collateral of both parties as one party has to be lying. Their collateral is only returned if the parties
+agree and report the same answer to the Smart Contract. If they both report 0 ($G$ was not sent),
 then the Smart Contract will send $P$ back to the Buyer, because $G$ was not
 shipped. If they both report 1 ($G$ was sent), then the Smart Contract will send
 $P$ to the Seller and the trade will be successful.\newline
@@ -1426,8 +1426,7 @@ As \texttt{assign\_coins\_real} is a deterministic function, equation~\ref{eq:re
 \chapter{A redesigned game}
 \label{cha:redisigned-game}
 
-As we have shown (c.f.~\ref{sec:formal-proof}) \orfnote{we have to discuss what will be the fate of the
-proof}, it is not possible (under our assumptions) to design a protocol that would create a successful game (as described in \ref{sec:the-game}). The biggest problem is that we have no reliable way of telling the Smart Contract whether the physical good $G$ was actually shipped or not. If there is a dispute, the Smart Contract does not know which party is lying and has to be punished.\newline
+As we have shown under reasonable assumptions in section~\ref{sec:proof}, it is not possible to design a protocol that would create a successful game (as described in \ref{sec:the-game}). The biggest problem is that we have no reliable way of telling the Smart Contract whether the physical good $G$ was actually shipped or not. If there is a dispute, the Smart Contract does not know which party is lying and has to be punished.\newline
 
 We need to rework our assumptions and requirements for the game we want to design. For that it is is interesting to see that the two side collateral protocol (c.f.~\ref{sec:two-side-collateral}) is very close to achieving our goals. As already discussed, the problem is that the Seller is not actually incentivized to send the physical good $G$, because the Buyer is not incentivized to report his dishonest behaviour. The Buyer gets a bigger Payout when he lies to the Smart Contract instead of reporting the dishonest behaviour. Therefore a rational Buyer would never punish a dishonest Seller in this scenario. If a Seller thinks that the Buyer would punish him (the Buyer is not acting rational in this scenario), then the Seller is incentivized to send the physical good $G$.\newline
 \section{Two Side Collateral with truthful Buyer} 
@@ -1513,20 +1512,19 @@ If this is achieved, a Seller knows that it is unprofitable to not send $G$.\new
 We introduce another entity, which we call Mediator $M$: and has the following behaviour:
 \begin{definition}[Mediator]
 \label{def:mediator}
-An Entity $M$ that has the purpose to protect the Buyer from an misbehaving Seller. $M$ has the following behaviour:
+An Entity $M$ that has the purpose to protect the Buyer from a misbehaving Seller. $M$ has the following behaviour:
 \begin{enumerate}
     \item receive SC address and specifications that describe $G$
     \item receive the physical good
     \item check if the the physical good match the description for $G$
     \begin{itemize}
         \item if so: report 1 to the SC and send the good to the Buyer
-        \item else: destroy the good and report 0 to the SC
+        \item else: destroy the good and report 0 to the SC\newline
     \end{itemize}
 \end{enumerate}
 \end{definition}
 
 The new Entity is not modeled as a rational party. It always behaves in the described way. It has its own physical address and the power to receive physical items. Given the right specifications of $G$, the Mediator can distinguish $G$ from every other  physical item. The Mediator also has the power to communicate with the Smart Contract and the Buyer. It is trusted by the Buyer to evaluate if the good sent by the Seller is indeed $G$.
-//TODO Maybe expand on that: What about trust
 \section{Mediated protocol}
 \label{sec:mediated-protocol}
 We propose the following protocol:
@@ -1765,11 +1763,6 @@ As the Postal Office has to be trusted by the Buyer, it meets the requirements t
 Although this solution with the PO as Mediator achieves an incoercible sale of the physical good $G$, the Buyer still has to trust the Postal Office to follow the protocol. This is not a big increase of trust, as he already trusts the PO to ship the good. 
 It has to be taken into account, that the Postal Office now knows the specifications of the good being shipped. This means that there is less privacy for the Buyer and the Seller. If the physical good that is being shipped is very valuable, the Postal Office has incentive to deviate from the protocol and keep the physical good. Just the fact that the PO knows what good is inside opens up possible attacks by the Postal Office.\newline
 
-This solution has trust involved. Both the Buyer and the Seller have to trust the Postal Office to deliver the product. We did not model the PO as a rational party trying to maximize its own utility. One could argue, that the PO is just like a trusted escrow, that brokers the exchange.  The big difference between the Postal Office and traditional third party escrow is that the PO does not handle the money. 
-In traditional third party escrows, the escrow has to be trusted with the good and the money. As it is in possession of both, it opens up possibilities to scam the Buyer and the Seller out of both the money and the physical good.
-As the postal Office is only holding on to the physical good, the reward of possible scam is considerably less than if it also had control of the money (approximately half, assuming that $U_{PO}(G) \approx P$).\newline
-
-In addition to that, this trust that the Postal Office has to deliver the good is unavoidable in the real world, as long as the Seller is not delivering the good by himself. If a trusted third party is used, the good still has to be shipped and the Buyer and the Seller have to trust the third party and the Postal Office. 
 
 \subsection{Machine reports}
 \label{sec:machine-reporst}
@@ -1816,7 +1809,7 @@ The Mediator now is a deterministic machine in contrast to a third Entity. This 
 and open source, therefore both parties can verify its code.\newline 
 
 If this is the case, no trust is needed as the Buyer can verify himself that the machine is programmed to follow the protocol. The machine has to be realizable and easy to access, so that the Seller can
-easily believe that the Buyer can have such a machine. As soon as the Seller believes that the Buyer us using such a machine, it is his best strategy to follow the protocol and perform a successful trade.
+easily believe that the Buyer can have such a Machine. As soon as the Seller believes that the Buyer us using such a Machine, it is his best strategy to follow the protocol and perform a successful trade.
 
 %\subsubsection{Realizability of the machine} 
 %The biggest challenge for the machine is to determine if the provided good actually matches the specifications.\newline
@@ -1826,11 +1819,28 @@ easily believe that the Buyer can have such a machine. As soon as the Seller bel
 %object recognition. Find references}
 
 
-\section{Difference from trusted third party/ Escrow}
-\niknote{not yet implemented}
-How is the reporting entity different than an escrow?
--only Buyer has to trust?
--Maybe even model rational: misbehaving is doing more damage to the company/manufacturer than behaving exactly as described -> then no trust is necessary -> but then we can us it as a clean middleman that reports to the SC
+\section{Is the proposed Mediator a trusted third party?}
+%How is the reporting entity different than an escrow?
+%-only Buyer has to trust?
+%-Maybe even model rational: misbehaving is doing more damage to the company/manufacturer than behaving exactly as described -> then no trust is necessary -> but then we can us it as a clean middleman that reports to the SC
+
+In section~\ref{sec:formal-definition-mediator} we introduced another entity, which we called Mediator $M$. It was defined as trusted by the Buyer to evaluate if the good that was sent by the Seller is the agreed upon $G$. It is not modeled as a rational entity, rather it always follows behaves in the defined way (c.f. Definition~\ref{def:mediator}).\newline
+
+One could argue, that the Mediator is just like a trusted escrow that brokers the exchange. It takes possession of the good and therefore acts as a middlemen. In addition to that, the Buyer has to trust the Mediator to follow the protocol.\newline
+
+The main difference between the Mediator and an traditional trusted escrow is that the Mediator does not handle the money. In traditional third party escrows, the escrow has to be trusted with the good and the money. As it is in possession of both, it opens up possibilities to scam the Buyer and the Seller out of both the money and the physical good.
+As the Mediator is only holding on to the physical good, the reward of a possible scam is considerably less than if it also had control of the money (approximately half, assuming that $U_{PO}(G) \approx P$).\newline
+
+In addition to that the Seller does not have to trust the Mediator. For the trade to succeed, the Seller has to be convinced that such a Mediator is indeed going to receive the good and report to the $SC$, but he does not necessarily need to trust the Mediator to follow his defined behaviour. \niknote{It this really true? The Mediator has control over the collateral: he can report the opposit and slash the collateral of both parties. This is a credible threat, as the Mediator has 0 utility in both cases. Therefor a misbehaving Mediator could coerce the Seller into sending him coins in order to not report the opposit to the SC}\newline
+
+In our two proposed solutions, we wanted to minimize trust from a practical point of view:
+\paragraph{Postal Office}
+We chose the Postal office to report, as it is already trusted to deliver the good. 
+%This solution has trust involved. Both the Buyer and the Seller have to trust the Postal Office to deliver the product. We did not model the PO as a rational party trying to maximize its own utility. One could argue, that the PO is just like a trusted escrow, that brokers the exchange.  The big difference between the Postal Office and traditional third party escrow is that the PO does not handle the money. 
+This trust is unavoidable in the real world, as long as the Seller is not delivering the good by himself. This solution is still different from a trusted third party. If a trusted third party is used, the good still has to be shipped and the Buyer and the Seller have to trust the third party and the Postal Office.
+
+\paragraph{Machine}
+This solution aims to eliminate trust completely. The code of the Machine is open source and verifiable. The Buyer no longer has to trust that the Machine will follow the protocol, as he can verify the code himself.
 %\chapter{Open Research/ Questions}
 
 \chapter{Conclusion}
