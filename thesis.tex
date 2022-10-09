@@ -161,6 +161,7 @@ Looking forward, we do not find a two-party protocol that is a solution to the p
    %% we assumed, if it is possible, a possible protocol would be found by us in this step.
     %First search the most probable solutions, after finding out that they do not work, try to proof that it is impossible with this set of assumptions, therefore ease up the assumptions and propose new solution.
 	\section{Methodology}
+	\label{sec:methodology}
 	First we formalize the existing problem of the research topic using a game-theoretic approach \cite{leyton-brown_essentials_2008}. In order to find a solution to the problem, we propose various candidates.  To find a solution that is as simple as possible but as complex as necessary, we take an iterative approach described in the following paragraph.\newline
 	
 	We initially propose the simplest possible solution and game-theoretically analyse if it indeed solves our problem. 
@@ -169,15 +170,15 @@ Looking forward, we do not find a two-party protocol that is a solution to the p
 	As this iterative approach did not lead us to a viable solution we later try to proof that there is no solution to the formalized problem. After the proof we change the requirements to the solution \niknote{Should I remain this abstract or can I go a little bit into detail? (we allow for the protocol to have a third party that helps the Buyer)}and thereby modify the problem. We then search for solutions to the newly defined problem. The following list describes our methodology approach:
 
 	\begin{enumerate}
-	    \item Formalization of the problem
-	    \item Iterative approach to find a solution to the problem 
+	    \item Formalization of the problem \label{step:1}
+	    \item Iterative approach to find a solution to the problem \label{step:2}
 	    %\item Analyze if solution solves the problem
 	            \begin{enumerate}
 	            \item \textbf{a solution is found:} This solution is the result of this thesis. \label{step:solution}
 	           \item \textbf{no solution is found:} Try to proof that no solution to the initial problem exists. \label{step:proof}
 	        \end{enumerate}
-	    \item Loosening assumptions and define a modified problem
-	    \item Return to step 2 with the new problem
+	    \item Loosening assumptions and define a modified problem \label{step:modified-problem}
+	    \item Return to step 2 with the new problem\label{step:return2}
 	\end{enumerate}
 
 	\section{Structure of this thesis}
@@ -1768,6 +1769,7 @@ credible threat to the Seller.
 
 
 \subsection{Postal Office reports}
+\label{sec:postaloffice}
 In our formal analysis we assumed that there is a way for the physical item $G$ to be reliably shipped. In practice physical goods are usually shipped by a another party (Postal Office/shipping company).
 Therefore the parties have to trust the Postal Office (PO) to actually deliver the good. Because the parties already trust the PO, the PO can also report to the Smart Contract and thereby act as the Mediator.\newline
 
@@ -1888,10 +1890,22 @@ This solution aims to eliminate trust completely. The code of the Machine is ope
 \chapter{Conclusion}
 \label{cha:conclusion}
 %what?(short form) \newline
-\niknote{still need to add references}\newline
-Cryptocurrencies are gaining acceptance\niknote{here a reference} as a valid payment method for physical goods. These payments over the blockchain do not reveal the identity of the paying and receiving party. There is a need for a protocol that handles these sales between two anonymous parties. Previous solutions use a trusted third party. As there are situations where no trusted third party is available and the third party can misbehave, protocols without the need of that trust are advantageous. The goal of this thesis was to find such a protocol that enables a trustless and incoercible sale of physical goods over a blockchain.\newline
+The acceptance of cryptocurrencies as a valid payment method for physical goods increases drastically. According to \cite{crypto-acceptance}, within the next two years nearly 75\% of retailers plan to accept cryptocurrency payments. These cryptocurrency payments use blockchain technology, which does not reveal the identity of the paying and receiving party. There is a need for a protocol that handles these sales between two anonymous parties. Other existing solutions use a trusted third party that ensures that the Seller gets payed and the Buyer receives the physical good. As the third party can misbehave or no trusted third party is available at all, there is a rising need for protocols which do not rely on the existence of the third party. This rising need led to the research topic of this Master thesis:\newline
 
- First, we formalized the problem. After that we proposed two-party protocols and analyzed if these protocols are viable solutions to the formalized problem. First we examined protocols without collateral. Then we looked at protocols where only one party deposits collateral. After showing that these approaches do not solve the proposed problem, we looked at protocols where both parties deposit collateral. As all of these candidates did not solve the proposed problem, we tried to prove that such a two-party protocol is impossible. \niknote{Here write something about the proof} After showing that indeed, under reasonable assumptions, such a two-party protocol is impossible, we lowered the requirements for the protocol by allowing a Mediator which is trusted by the Buyer. We showed that with this Mediator there exists a protocol that enables an incoercible sale of physical goods. We proposed such a protocol with an idealised Mediator in section \ref{sec:mediated-protocol}. At the end of the thesis, we looked at possible practical realizations that can take the role of the Mediator. We proposed two possible solutions (Postal Office reports, Machine reports). \orfnote{ at the end add sth like "our work proposes a practical solution to trustless incoercible sales of physical goods over a blockchain". If you use this exact phrase, rephrase the last sentence of the 1st paragraph of the conclusion}
+\emph{Investigate the existence of a protocol that enables a trustless and incoercible sale of physical goods over a blockchain.}\newline
+
+\minisec{Key results}
+ As proposed by step \ref{step:1} of our methodology approach, we first formalized the problem using a game-theoretical approach. We defined a game as a formal representative of the stated problem. Initial and Desired Final State were defined as well as the participating entities.\newline
+ 
+ Following step \ref{step:2} of our methodology approach, we iteratively proposed two-party protocols and analyzed if these protocols are viable solutions to the formalized problem. First we examined protocols without collateral. Then we looked at protocols where only one party deposits collateral.
+ %After showing that these approaches do not solve the proposed problem,
+ Afterwards we looked at protocols where both parties deposit collateral. As all of these candidates did not result in a viable solution of the problem, we exited the iterations and tried to prove that such a two-party protocol is impossible (c.f. exit~\ref{step:proof} of the methodology approach). In section \ref{sec:proof} we achieved to provide a formal proof under reasonable assumptions that it is impossible to design a two-party protocol that achieves the goals formalized in chapter~\ref{cha:formalizations}.\newline
+ 
+  The next step in our methodology approach was to define a modified problem by allowing a third party, the Mediator, to be apart of the protocol (c.f. section \ref{sec:formal-definition-mediator}). We wanted to modify the original stated problem as little as possible. Therefore we want to minimize the trust requirements for this Mediator. In the double-collateral protocol the Seller can coerce the Buyer into receiving the payment without sending the physical good. Therefore we need the Mediator to protect the Buyer. The Mediator is only trusted by the Buyer. The Seller does not have to trust the Mediator as the Smart Contract already satisfies his need for protection.\newline
+  
+  We showed that with this Mediator there exists a protocol that enables an incoercible sale of physical goods. We proposed such a protocol with an idealised Mediator in section \ref{sec:mediated-protocol}. At the end of the thesis, we looked at possible practical realizations that can take the role of the Mediator. Our work proposes two practical solutions to incoercible sales of physical goods over a blockchain. The first solution lets the party which fulfills the shipment of the physical good to report to the blockchain whether the correct physical good was delivered (c.f. section \ref{sec:postaloffice}. The second solution lets an automated machine report to the Smart Contract (c.f. section \ref{sec:machine-reporst}). \newline
+  
+
 
 %How?\newline
 %Looked first at no collateral, then.... then... (like intro), but no results\newline
@@ -1901,7 +1915,8 @@ Cryptocurrencies are gaining acceptance\niknote{here a reference} as a valid pay
 %what are the results of this thesis?
 
 \section{Outlook}
-%maybe find a formal way to distinguish working protocols from not working ones, given the new assumptions where we allow a Mediator? probably dependend on the behaviour of the Mediator. why is it working? Is there an easier protocol that still solves the problem?\newline
+%maybe find a formal way to distinguish working protocols from not working ones, given the new assumptions where we allow a Mediator? probably dependend on the behaviour of the Mediator. why is it working?
+%postal office reports: reputation system
 
 An important topic for future work is to engineer the machine that we use in section~\ref{sec:machine-reporst}. For that, we need some kind of way of turning a physical good into a digital set of descriptions, that uniquely identifies this physical good, like a digital fingerprint of the good. A possible approach for that is to 3d-scan this good, and have the digital 3d model as an unique identifier. Another important part would be to program the software of the machine: it has to be able to compare the physical good that is presented with the digital description that it has as input and decide, if the physical good matches this description. In order for the protocol to practicable, this software has to have a high probability of recognizing the physical good.
 
