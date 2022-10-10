@@ -176,7 +176,9 @@ Looking forward, we do not find a two-party protocol that is a solution to the p
 	We initially propose the simplest possible solution and game-theoretically analyse if it indeed solves our problem. 
 	If the game-theoretic analysis shows that the proposed protocol is not a valid solution, we propose a new solution that has a added layer of complexity. This cycle will be continued until we find a solution or we think we have exhausted the most probable solutions. \newline
 	
-	As this iterative approach did not lead us to a viable solution we later try to proof that there is no solution to the formalized problem. After the proof we change the requirements to the solution \niknote{Should I remain this abstract or can I go a little bit into detail? (we allow for the protocol to have a third party that helps the Buyer)}and thereby modify the problem. We then search for solutions to the newly defined problem. The following list describes our methodology approach:
+	As this iterative approach did not lead us to a viable solution we later try to proof that there is no solution to the formalized problem. After the proof we change the requirements to the solution
+	%\niknote{Should I remain this abstract or can I go a little bit into detail? (we allow for the protocol to have a third party that helps the Buyer)}
+	and thereby modify the problem. We then search for solutions to the newly defined problem. The following list describes our methodology approach:
 
 	\begin{enumerate}
 	    \item Formalization of the problem \label{step:1}
@@ -224,7 +226,7 @@ A game consists of players who are taking actions in order to maximize their own
 \begin{definition}[Game]
 A game is a tuple ($N$, $A$, $u$), where:
 \begin{itemize}
-    \item $N$ is a finite set of n players
+    \item $N$ is a finite set of n players.
     \item $A = A_1 \times \dots \times A_n$, where $A_i$ is a finite set of actions available to player i. %Each vector $a= (a_1,...,a_n) \in A$ is called an action profile.
     \item $u_1,...,u_n$ where $u_i$: $A \to \mathbb{R}$ is a payout (or utility) function for player i.
 \end{itemize} {\normalfont \cite{leyton-brown_essentials_2008}}
@@ -256,13 +258,17 @@ A strategy profile $s^*$ is a Nash equilibrium if no player has incentive to dev
 \end{equation}
 \end{definition}
 Nash showed, that every game with a finite number of players, each having a finite set of strategies, has at least one Nash Equilibrium \cite{nash1950}.
+
 \subsection{Two-party alternating turn-based games}
+\label{sec:turnbasedgames}
 \begin{definition}[Two-party alternating turn-based games]
 \label{def:turn-based-game}
 A game is a two-party alternating turn-based game if two parties are playing alternately, only one party can play at a time and its move is revealed
 to the other party before the other party plays the next move.
 \end{definition}
-For example, chess is a two-party alternating turn based game. To analyse two-party alternating turn-based games we will use game trees. The game starts from the root of the tree and ends at the leaves of the tree. The nodes of the tree represent decision points. Each node is marked with the party that decides. The edges of the tree represent possible actions. At each node the party that plays chooses 1 action among the available edges that lead to the children of the node. The leaves of the tree are the payout values for the players. In this example Alice and Bob have one decision each. Alice will play first. She has the possible actions $L$ and $R$. Bob will then make his decision choosing between the actions $L$ and $R$. \newline
+For example, chess is a two-party alternating turn based game.\newline
+
+To analyse two-party alternating turn-based games we will use game trees. The game starts from the root of the tree and ends at the leaves of the tree. The nodes of the tree represent decision points. Each node is marked with the party that decides. The edges of the tree represent possible actions. At each node the party that plays chooses 1 action among the available edges that lead to the children of the node. The leaves of the tree are the payout values for the players. In this example Alice and Bob have one decision each. Alice will play first. She has the possible actions $L$ and $R$. Bob will then make his decision choosing between the actions $L$ and $R$. \newline
 
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -279,10 +285,9 @@ For example, chess is a two-party alternating turn based game. To analyse two-pa
     \label{fig:example-tree}
 \end{figure}
 
-To find the Nash Equilibrium of this example game of Fig.~\ref{fig:example-tree} we will use the method "iterated elimination of strictly dominated strategies".
-\niknote{TODO look for paper,  more information here}\newline
-
-To analyze the game we start at the bottom of the tree at Bob's decision. He always takes the action that yields him the biggest payout.  We start at the left branch. If Bob takes action $L$, he gets a payout of $6$. If he chooses action $R$, he gets a payout of $5$. In this scenario Bob chooses $L$, because $6>5$.
+To find the Nash Equilibrium of this example game of Fig.~\ref{fig:example-tree} we will iteratively eliminate strictly dominated strategies \cite{rasmusen_games_nodate}.
+%\niknote{TODO look for paper,  more information here}\newline
+We start at the bottom of the tree at Bob's decision. He always takes the action that yields him the biggest payout.  We start at the left branch. If Bob takes action $L$, he gets a payout of $6$. If he chooses action $R$, he gets a payout of $5$. In this scenario Bob chooses $L$, because $6>5$.
 Likewise, on the right branch he chooses $R$ because $3>2$.\newline
 
 Then we look at Alice's decision. She knows that Bob chooses the path that yields to him the greatest payout and can calculate his decisions. She knows that Bob will choose $L$,if Alice takes action $L$. Therefore her payout of action $L$ is $1$. If she chooses action $R$, Bob will choose $R$ as well. In this case Alice has a payoff of $3$. Alice chooses action $L$, because $3>1$.\newline
@@ -291,10 +296,12 @@ The Nash Equilibrium of this game is \{$R$,$R$\} and the payout is $3_A | 3_B$. 
 \subsection{Two-party simultaneous games}
 \begin{definition}[Two-party simultaneous games]
 \label{def:simultaneous-game}
-A game is a two-party simultaneous game, if the two parties choose their strategy simultaneously and independently form each other and both parties have only one decision to make. After that, all actions are revealed and the relevant payoffs are given. 
+A game is a two-party simultaneous game, if the two parties choose their strategy simultaneously and independently from each other and both parties have only one decision to make. After that, all actions are revealed and the relevant payoffs are given. 
 \end{definition}
 
-For example, rock-paper-scissors is a two-party simultaneous game. To analyse two-party simultaneous games we will use a table. The two players are again Alice and Bob. On the top of the table we see the possible strategies of Bob: \emph{be honest} and \emph{lie}. On the left side are the possible strategies for Alice: \emph{report} and \emph{hide}. For each combination of strategies the two parties get a specific payout. For example if Bob chooses strategy \emph{lie} and Alice chooses strategy hide, Bob gets a payout of 8 and Alice gets a payout of 2.
+For example, rock-paper-scissors is a two-party simultaneous game. \newline 
+
+To analyse two-party simultaneous games we will use a table. The two players are again Alice and Bob. On the top of the table we see the possible strategies of Bob: \emph{be honest} and \emph{lie}. On the left side are the possible strategies for Alice: \emph{report} and \emph{hide}. For each combination of strategies the two parties get a specific payout. For example if Bob chooses strategy \emph{lie} and Alice chooses strategy hide, Bob gets a payout of 8 and Alice gets a payout of 2.
 
 \begin{table}[htb!]
     \centering
@@ -330,15 +337,16 @@ Commitment schemes are used in a vast variety of cryptographic protocols. They e
  %Bob shares the commitment string with Alice. In a later stage Bob can open the committment using the co ommitment schemes have two algorithms: \emph{Commit} and \emph{Open}. In the committing phase a party can use \emph{commit} to turn a value into a commitment and an opening value. In addition to the commitment the algorithm also returns an opening value. Later, the commitment can be "opened" with that exact opening value. and it returns a value. The returned value is guaranteed to be the value to which the party committed in the committing phase. If any party\cite{Goldreich2001-bv}. 
 \section{Blockchains}
 \label{sec:blockchain}
-\niknote{look at that again}
 To understand blockchains and their origin, we first look at cryptocurrencies.
-Cryptocurrencies are decentralised currencies that introduce a way to transfer value with low latency and without any intermediary. They use various cryptographic primitives to prevent fraud. For example one important cryptographic tool is a digital signature, that ensures that only the owner of the coin can spend it and nobody else. Another important cryptographic primitve are Hash Functions: A Hash Function can take as input an arbitrary large file and return a short string, a \emph{hash} of constant size. While the hash of a file can be efficiently computed, it is computationally infeasible to compute    For this work, it is not important to understand how these cryptographic primitives work. A detailed description of said cryptographic primitives can be found at Katz and Lindell's book \emph{Introduction into modern Cryptography} \cite{Katz2020-aj}. 
+Cryptocurrencies are decentralised currencies that introduce a way to transfer monetary value with low latency and without any intermediary. They use various cryptographic primitives to prevent fraud. For example, they use digital signature to ensure that only the owner of the coin can spend it and nobody else. In addition to that another important cryptographic primitive are Hash Functions. A Hash Function can take an arbitrary large file as input and output a short string, a \emph{hash} of constant size. 
+%While the hash of a file can be efficiently computed, it is computationally infeasible to compute.
+A detailed description of said cryptographic primitives can be found at Katz and Lindell's book \emph{Introduction into modern Cryptography} \cite{Katz2020-aj}. \newline
 
-We will explain some of the principles of cryptocurrencies by looking at the first and best known cryptocurrency: Bitcoin. Bitcoin was introduced in 2008 \cite{nakamoto_bitcoin_nodate}. In Bitcoin everyone can create his own wallet and send and receive coins. These coins are sent using transactions. Every transaction is stored on a public distributed database, the blockchain (c.f. section~\ref{sec:blockchain}). Once these transactions are on the blockchain, they can never be changed or deleted. The blockchain acts as a public ledger recording all the transactions.
-These transactions are grouped in blocks. Aside from transactions, each block contains the hash of the previous block, thereby linking it with the previous block, forming a chain of blocks. \niknote{maybe a figure explains it best}   \newline
+We will explain some of the principles of cryptocurrencies by looking at the first and best known cryptocurrency: Bitcoin. Bitcoin was introduced in 2008 \cite{nakamoto_bitcoin_nodate}. In Bitcoin everyone can create his own wallet which he can use to send and receive coins. These coins are sent using \emph{transactions}. Every transaction is stored on a public distributed database, the \emph{blockchain} (c.f. section~\ref{sec:blockchain}). Once these transactions are on the blockchain, they can never be changed or deleted. The blockchain acts as a public ledger recording all the transactions.
+These transactions are grouped in blocks. Aside from transactions, each block contains the hash of the previous block, thereby linking it with the previous block, forming a chain of blocks.\newline
 
-New transactions are written to the blockchain in the form of new blocks that are appended to the blockchain.  These blocks are created by the \emph{validators}.
-The validators are very important for the security of the blockchain, as they define which is the unique ordered history of transactions. They are usually a big, dynamic set of people, meaning that the set of active validators may change over time. In addition to that, some percentage of this set of validators may be arbitrarily malicious. Even in this case, the blockchain has to guarantee its security properties.\newline
+New transactions are written in new blocks that are appended to the blockchain.  These blocks are created by the \emph{validators}.
+The validators are very important for the security of the blockchain, as they define the unique ordered history of transactions. They are usually a big, dynamic set of people, meaning that the set of active validators may change over time. In addition to that, some percentage of this set of validators may be arbitrarily malicious. Even in this case, the blockchain has to guarantee its security properties.\newline
 
 The security properties a blockchain has to fulfil in order to be a public transaction ledger are \cite{bitcoin_backbone}:
 \begin{itemize}
@@ -347,18 +355,10 @@ The security properties a blockchain has to fulfil in order to be a public trans
     \item \textbf{Chain Growth:} After a certain time interval it is guaranteed that new blocks are added to the blockchain.
 \end{itemize}
 
-\niknote{}* A figure of a blockchain wouldn't be bad, but isn't needed either.  \newline
+After Bitcoin many other cryptocurrencies were developed. In this work, we do not look at a specific cryptocurrency. We rather use them as a remote way to transfer monetary value between two parties. These two parties do not need to know each other, rather they only need each other's wallet address to send coins to each other. The transfer of value occurs nearly instantaneous and can not be reversed.
 
-After Bitcoin many other cryptocurrencies were developed. In this work, we do not look at a specific cryptocurrency. We rather use them as a remote way to transfer value between two parties. These two parties do not need to know each other, rather they only need each other's wallet address to send coins to each other. The transfer of value occurs nearly instantaneous and can not be reversed.
-
-
-In this work we look at public blockchains used for cryptocurrencies. In this context a blockchain is a public, distributed database storing every transaction. 
-
-Cryptography is being used to secure these properties
-Digital Signatures:\cite{Katz2020-aj} 
-talk mostly about its properties
 \section{Smart Contracts}
-Smart contracts are small computer programs that are stored and executed on the blockchain \cite{chrisistidis}. They have their own on-chain address, the ability to own coins and they can interact with parties and other Smart Contracts via transactions. Anybody can create a Smart Contract with a transaction by uploading its program code to the blockchain \cite{narayanan2016bitcoin}. As Smart Contracts are self-executing and tamper resistant \citeauthor{sc18}, they can be used to enforce an agreement without a third party.\newline
+Smart contracts are small computer programs that are stored and executed on the blockchain \cite{chrisistidis}. They have their own on-chain address, the ability to own coins and they can interact with parties and other Smart Contracts via transactions. Anybody can create a Smart Contract with a transaction by uploading its program code to the blockchain \cite{narayanan2016bitcoin}. As Smart Contracts are self-executing and tamper resistant \cite{sc18}, they can be used to enforce an agreement without a third party.\newline
 
 %a computerized transaction protocol that executes the terms of a contract’
 %A smart contract is a set of programs which are self-verifying, 
@@ -368,7 +368,7 @@ Smart contracts are small computer programs that are stored and executed on the 
 %• Smart contracts are autonomous once created no need to
 %monitor
 %• Smart contracts are distributed\cite{sc18}
-The concept of Smart Contract can be illustrated by the following example: Alice and Bob want to make following agreement: Alice thinks of a word. She will pay Bob 5 coins, if he guesses the word correctly. If not, Bob will pay Alice 2 coins. As they do not trust each other, this agreement is difficult to enforce traditionally without an independent party. A Smart Contract could help Alice and Bob enforce this agreement: Alice creates the Smart Contract and sends in a transaction her 5 coins. Then Bob sends his 2 coins. After that Alice sends another transaction with her secret word (Note that all transactions are public, so it is better to send the hash of the word in order to prevent Bob from seeing this word). Bob can then send his guess in another transaction. If he guesses correctly, the Smart Contract rewards Bob all 7 coins, else it rewards Alice all 7 coins.\newline
+The concept of Smart Contract can be illustrated by the following example: Alice and Bob want to make following agreement: Alice thinks of a word. She will pay Bob 5 coins, if he guesses the word correctly. If not, Bob will pay Alice 2 coins. As they do not trust each other, this agreement is difficult to enforce traditionally without an independent party. A Smart Contract could help Alice and Bob enforce this agreement: Alice creates the Smart Contract and sends 5 coins to it with a transaction. Then Bob sends 2 coins to the Smart Contract. After that Alice sends another transaction with her secret word (Note that all transactions are public, so it is better to send the hash of the word in order to prevent Bob from seeing this word). Bob can then send his guess in another transaction. If he guesses correctly, the Smart Contract automatically rewards Bob all 7 coins, else it rewards Alice all 7 coins.\newline
 
 Smart Contracts were popularized by Ethereum \cite{buterin_ethereum_nodate}, the second biggest cryptocurrency after Bitcoin. In Contrast to Bitcoins scripts, Smart Contracts in Ethereum are Turing-complete and therefore have a lot more functionality.
 \chapter{Formalization}
@@ -469,7 +469,7 @@ We do not take into account transaction fees.
 
 \chapter{Candidate Two-Party Protocols}
 \label{cha:candidates}
-In this chapter we try to find a two-party protocol that enables a trustless and incoercible sale over a blockchain. We start by a simple, naive approach and then increase the complexity on each proposed protocol. On each protocol we examine the created game and analyze the Nash Equilibrium of that game. As described in section~\ref{sec:the-game}, we want to create a game where the Nash Equilibrium lies in an honest trade between the Seller and the Buyer.
+In this chapter we try to find a two-party protocol that enables a trustless and incoercible sale over a blockchain. We start by a simple, naive approach and then increase the complexity on each proposed protocol. On each protocol we examine the created game and analyze the Nash Equilibrium of that game. As described in section~\ref{sec:the-game}, we want to create a game where the Nash Equilibrium lies in an successful trade between the Seller and the Buyer.
 
 \section{First try: no collateral}
 \label{sec:first-try-nocol}
@@ -512,7 +512,7 @@ The simplest protocol is both players sending their resources without any collat
 
 \subsection{Possible strategies}
 \label{sec:possible-strategies}
-There is a countless amount of possible strategies for the two players. For example, a player can follow the protocol and trade honestly, he can try and gain an advantage by not following the protocol, he can ignore all messages or he can send all his money to the other party. It is not sensible to list and analyse all the possible strategies. We will concentrate on the strategies where a player follows the protocol and the strategies where a player intentionally deviates from the protocol to gain an advantage. As soon as we find a strategy for a player that is more profitable than following the protocol, we know that this protocol is not achieving our goals, as a rational player will not follow it. If we conclude that following the protocol is the most profitable strategy for both players, we know that this protocol is achieving our goal. \niknote{look at the end of this paragraph again} \newline
+There is a countless amount of possible strategies for the two players. There are many examples for possible strategies: A player can follow the protocol and trade successfully, he can try and gain an advantage by not following the protocol, he can ignore all messages or he can send all his money to the other party, and many more. It is not sensible to list and analyse all the possible strategies. We will concentrate on the strategies where a player follows the protocol and the strategies where a player intentionally deviates from the protocol to gain an advantage. As soon as we find a strategy for a player that is more profitable than following the protocol, we know that this protocol is not achieving our goals, as a rational player will not follow it. If we conclude that following the protocol is the only way for each player to maximize his utility, we know that this protocol is achieving our goal. \newline
 
 For the protocols proposed in section~\ref{sec:first-try-nocol} we analyse two strategies for each player. The Buyer can choose between strategy \emph{Pay} where he sends the money and strategy \emph{Withhold} where the Buyer does not send the money. The Seller can choose as well between strategy \emph{Send} where he sends the good $G$ and strategy \emph{Keep} where the Buyer does not send the $G$.
 \subsection{Game: The Buyer acts first}
@@ -530,7 +530,7 @@ For the protocols proposed in section~\ref{sec:first-try-nocol} we analyse two s
 \end{figure}
 %\captionof{figure}{Naive approach, Buyer sends first}
 
-To analyze the game, we use the method "iterated elimination of strictly dominated strategies"\niknote{refer to preliminaries/source}. We start at the bottom at the Seller's decision.
+The left value of each leaf is the payoff to the Seller and the right value of the leaf is the payoff to the Buyer. To analyze the game, we iteratively eliminate strictly dominated strategies (c.f.\ section~\ref{sec:turnbasedgames}). We start at the bottom at the Seller's decision.
 \begin{itemize}
     \item The Seller chooses \emph{Keep} (Because $P > P - U_S(G)$).\niknote{Do you like this format with itemize? I want the decisions to visually stand out}
 \end{itemize}
@@ -559,8 +559,8 @@ The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} which is t
 
 The analysis is similar to the above case, but the roles are reversed. 
 \begin{itemize}
-    \item The Buyer would choose \emph{Withhold} as $U_B(G) > U_B(G)-P$
-    \item The Seller would choose \emph{Keep} as $0 > -U_S(G)$
+    \item The Buyer chooses \emph{Withhold} as $U_B(G) > U_B(G)-P$
+    \item The Seller chooses \emph{Keep} as $0 > -U_S(G)$
 \end{itemize}
 The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and results in a payout of $0|0$. Again, both parties are not sending anything and the trade is unsuccessful.
 
@@ -584,8 +584,10 @@ If we look at the payout table we can see that \emph{Withhold} dominates \emph{P
 Since we assume the players to be rational, they would both choose the dominant strategy.
 Again, the Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and results in a payout of $0|0$. As the Nash Equilibrium does not correspond to the Desired Final State (c.f.~Definition \ref{def:desired-final-state}), this game does not satisfy our goal.\newline
 
-It is interesting to note that this table resembles the famous prisoner's dilemma, where the Nash Equilibrium is not Pareto efficient. We can see that \{\emph{Keep}, \emph{Withhold}\} is not the Pareto optimal case, because \{\emph{Send}, $Pay\}$ increases the payout of both parties. 
-In other words, a successful trade would benefit both parties but is not happening in this game as it is not the Nash Equilibrium. \niknote{last sentence redundant?}
+It is interesting to note that this table resembles the famous prisoner's dilemma.
+%Pareto efficient.
+We can see that the Nash Equilibrium \{\emph{Keep}, \emph{Withhold}\} is not the optimal case for both parties, because \{\emph{Send}, $Pay\}$ increases the payout of both parties. 
+In other words, a successful trade would benefit both parties but is not a Nash Equilibrium in this game.
 %TODO explain Prisoners dilemma? Pareto Efficient
 %The Nash Equilibrium is on both parties not sending anything, still both parties would yield a bigger payout if they just traded successfully. 
 
@@ -594,7 +596,9 @@ In other words, a successful trade would benefit both parties but is not happeni
 
 \section{Second Try: Buyer Collateral}
 \label{sec:Buyer-collateral}
-To incentivize an entity to follow the protocol we introduce collateral. The collateral will be lost if the entity deviates from the protocol. In this section we will look at a protocol where only one the Buyer deposits collateral. We introduce a Smart Contract~(SC) which handles the collateral. The payment $P$ is now routed via the Smart Contract.  \newline
+To incentivize an entity to follow the protocol we introduce collateral. The collateral will be lost if the entity deviates from the protocol. In this section we will look at a protocol where only one the Buyer deposits collateral. We introduce a Smart Contract~(SC) which handles the collateral. 
+%The payment $P$ is now routed via the Smart Contract.  
+Instead of sending the Payment $P$ directly to the Seller, the Buyer will send the payment to the Smart Contract. The Smart Contract will then forward the payment to the Seller. This hands more power to the Smart Contract. With control over the collateral and the payment it has more options to punish misbehaving parties. \newline
 
 Following protocol is proposed:
 \begin{figure}[htb!]
@@ -724,7 +728,7 @@ Based on this information the Seller chooses \emph{Keep}:
     \item $0> -U_S(G)$
 \end{itemize}
 That means that both options for the Buyer would result in a payout of $0|0$. It does not matter which option he chooses.
-The Nash Equilibrium is at \{Withhold\} \niknote{am I describing the Nash Equilibria correctly?} and results again at a payout of $0|0$.  The trade not successful.
+The Nash Equilibrium is at \{Withhold, \niknote{nothing}\} \niknote{am I describing the Nash Equilibria correctly?} and results again at a payout of $0|0$.  The trade not successful.
 %If $B$ sends the coins (does not choose strategy \emph{Withhold}), $S$ has to make the following decision: Does he send the good (\emph{Send}) or not (\emph{Keep})? We have to take into account, that $B$ decides what happens with the collateral. \newline
 %If $S$ does not behave honestly (does not send the good), $B$ can punish $S$ by reporting 0 to the Smart contract. This means, that the collateral would not be given back to $S$.
 What was designed to be an incentive for $S$ to behave honestly, ended up as leverage for $B$ over $S$. $B$ can report 0 (and burn the collateral) even if $S$ behaves honestly. 
@@ -774,7 +778,7 @@ burning the collateral of the Seller by reporting exactly the opposite from the
 Seller's report.
 Therefore he can still coerce the Seller into sending him back his payment. As we already have shown in section~\ref{sec:Seller-col}, a rational
 Seller will always comply and send back the payment $P$. This last decision from the Seller (leaf 3, 6, 9, 12) will be
-omitted from the tree for better readability).\newline
+omitted from the tree for better readability.\newline
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
       \node[draw]{$B$}
         child[sibling distance = 8cm]{node[draw]{$S$}
@@ -1088,7 +1092,9 @@ To analyze the payout, we start at the bottom of the tree. The Buyer would choos
 \end{itemize}
 The Seller would choose option 8:
 \[P>P-U_S(G)>0>-U_S(G)\]
-Because the payout of the Buyer is $-P<0$, he would not engage in this trade and therefore refuse to pay the collateral in step 1. The trade is still unsuccessful.
+Because the payout of the Buyer is $-P<0$, he would not engage in this trade and therefore refuse to pay the collateral in step 1. The trade is still unsuccessful.\newline
+
+These two-side collateral protocols have similarities to BitHalo \cite{zimbeck_two_nodate}. As we have seen in the analysis of the game, these approaches allow the Seller to coerce the Buyer as soon as both parties have deposited the collateral. He can keep the physical good to himself and report to the Smart Contract that he sent the good. It is the best option for the Buyer to lie to the Smart Contract and report that he indeed received the $G$, as he at least gets back his collateral. If he reports truthfully that he did not receive the physical good, the SC slashes the collateral of both parties and the Buyer gets a considerably lower payout. This coercion attack was also mentioned and analysed in \cite{goharshady_irrationality_2021}.
 
 \subsection{Game: The Buyer reports first}
 The following protocol is proposed:
@@ -1254,7 +1260,7 @@ The Seller decides if he wants to enter subgame $T_1$ or $T_2$. To analyse his d
 If we compare these 4 possible payouts:
 \[P > P-U_S(G) > 0 > -U_S(G)\]
 Without any additional assumptions, it is unclear which is the better subgame for the Seller. He can not choose which subgame is beneficial for him. 
-We have created a situation where the players do not have all the information they need to choose the best option. That also means, that they are not motivated to behave honestly as they do not know if this is indeed the most beneficial behaviour. As the players are not motivated to behave honestly, they would not trade successfully in this protocol.
+We have created a situation where the players do not have all the information they need to choose the best option. That also means, that they are not motivated to behave honestly as they do not know if this is indeed the most beneficial behaviour. As the players are not motivated to behave honestly, they would not trade successfully in this protocol.\newline
 
 \section{An extra input is needed}
 \label{sec:extra-input-needed}
@@ -1563,7 +1569,7 @@ If this is achieved, a Seller knows that it is unprofitable to not send $G$.\new
 
 \section{Formal definition of the new Entity}
 \label{sec:formal-definition-mediator}
-\niknote{Maybe change title to "formally redesigning the game"}
+%\niknote{Maybe change title to "formally redesigning the game"}
 We introduce another entity, which we call Mediator $M$: and has the following behaviour:
 \begin{definition}[Mediator]
 \label{def:mediator}
