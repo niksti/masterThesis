@@ -63,8 +63,17 @@ primitives , events , complexity , oracles , asymptotics , keys
 	\maketitle
 	
 	\section*{Abstract}
-	Write an abstract
-	
+
+As digitalization is becoming an essential part within our society, cryptocurrencies are rapidly gaining acceptance as a valid payment method for physical goods. Usually the sales of a physical good involves a trusted third party which ensures that the Seller gets payed and the Buyer receives the physical good.  As the third party can misbehave or no trusted third party is available at all, there is a rising need for solutions that do not rely on a third party. This led to us to our research topic:\newline
+
+\emph{Investigate the existence of a protocol that enables a trustless and incoercible sale of physical goods over a blockchain.}\newline
+
+%In the most cases cryptocurrencies are based on blockchain technology. Due to the immutable nature of a blockchain, payment transactions by using cryptocurrencies are vulnerable for scams.
+    We formalize the problem using a game-theoretical approach. To find a solution without a trusted third party we iteratively propose solutions and assess if this solution satisfies the success criteria. As this approach did not lead us to a viable solution we later proof that there exists no such a two-party solution to the formalized problem. Afterwards we modify the problem by relaxing the preconditions and allowing a third party to be apart of the solution. Finally we successfully present a solution to the modified problem.
+    
+ %   After iterative approach, proof that no solution, problem modification, solution for modified problem.
+%proof that no solution exists for initial problem and solution to modified problem
+
 	\newpage
 	
 	%TODO Delete this comment for the final submission:
@@ -186,7 +195,7 @@ Looking forward, we do not find a two-party protocol that is a solution to the p
 	
 	In chapter \ref{cha:candidates} we propose numerous possible two-party protocols and analyse if these protocols are a viable solution to the proposed problem. Section \ref{sec:first-try-nocol} looks at protocols where no player deposits collateral, sections~\ref{sec:Buyer-collateral}, \ref{sec:Seller-col}, \ref{sec:Sellercol-both-report} examine protocols where only one party deposits collateral and section~\ref{sec:two-side-collateral} looks at protocols where both parties deposit collateral. In Section~\ref{sec:extra-input-needed} we show that for a protocol to solve the proposed problem, it needs an extra input which it is not given in the real world. This corresponds to step~\ref{step:proof} of the methodology approach.  \newline
 	
-	In chapter~\ref{cha:redisigned-game} we define the new game where we allow a third party to be apart of the protocol. For this new game we try to find solutions, that are applicable in  real world scenarios. This corresponds to step \ref{step:solution} from our methodology approach. Finally, chapter~\ref{cha:conclusion} concludes this thesis and summarizes the results of this work.
+	In chapter~\ref{cha:redisigned-game} we define the new game where we allow a third party to be apart of the protocol. For this new game we try to find solutions, that are applicable in  real world scenarios. This corresponds to step \ref{step:solution} from our methodology approach. Finally, chapter~\ref{cha:conclusion} concludes this thesis and summarizes the results of this work. It also provides topic for further research.
 \section{Related work}
 \minisec{\citefield{asgaonkar_solving_2019}{title} \cite{asgaonkar_solving_2019}}
 In this paper \citeauthor{asgaonkar_solving_2019} propose a protocol that allows the sale of a digital good without a trusted third party. Their solution involves a Smart Contract that collects a deposit from both the selling and the buying party. If then one party misbehaves, the Smart Contract slashes the deposit of the lying party.  This solution assumes the good to be digitally verifiable. Therefore if one party is not honest, the opposing honest party can report this misbehaviour to the Smart Contract and prove that the other party indeed did misbehave. The authors also provide a game-theoretic analysis of their protocol and confirm that honest behaviour is the only Nash equilibrium.\newline
@@ -213,7 +222,7 @@ Game theory studies the interaction between self-interested players \cite{leyton
 \subsection{Games}
 A game consists of players who are taking actions in order to maximize their own payoff. An action is a choice that a player can make. Each possible action for a given decision is contained in an action set. Which choice the player makes is influencing how big his payoff will be. The payoff (or utility) is a numerical value and each player gets his own payoff. It is the goal of each player to maximize his own payoff. He will take every action that leads him to achieve this goal.
 \begin{definition}[Game]
-A game is a tuple ($N$,$A$,$u$), where:
+A game is a tuple ($N$, $A$, $u$), where:
 \begin{itemize}
     \item $N$ is a finite set of n players
     \item $A = A_1 \times \dots \times A_n$, where $A_i$ is a finite set of actions available to player i. %Each vector $a= (a_1,...,a_n) \in A$ is called an action profile.
@@ -234,6 +243,7 @@ The strategy $s^d_i$ is dominated by $s_i'$ if it is strictly inferior to $s_i'$
 \begin{equation}
     \forall s^*_{-i}: u_i(s^d_i,s^*_{-i}) \leq u_i(s_i',s^*_{-i})
 \end{equation}
+%where $s^*_{-i}$ denote the strategies of all players other than $i$.\newline
 \end{definition}
 
 If one strategy dominated the other, a player will always choose the dominant strategy.
@@ -242,7 +252,7 @@ If one strategy dominated the other, a player will always choose the dominant st
 %what about pareto/strictly dominated strategies equilibrium?
 \begin{definition}[Nash Equilibrium]
 A strategy profile $s^*$ is a Nash equilibrium if no player has incentive to deviate from his strategy given that the other players do not deviate. {\normalfont \cite{rasmusen_games_nodate}} Formally: \begin{equation}
-    \forall i: \forall s_i': u_i(s^*_i,s^*_{-i}) \leq u_i(s'_i,s^*_{-i})
+    \forall i: \forall s_i': u_i(s^*_i,s^*_{-i}) \geq u_i(s'_i,s^*_{-i})
 \end{equation}
 \end{definition}
 Nash showed, that every game with a finite number of players, each having a finite set of strategies, has at least one Nash Equilibrium \cite{nash1950}.
@@ -252,7 +262,7 @@ Nash showed, that every game with a finite number of players, each having a fini
 A game is a two-party alternating turn-based game if two parties are playing alternately, only one party can play at a time and its move is revealed
 to the other party before the other party plays the next move.
 \end{definition}
-For example, chess is a two-party alternating turn based game. To analyse two-party alternating turn-based games we will use game trees. The game starts from the root of the tree and ends at the leaves of the tree. The nodes of the tree represent decision points. Each node is marked with the party that decides. The edges of the tree represent possible actions. At each node the party that plays chooses 1 action among the available edges that lead to the children of the node. The leaves of the tree are the payout values for the players. In this example Alice and Bob have one decision each. Alice will play first. She has the possible actions $L$ and $R$. Then Bob will make his decision choosing between the actions $L$ and $R$. \newline
+For example, chess is a two-party alternating turn based game. To analyse two-party alternating turn-based games we will use game trees. The game starts from the root of the tree and ends at the leaves of the tree. The nodes of the tree represent decision points. Each node is marked with the party that decides. The edges of the tree represent possible actions. At each node the party that plays chooses 1 action among the available edges that lead to the children of the node. The leaves of the tree are the payout values for the players. In this example Alice and Bob have one decision each. Alice will play first. She has the possible actions $L$ and $R$. Bob will then make his decision choosing between the actions $L$ and $R$. \newline
 
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -277,7 +287,7 @@ Likewise, on the right branch he chooses $R$ because $3>2$.\newline
 
 Then we look at Alice's decision. She knows that Bob chooses the path that yields to him the greatest payout and can calculate his decisions. She knows that Bob will choose $L$,if Alice takes action $L$. Therefore her payout of action $L$ is $1$. If she chooses action $R$, Bob will choose $R$ as well. In this case Alice has a payoff of $3$. Alice chooses action $L$, because $3>1$.\newline
 
-The Nash Equilibrium of this game is \{$R$,$R$\} and the payout is $3_A | 3_B$. It is interesting to see, that this is for both parties a worse outcome than \{$R$,$R$\}, where the payoff is $5_A|5_B$.
+The Nash Equilibrium of this game is \{$R$,$R$\} and the payout is $3_A | 3_B$. It is interesting to see, that this is for both parties a worse outcome than \{$L$,$R$\}, where the payoff is $5_A|5_B$.
 \subsection{Two-party simultaneous games}
 \begin{definition}[Two-party simultaneous games]
 \label{def:simultaneous-game}
@@ -302,7 +312,7 @@ For example, rock-paper-scissors is a two-party simultaneous game. To analyse tw
     \label{tab:example-table}
 \end{table}
 
-If we now look at the table we can see which combinations of strategy benefits which player. There is a Nash Equilibrium at \{\emph{be honest}, \emph{report}\}, because no player can improve their payout by changing strategy as long as the other party does not its strategy. If Bob changes his his strategy to \emph{lie} and Alice still chooses \emph{report}, Bob's payout will decrease to $-3$. If a Alice changes her strategy to \emph{hide} and Bob still chooses \emph{be honest}, her payout will decrease to 1.\newline
+If we now look at the table we can see which combinations of strategy benefits which player. There is a Nash Equilibrium at \{\emph{be honest}, \emph{report}\}, because no player can improve their payout by changing strategy as long as the other party does not change its strategy. If Bob changes his strategy to \emph{lie} and Alice still chooses \emph{report}, Bob's payout will decrease to $-3$. If a Alice changes her strategy to \emph{hide} and Bob still chooses \emph{be honest}, her payout will decrease to 1.\newline
 
 In every two-party simultaneous game with a Nash Equilibrium at \{\emph{NE\_column}, \emph{NE\_row}\}, the party that chooses the column (Bob in the example) will always choose the maximum of its own payouts of the row \emph{NE\_row}. In the example, Bob chooses the column with the biggest blue value of the row \emph{report}, which is \emph{be honest}. Likewise, the player that chooses the row will choose the row that maximizes its own payoff of column \emph{NE\_column}. In the example, Alice chooses the row with the biggest red value in the column \emph{be honest}, which is \emph{report}.
 
@@ -363,6 +373,8 @@ The concept of Smart Contract can be illustrated by the following example: Alice
 Smart Contracts were popularized by Ethereum \cite{buterin_ethereum_nodate}, the second biggest cryptocurrency after Bitcoin. In Contrast to Bitcoins scripts, Smart Contracts in Ethereum are Turing-complete and therefore have a lot more functionality.
 \chapter{Formalization}
 \label{cha:formalizations}
+%In this chapter we will formalize the problem. We first define the entities that are participating in the game and then we formalize the corresponding game.\newline
+
 % Example usage of definition START
 %begin{definition}[Darmstadt]
 %\label{def:darmstadt}
@@ -457,7 +469,7 @@ We do not take into account transaction fees.
 
 \chapter{Candidate Two-Party Protocols}
 \label{cha:candidates}
-In this chapter we try to find a two-party protocol that solves the proposed problem. We start by a simple, naive approach and then increase the complexity on each proposed protocol. On each protocol we examine the created game and analyze the Nash Equilibrium of that game. As described in section~\ref{sec:the-game}, we want to create a game where the Nash Equilibrium lies in an honest trade between the Seller and the Buyer.
+In this chapter we try to find a two-party protocol that enables a trustless and incoercible sale over a blockchain. We start by a simple, naive approach and then increase the complexity on each proposed protocol. On each protocol we examine the created game and analyze the Nash Equilibrium of that game. As described in section~\ref{sec:the-game}, we want to create a game where the Nash Equilibrium lies in an honest trade between the Seller and the Buyer.
 
 \section{First try: no collateral}
 \label{sec:first-try-nocol}
@@ -502,7 +514,7 @@ The simplest protocol is both players sending their resources without any collat
 \label{sec:possible-strategies}
 There is a countless amount of possible strategies for the two players. For example, a player can follow the protocol and trade honestly, he can try and gain an advantage by not following the protocol, he can ignore all messages or he can send all his money to the other party. It is not sensible to list and analyse all the possible strategies. We will concentrate on the strategies where a player follows the protocol and the strategies where a player intentionally deviates from the protocol to gain an advantage. As soon as we find a strategy for a player that is more profitable than following the protocol, we know that this protocol is not achieving our goals, as a rational player will not follow it. If we conclude that following the protocol is the most profitable strategy for both players, we know that this protocol is achieving our goal. \niknote{look at the end of this paragraph again} \newline
 
-For the protocols proposed in section~\ref{sec:first-try-nocol} we analyse two strategies for each player. The Buyer can choose between strategy \emph{Pay} where he behaves honestly and sends the money and strategy \emph{Withhold} where the Buyer behaves dishonestly and does not send the money. The Seller can choose as well between strategy \emph{Send} where he sends the good $G$ and strategy \emph{Keep} where the Buyer does not send the $G$.
+For the protocols proposed in section~\ref{sec:first-try-nocol} we analyse two strategies for each player. The Buyer can choose between strategy \emph{Pay} where he sends the money and strategy \emph{Withhold} where the Buyer does not send the money. The Seller can choose as well between strategy \emph{Send} where he sends the good $G$ and strategy \emph{Keep} where the Buyer does not send the $G$.
 \subsection{Game: The Buyer acts first}
 \begin{figure}[htb!]
 \begin{tikzpicture}[sibling distance=7cm,level distance=6em,every node/.style={shape=circle,align=center}]
@@ -527,7 +539,7 @@ To analyze the game, we use the method "iterated elimination of strictly dominat
     \item The Buyer chooses \emph{Withhold} (Because $0 > -P$)
 \end{itemize} 
 %Therefore the Buyer has to choose between a payout of 0 (by choosing \emph{Withhold}) and $-P$ (by choosing \emph{Pay}). Since $0 > -P$, he chooses \emph{Withhold}.\newline
-The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful.
+The Nash Equilibrium of this game is \{\emph{Keep}, \emph{Withhold}\} which is the initial state and results in a payout of $0|0$. Both parties are not sending anything and the trade is unsuccessful. 
 
 \subsection{Game: The Seller acts first} 
 
@@ -587,7 +599,7 @@ To incentivize an entity to follow the protocol we introduce collateral. The col
 Following protocol is proposed:
 \begin{figure}[htb!]
 \fbox{
- \procedureblock[linenumbering]{Buyer Collateral protocol}{
+ \procedureblock[linenumbering]{Buyer collateral protocol}{
      \text{Buyer deposits collateral $C > P$ to the Smart Contract}\\
     \text{Seller sends the physical good $G$ to the Seller}\\
     \text{After receiving $G$, the Buyer sends funds of amount $P$ to the Smart Contract}\\
@@ -595,7 +607,7 @@ Following protocol is proposed:
 }
 }
     \centering
-    \caption{Buyer Collateral protocol}
+    \caption{Buyer collateral protocol}
     \label{pro:Buyer-col}
 \end{figure}
 
@@ -792,7 +804,7 @@ omitted from the tree for better readability).\newline
                 		     edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
           child[sibling distance = 8cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {\emph{Withhold}}};
 \end{tikzpicture}
-\captionof{figure}{Only the Seller deposits collateral: the Buyer reports first}
+\captionof{figure}{Only the Seller deposits collateral: Seller reports first}
 \begin{table}[htb!]
 \centering
     \begin{tabular}{ |c|c| }
@@ -868,7 +880,7 @@ No matter which decision the Buyer takes at the top of the tree, the payout will
                 		     edge from parent node [right] {\emph{Keep}}} edge from parent node [left] {\emph{Pay}}} 
           child[sibling distance = 8cm]{node[shape = rectangle]{0$|$0}edge from parent node [right] {\emph{Withhold}}};
 \end{tikzpicture}
-\captionof{figure}{Only the Seller deposits collateral: the Buyer reports first}
+\captionof{figure}{Only the Seller deposits collateral: Buyer reports first}
 \begin{table}[htb!]
 \centering
 \begin{tabular}{ |c|c| }
@@ -1001,7 +1013,7 @@ There are still the basic strategies from section~\ref{sec:possible-strategies}:
 The following protocol is proposed:
 \begin{figure}[htb!]
 \fbox{
- \procedureblock[linenumbering]{Two side collateral: The Seller reports first}{
+ \procedureblock[linenumbering]{Two side collateral: Seller reports first}{
     \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
     \text{Buyer deposits collateral $C_B > P$ and $P$ to the Smart Contract}\\
     \text{Seller sends physical good $G$ to the Buyer and reports it to the Smart Contract}\\
@@ -1036,7 +1048,7 @@ aborts the trade and the payout is $0|0$.\newline
         		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {\emph{Keep}}};
     \end{tikzpicture}
     \centering
-    \caption{Two Side Collateral: The Seller reports first}
+    \caption{Two Side collateral protocol: Seller reports first}
     \label{fig:two-side-collateral}
 \end{figure}
 
@@ -1082,7 +1094,7 @@ Because the payout of the Buyer is $-P<0$, he would not engage in this trade and
 The following protocol is proposed:
 \begin{figure}[htb!]
 \fbox{
- \procedureblock[linenumbering]{Two side collateral: The Buyer reports first}{
+ \procedureblock[linenumbering]{Two side collateral: Buyer reports first}{
     \text{Seller deposits collateral $C_S > P$ to the Smart Contract}\\
     \text{Buyer deposits collateral $C_B > P$ and price $P$ to the Smart Contract}\\
     \text{Seller sends physical good $G$ to the Buyer}\\
@@ -1116,7 +1128,7 @@ To increase readability, we again do not plot the decisions from point 1 and poi
         		    child[sibling distance = 3cm]{node{8} edge from parent node [right] {1}}edge from parent node [right] {1}}edge from parent node [right] {\emph{Keep}}};
     \end{tikzpicture}
     \centering
-    \caption{Two Side Collateral: The Buyer reports first}
+    \caption{Two side collateral protocol: Buyer reports first}
     \label{fig:payout-twocol-Buyer-first}
 \end{figure}
 
@@ -1188,7 +1200,7 @@ Again, we do not plot the decisions from point 1 and point w. If someone does no
                 child[sibling distance = 7cm]{node[draw]{$T_2$} edge from parent node [right] {\emph{Keep}}};
     \end{tikzpicture}
     \centering
-    \caption{Two Side Collateral: Both parties report simultaneously}
+    \caption{Two side collateral protocol: Both parties report simultaneously}
 \end{figure}
 
 
@@ -1901,9 +1913,10 @@ The acceptance of cryptocurrencies as a valid payment method for physical goods 
  %After showing that these approaches do not solve the proposed problem,
  Afterwards we looked at protocols where both parties deposit collateral. As all of these candidates did not result in a viable solution of the problem, we exited the iterations and tried to prove that such a two-party protocol is impossible (c.f. exit~\ref{step:proof} of the methodology approach). In section \ref{sec:proof} we achieved to provide a formal proof under reasonable assumptions that it is impossible to design a two-party protocol that achieves the goals formalized in chapter~\ref{cha:formalizations}.\newline
  
-  The next step in our methodology approach was to define a modified problem by allowing a third party, the Mediator, to be apart of the protocol (c.f. section \ref{sec:formal-definition-mediator}). We wanted to modify the original stated problem as little as possible. Therefore we want to minimize the trust requirements for this Mediator. In the double-collateral protocol the Seller can coerce the Buyer into receiving the payment without sending the physical good. Therefore we need the Mediator to protect the Buyer. The Mediator is only trusted by the Buyer. The Seller does not have to trust the Mediator as the Smart Contract already satisfies his need for protection.\newline
+  The next step in our methodology approach was to define a modified problem. We did that by allowing a third party, the Mediator, to be apart of the protocol (c.f. section \ref{sec:formal-definition-mediator}). We wanted to modify the original stated problem as little as possible. Therefore we wanted to minimize the trust requirements for this Mediator. The Seller does not necessarily need to trust the Mediator, because the payment to him will still be enforced by the Smart Contract. As the physical good is unknown to the Smart Contract, it has to be handled by the Mediator. He will receive the physical good and report it to the Smart Contract. The Mediator is only trusted by the Buyer and not the Seller, thereby differentiating it from trusted third parties.\newline
   
-  We showed that with this Mediator there exists a protocol that enables an incoercible sale of physical goods. We proposed such a protocol with an idealised Mediator in section \ref{sec:mediated-protocol}. At the end of the thesis, we looked at possible practical realizations that can take the role of the Mediator. Our work proposes two practical solutions to incoercible sales of physical goods over a blockchain. The first solution lets the party which fulfills the shipment of the physical good to report to the blockchain whether the correct physical good was delivered (c.f. section \ref{sec:postaloffice}. The second solution lets an automated machine report to the Smart Contract (c.f. section \ref{sec:machine-reporst}). \newline
+  We showed that with this Mediator there exists a protocol that enables an incoercible sale of physical goods. We proposed such a protocol with an idealised Mediator in section \ref{sec:mediated-protocol}. At the end of the thesis, we looked at possible practical entities that can take the role of the Mediator. In section~\ref{sec:postaloffice} and section~\ref{sec:machine-reporst} we proposed two practical solutions to incoercible sales of physical goods over a blockchain. 
+  %The first solution lets the party which fulfills the shipment of the physical good to report to the blockchain whether the correct physical good was delivered (c.f. section \ref{sec:postaloffice}. The second solution lets an automated machine report to the Smart Contract (c.f. section \ref{sec:machine-reporst}). \newline
   
 
 
@@ -1914,11 +1927,17 @@ The acceptance of cryptocurrencies as a valid payment method for physical goods 
 
 %what are the results of this thesis?
 
-\section{Outlook}
+\section{Topics for future work}
 %maybe find a formal way to distinguish working protocols from not working ones, given the new assumptions where we allow a Mediator? probably dependend on the behaviour of the Mediator. why is it working?
 %postal office reports: reputation system
 
-An important topic for future work is to engineer the machine that we use in section~\ref{sec:machine-reporst}. For that, we need some kind of way of turning a physical good into a digital set of descriptions, that uniquely identifies this physical good, like a digital fingerprint of the good. A possible approach for that is to 3d-scan this good, and have the digital 3d model as an unique identifier. Another important part would be to program the software of the machine: it has to be able to compare the physical good that is presented with the digital description that it has as input and decide, if the physical good matches this description. In order for the protocol to practicable, this software has to have a high probability of recognizing the physical good.
+An important topic for future work is to engineer the machine that we use in section~\ref{sec:machine-reporst}. For that, we need some kind of way of turning a physical good into a digital set of descriptions, that uniquely identifies this physical good, like a digital fingerprint of the good. A possible approach for that is to 3D-scan the good and have the digital 3D model as an unique identifier.\newline
+
+Another important part would be to program the software of the machine: it has to be able to compare the physical good with the with a digital description and decide, if the physical good matches this description. In order for the protocol to practicable, this software has to have a high probability of recognizing the physical good.\newline
+
+Another topic for future work is to lower the trust assumptions to the Mediator. It is interesting to see, if a protocol exists that requires less trust in the Mediator than our proposed protocol. Such a protocol has to lower the trust assumptions but still has to enable an incoercible sale of physical goods over a blockchain.\newline
+
+Another topic for future work is to game-theoretically analyze the solution with the shipping party as Mediator (c.f. section~\ref{sec:postaloffice}). 
 
 
 
