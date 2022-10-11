@@ -1530,7 +1530,7 @@ function assign_coins_real(
 This poses the following problem: The ground truth is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract. In the following section we will show that no real world function (i.e.\ a function that does not have the ground truth as input) can achieve the ideal functionality.\newline
 \newpage
 \subsection{Formal proof}
-Remark: We do not limit ourselves to deterministic functions, we allow \texttt{assign\_coins\_real} to probabilistic as well. Throughout the whole proof, \texttt{assign\_coins\_real} is the only source of randomness in every equation involving probabilities.\newline
+Remark: We allow \texttt{assign\_coins\_real} to be probabilistic. Throughout the whole proof, \texttt{assign\_coins\_real} is the only source of randomness in every equation involving probabilities.\newline
 
 Notation: $C_S$: Seller collateral, $C_B$: Buyer collateral, $P$ price, $R_S$ boolean value reported by the Seller, $R_B$: boolean value reported by the Buyer, $G$: ground truth if good was shipped
 
@@ -1559,7 +1559,7 @@ From equation \ref{eq:theorem} and equation \ref{eq:ideal_1} we get:
 \label{eq:real_1}
      \prob{ \texttt{assign\_coins\_real(}C_S=42,C_B=42,P=1,R_S=\top,R_B=\bot\texttt{)}[1] \geq 43} > 50\%
 \end{equation}
-For better readability, from now on we name the Seller's output value with exactly these inputs $O_S$:
+For better readability, from now on we name the Seller's output value $O_S$:
 \[O_S= \texttt{assign\_coins\_ideal(}C_S=42,C_B=42,P=1,R_S=\top,R_B=\bot,G=\top\texttt{)}[1]\]
 From equation \ref{eq:real_1} directly follows
 \begin{equation}
