@@ -1528,6 +1528,9 @@ function assign_coins_real(
 \end{figure}
 
 This poses the following problem: The ground truth is needed to settle disputes. Even if all the other inputs are the same, the output of the ideal functionality depends on the last input. Without this input, previously different scenarios become indistinguishable for the Smart Contract. In the following section we will show that no real world function (i.e.\ a function that does not have the ground truth as input) can achieve the ideal functionality.\newline
+\newpage
+\subsection{Formal proof}
+Remark: We do not limit ourselves to deterministic functions, we allow \texttt{assign\_coins\_real} to probabilistic as well. Throughout the whole proof, \texttt{assign\_coins\_real} is the only source of randomness in every equation involving probabilities.\newline
 
 Notation: $C_S$: Seller collateral, $C_B$: Buyer collateral, $P$ price, $R_S$ boolean value reported by the Seller, $R_B$: boolean value reported by the Buyer, $G$: ground truth if good was shipped
 
@@ -1535,10 +1538,10 @@ Notation: $C_S$: Seller collateral, $C_B$: Buyer collateral, $P$ price, $R_S$ bo
  $\forall C_S, C_B, P\in \mathbb{N}$, $\forall R_S,R_B,G \in \{\top,\bot\}$:
 \begin{equation}
 \label{eq:theorem}
-    \texttt{assign\_coins\_real(}C_S, C_B, P, R_S, R_B\textt{)} = \texttt{assign\_coins\_ideal(}C_S, C_B, P, R_S, R_B, G\textt{)}
+    \prob{\texttt{assign\_coins\_real(}C_S, C_B, P, R_S, R_B\textt{)} = \texttt{assign\_coins\_ideal(}C_S, C_B, P, R_S, R_B, G\textt{)}} > 50\%
 \end{equation}
 
-\niknote{Can we really model this function with a randomness input? In the blockchain and SC environment there is normally no access to randomness right? We also tried to prevent randomness the whole thesis.}
+%\niknote{Can we really model this function with a randomness input? In the blockchain and SC environment there is normally no access to randomness right? We also tried to prevent randomness the whole thesis.}
 \paragraph{Proof:}\label{sec:proof} 
 We provide a proof by contradiction: Let us assume for the sake of contradiction that the Theorem is wrong. That means there exists a function \texttt{assign\_coins\_real}: %$(C_B, C_S, P, S_B, B_S) \to (O_S, O_B)$, 
 $\mathbb{N}\times \mathbb{N}\times \mathbb{N}\times \{\top,\bot\}\times \{\top,\bot\}\times \{\top,\bot\} \to \mathbb{R}\times \mathbb{R}$ 
@@ -1548,28 +1551,42 @@ We provide the following set of inputs: $C_S=42,C_B=42,P=1,R_S=\top,R_B=\bot,G=\
 By definition of the ideal functionality (Figure~\ref{fig:code_ideal_sc}), its payoff to the Seller (the first value of the output tuple) has to be:
 \begin{equation}
 \label{eq:ideal_1}
-     \texttt{assign\_coins\_ideal(}C_S=42,C_B=42,P=1,R_S=\top,R_B=\bot,G=\top\textt{)}[1] \geq P + C_S = 1 + 42 = 43
+     \texttt{assign\_coins\_ideal(}C_S=42,C_B=42,P=1,R_S=\top,R_B=\bot,G=\top\texttt{)}[1] \geq P + C_S = 1 + 42 = 43
 \end{equation}
 
 From equation \ref{eq:theorem} and equation \ref{eq:ideal_1} we get:
 \begin{equation}
 \label{eq:real_1}
-     \texttt{assign\_coins\_real(}C_S=42,C_B=42,P=1,R_S=\top,R_B=\bot\textt{)}[1] \geq 43
+     \prob{ \texttt{assign\_coins\_real(}C_S=42,C_B=42,P=1,R_S=\top,R_B=\bot\texttt{)}[1] \geq 43} > 50\%
+\end{equation}
+For better readability, from now on we name the Seller's output value with exactly these inputs $O_S$:
+\[O_S= \texttt{assign\_coins\_ideal(}C_S=42,C_B=42,P=1,R_S=\top,R_B=\bot,G=\top\texttt{)}[1]\]
+From equation \ref{eq:real_1} directly follows
+\begin{equation}
+\label{eq:widerspruch}
+     1-\prob{O_S \geq 43} =  \prob{O_S < 43} < 50\%
 \end{equation}
 
-We now change the sixth ($G$) input from $\top$ to $\bot$: $C_B=42,C_S=42,P=1,R_S=\top,R_B=\bot,G=\bot$. The payoff from the ideal function (c.f. Figure~\ref{fig:code_ideal_sc}) to the Seller has to be:
+We now change the sixth input ($G$) from $\top$ to $\bot$: $C_B=42,C_S=42,P=1,R_S=\top,R_B=\bot,G=\bot$. The payoff from the ideal function (c.f. Figure~\ref{fig:code_ideal_sc}) to the Seller has to be:
 \begin{equation}
 \label{eq:ideal_2}
-    \texttt{assign\_coins\_ideal(}C_S=42,C_B=42,P=1, R_S=\top,R_B=\bot,G=\bot\textt{)}[1] <  C_B = 42
+    \texttt{assign\_coins\_ideal(}C_S=42,C_B=42,P=1, R_S=\top,R_B=\bot,G=\bot\texttt{)}[1] <  C_B = 42
 \end{equation}
 
 From equation \ref{eq:theorem} and equation \ref{eq:ideal_2} we get:
 \begin{equation}
 \label{eq:real_2}
-    \texttt{assign\_coins\_real(}C_S=42,C_B=42,P=1,R_S=\top,R_B=\bot\textt{)}[1] <  42
+    \prob{O_S < 42} > 50\%
 \end{equation}
 
-As \texttt{assign\_coins\_real} is a deterministic function, equation~\ref{eq:real_1} and equation~\ref{eq:real_2} contradict each other. That means that our assumption was wrong and no such fuction  \texttt{assign\_coins\_real} exists.
+As $O_S\in \mathbb{R}$, equations \ref{eq:widerspruch} and \ref{eq:real_2} contradict each other:
+\begin{equation}
+   50\% > \prob{O_S <43} = \prob{O_S <42} + \prob{42 \leq O_S < 43} \geq \prob{O_S <42} > 50\%
+\end{equation}%[]\texttt{assign\_coins\_real} is a deterministic function, equation~\ref{eq:real_1} and equation~\ref{eq:real_2} contradict each other. 
+
+That means that our assumption was wrong and no such function  \texttt{assign\_coins\_real} exists.\newline
+
+
 
 
 %Notation:$Sellercol$ is $C_S$...
